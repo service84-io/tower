@@ -1,0 +1,302 @@
+#ifndef DSA_VENT_TOWER_DBNF_H
+#define DSA_VENT_TOWER_DBNF_H
+
+#include <list>
+#include <string>
+
+namespace dsa
+{
+namespace vent
+{
+namespace tower
+{
+namespace dbnf
+{
+class Node;
+class String;
+class Grammar;
+class Rule;
+class Expression;
+class Token;
+class SimpleToken;
+class Modifier;
+class Cardinality;
+class Name;
+class NameCharacter;
+class Number;
+class Digit;
+class Literal;
+class LiteralCharacter;
+class HexDigit;
+class Whitespace;
+class Eol;
+
+struct LengthString
+{
+    const char* data;
+    int length;
+};
+
+class Node
+{
+public:
+    Node();
+    virtual ~Node();
+
+    std::string UnParse();
+    dsa::vent::tower::dbnf::LengthString UnParseLString();
+    std::list<dsa::vent::tower::dbnf::Node*> GetChildren();
+
+protected:
+    void SetString(dsa::vent::tower::dbnf::LengthString data);
+    void SetChildren(std::list<dsa::vent::tower::dbnf::Node*> children);
+
+private:
+    dsa::vent::tower::dbnf::LengthString data_;
+    std::list<dsa::vent::tower::dbnf::Node*> children_;
+};
+
+template<class T>
+class List : public dsa::vent::tower::dbnf::Node
+{
+public:
+    List()
+    {
+    }
+    virtual ~List()
+    {
+    }
+
+    virtual std::list<T*> GetList()
+    {
+        return list_;
+    }
+
+protected:
+    std::list<T*> list_;
+};
+
+class String : public dsa::vent::tower::dbnf::Node
+{
+public:
+    String(dsa::vent::tower::dbnf::LengthString data);
+    ~String();
+};
+
+class Grammar : public dsa::vent::tower::dbnf::Node
+{
+public:
+    Grammar();
+    ~Grammar();
+
+    static dsa::vent::tower::dbnf::Grammar* Parse(const char*& index);
+    static dsa::vent::tower::dbnf::Grammar* Parse(dsa::vent::tower::dbnf::LengthString& index);
+
+    List<dsa::vent::tower::dbnf::Rule>* GetRules();
+
+private:
+    List<dsa::vent::tower::dbnf::Rule>* rules_;
+};
+
+class Rule : public dsa::vent::tower::dbnf::Node
+{
+public:
+    Rule();
+    ~Rule();
+
+    static dsa::vent::tower::dbnf::Rule* Parse(const char*& index);
+    static dsa::vent::tower::dbnf::Rule* Parse(dsa::vent::tower::dbnf::LengthString& index);
+
+    List<dsa::vent::tower::dbnf::Expression>* GetExpressions();
+    dsa::vent::tower::dbnf::Name* GetName();
+
+private:
+    List<dsa::vent::tower::dbnf::Expression>* expressions_;
+    dsa::vent::tower::dbnf::Name* name_;
+};
+
+class Expression : public dsa::vent::tower::dbnf::Node
+{
+public:
+    Expression();
+    ~Expression();
+
+    static dsa::vent::tower::dbnf::Expression* Parse(const char*& index);
+    static dsa::vent::tower::dbnf::Expression* Parse(dsa::vent::tower::dbnf::LengthString& index);
+
+    List<dsa::vent::tower::dbnf::Token>* GetTokenSequence();
+
+private:
+    List<dsa::vent::tower::dbnf::Token>* token_sequence_;
+};
+
+class Token : public dsa::vent::tower::dbnf::Node
+{
+public:
+    Token();
+    ~Token();
+
+    static dsa::vent::tower::dbnf::Token* Parse(const char*& index);
+    static dsa::vent::tower::dbnf::Token* Parse(dsa::vent::tower::dbnf::LengthString& index);
+
+    dsa::vent::tower::dbnf::Modifier* GetModifier();
+    dsa::vent::tower::dbnf::Name* GetName();
+    dsa::vent::tower::dbnf::SimpleToken* GetValue();
+
+private:
+    dsa::vent::tower::dbnf::Modifier* modifier_;
+    dsa::vent::tower::dbnf::Name* name_;
+    dsa::vent::tower::dbnf::SimpleToken* value_;
+};
+
+class SimpleToken : public dsa::vent::tower::dbnf::Node
+{
+public:
+    SimpleToken();
+    ~SimpleToken();
+
+    static dsa::vent::tower::dbnf::SimpleToken* Parse(const char*& index);
+    static dsa::vent::tower::dbnf::SimpleToken* Parse(dsa::vent::tower::dbnf::LengthString& index);
+
+    dsa::vent::tower::dbnf::HexDigit* GetHigh();
+    dsa::vent::tower::dbnf::Literal* GetLiteral();
+    dsa::vent::tower::dbnf::HexDigit* GetLow();
+    dsa::vent::tower::dbnf::Name* GetToken();
+
+private:
+    dsa::vent::tower::dbnf::HexDigit* high_;
+    dsa::vent::tower::dbnf::Literal* literal_;
+    dsa::vent::tower::dbnf::HexDigit* low_;
+    dsa::vent::tower::dbnf::Name* token_;
+};
+
+class Modifier : public dsa::vent::tower::dbnf::Node
+{
+public:
+    Modifier();
+    ~Modifier();
+
+    static dsa::vent::tower::dbnf::Modifier* Parse(const char*& index);
+    static dsa::vent::tower::dbnf::Modifier* Parse(dsa::vent::tower::dbnf::LengthString& index);
+
+    dsa::vent::tower::dbnf::Cardinality* GetCardinality();
+
+private:
+    dsa::vent::tower::dbnf::Cardinality* cardinality_;
+};
+
+class Cardinality : public dsa::vent::tower::dbnf::Node
+{
+public:
+    Cardinality();
+    ~Cardinality();
+
+    static dsa::vent::tower::dbnf::Cardinality* Parse(const char*& index);
+    static dsa::vent::tower::dbnf::Cardinality* Parse(dsa::vent::tower::dbnf::LengthString& index);
+
+    dsa::vent::tower::dbnf::Number* GetCount();
+    dsa::vent::tower::dbnf::Number* GetMaximum();
+    dsa::vent::tower::dbnf::Number* GetMinimum();
+
+private:
+    dsa::vent::tower::dbnf::Number* count_;
+    dsa::vent::tower::dbnf::Number* maximum_;
+    dsa::vent::tower::dbnf::Number* minimum_;
+};
+
+class Name : public dsa::vent::tower::dbnf::Node
+{
+public:
+    Name();
+    ~Name();
+
+    static dsa::vent::tower::dbnf::Name* Parse(const char*& index);
+    static dsa::vent::tower::dbnf::Name* Parse(dsa::vent::tower::dbnf::LengthString& index);
+};
+
+class NameCharacter : public dsa::vent::tower::dbnf::Node
+{
+public:
+    NameCharacter();
+    ~NameCharacter();
+
+    static dsa::vent::tower::dbnf::NameCharacter* Parse(const char*& index);
+    static dsa::vent::tower::dbnf::NameCharacter* Parse(dsa::vent::tower::dbnf::LengthString& index);
+};
+
+class Number : public dsa::vent::tower::dbnf::Node
+{
+public:
+    Number();
+    ~Number();
+
+    static dsa::vent::tower::dbnf::Number* Parse(const char*& index);
+    static dsa::vent::tower::dbnf::Number* Parse(dsa::vent::tower::dbnf::LengthString& index);
+};
+
+class Digit : public dsa::vent::tower::dbnf::Node
+{
+public:
+    Digit();
+    ~Digit();
+
+    static dsa::vent::tower::dbnf::Digit* Parse(const char*& index);
+    static dsa::vent::tower::dbnf::Digit* Parse(dsa::vent::tower::dbnf::LengthString& index);
+};
+
+class Literal : public dsa::vent::tower::dbnf::Node
+{
+public:
+    Literal();
+    ~Literal();
+
+    static dsa::vent::tower::dbnf::Literal* Parse(const char*& index);
+    static dsa::vent::tower::dbnf::Literal* Parse(dsa::vent::tower::dbnf::LengthString& index);
+};
+
+class LiteralCharacter : public dsa::vent::tower::dbnf::Node
+{
+public:
+    LiteralCharacter();
+    ~LiteralCharacter();
+
+    static dsa::vent::tower::dbnf::LiteralCharacter* Parse(const char*& index);
+    static dsa::vent::tower::dbnf::LiteralCharacter* Parse(dsa::vent::tower::dbnf::LengthString& index);
+};
+
+class HexDigit : public dsa::vent::tower::dbnf::Node
+{
+public:
+    HexDigit();
+    ~HexDigit();
+
+    static dsa::vent::tower::dbnf::HexDigit* Parse(const char*& index);
+    static dsa::vent::tower::dbnf::HexDigit* Parse(dsa::vent::tower::dbnf::LengthString& index);
+};
+
+class Whitespace : public dsa::vent::tower::dbnf::Node
+{
+public:
+    Whitespace();
+    ~Whitespace();
+
+    static dsa::vent::tower::dbnf::Whitespace* Parse(const char*& index);
+    static dsa::vent::tower::dbnf::Whitespace* Parse(dsa::vent::tower::dbnf::LengthString& index);
+};
+
+class Eol : public dsa::vent::tower::dbnf::Node
+{
+public:
+    Eol();
+    ~Eol();
+
+    static dsa::vent::tower::dbnf::Eol* Parse(const char*& index);
+    static dsa::vent::tower::dbnf::Eol* Parse(dsa::vent::tower::dbnf::LengthString& index);
+};
+
+};
+};
+};
+};
+
+#endif
