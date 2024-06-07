@@ -55,6 +55,7 @@ public:
 		header << std::endl;
 		header << "#include <list>" << std::endl;
 		header << "#include <string>" << std::endl;
+		header << "#include <cstring>" << std::endl;
 		header << std::endl;
 
 		for(std::list<std::string>::iterator base_name_token = base_name_tokens.begin();base_name_token != base_name_tokens.end();++base_name_token)
@@ -82,14 +83,7 @@ public:
 
 	void GenerateImplementation(dsa::vent::tower::dbnf::Grammar* grammar, std::ostream& implementation, std::list<std::string> base_name_tokens)
 	{
-		implementation << "#include \"";
-
-		for(std::list<std::string>::iterator base_name_token = base_name_tokens.begin();base_name_token != base_name_tokens.end();++base_name_token)
-		{
-			implementation << ToLower(*base_name_token) << "/";
-		}
-
-		implementation << "dbnf.hpp\"" << std::endl;
+		implementation << "#include \"dbnf.hpp\"" << std::endl;
 		implementation << std::endl;
 
 		for(std::list<std::string>::iterator base_name_token = base_name_tokens.begin();base_name_token != base_name_tokens.end();++base_name_token)
@@ -251,6 +245,57 @@ public:
 	void WriteCommonFunctionDefinitions(std::ostream& implementation, std::string full_namespace)
 	{
 		implementation << std::endl;
+		implementation << "static bool Match(std::list<" << full_namespace << "Node*>& nodes, " << full_namespace << "Node* node)" << std::endl;
+		implementation << "{" << std::endl;
+		implementation << "    if(node)" << std::endl;
+		implementation << "    {" << std::endl;
+		implementation << "        nodes.push_back(node);" << std::endl;
+		implementation << "        return true;" << std::endl;
+		implementation << "    }" << std::endl;
+		implementation << "    else" << std::endl;
+		implementation << "    {" << std::endl;
+		implementation << "        return false;" << std::endl;
+		implementation << "    }" << std::endl;
+		implementation << "}" << std::endl;
+		implementation << std::endl;
+		implementation << "static bool Optional(std::list<" << full_namespace << "Node*>& nodes, " << full_namespace << "Node* node)" << std::endl;
+		implementation << "{" << std::endl;
+		implementation << "    Match(nodes, node);" << std::endl;
+		implementation << "    return true;" << std::endl;
+		implementation << "}" << std::endl;
+		implementation << std::endl;
+		implementation << "template<typename Reference, typename Parser>" << std::endl;
+		implementation << "static bool Match(std::list<" << full_namespace << "Node*>& nodes, Reference*& reference, Parser* node)" << std::endl;
+		implementation << "{" << std::endl;
+		implementation << "    reference = node;" << std::endl;
+		implementation << "    return Match(nodes, node);" << std::endl;
+		implementation << "}" << std::endl;
+		implementation << std::endl;
+		implementation << "template<typename Reference, typename Parser>" << std::endl;
+		implementation << "static bool Optional(std::list<" << full_namespace << "Node*>& nodes, Reference*& reference, Parser* node)" << std::endl;
+		implementation << "{" << std::endl;
+		implementation << "    Match<Reference, Parser>(nodes, reference, node);" << std::endl;
+		implementation << "    return true;" << std::endl;
+		implementation << "}" << std::endl;
+		implementation << std::endl;
+		implementation << "static bool Reset(" << full_namespace << "LengthString value, " << full_namespace << "LengthString& index)" << std::endl;
+		implementation << "{" << std::endl;
+		implementation << "    index = value;" << std::endl;
+		implementation << "    return false;" << std::endl;
+		implementation << "}" << std::endl;
+		implementation << std::endl;
+		implementation << "static bool ClearNodes(std::list<" << full_namespace << "Node*>& nodes)" << std::endl;
+		implementation << "{" << std::endl;
+		implementation << "    while(!nodes.empty())" << std::endl;
+		implementation << "    {" << std::endl;
+		implementation << "        " << full_namespace << "Node* node = nodes.front();" << std::endl;
+		implementation << "        nodes.pop_front();" << std::endl;
+		implementation << "        delete node;" << std::endl;
+		implementation << "    }" << std::endl;
+		implementation << std::endl;
+		implementation << "    return true;" << std::endl;
+		implementation << "}" << std::endl;
+		implementation << std::endl;
 		implementation << "template<typename Parser, int minimum, int maximum>" << std::endl;
 		implementation << "class RangeParser : public " << full_namespace << "List<Parser>" << std::endl;
 		implementation << "{" << std::endl;
@@ -272,7 +317,7 @@ public:
 		implementation << "        Parser* node = NULL;" << std::endl;
 		implementation << "        int count = 0;" << std::endl;
 		implementation << std::endl;
-		implementation << "        while(((count < maximum) && (node = Parser::Parse(index))) || Reset(local_start, index))" << std::endl;
+		implementation << "        while(((count < maximum) && (node = Parser::Parse(index))) || " << full_namespace << "Reset(local_start, index))" << std::endl;
 		implementation << "        {" << std::endl;
 		implementation << "            local_start = index;" << std::endl;
 		implementation << "            ++count;" << std::endl;
@@ -280,7 +325,7 @@ public:
 		implementation << "            list.push_back(node);" << std::endl;
 		implementation << "        }" << std::endl;
 		implementation << std::endl;
-		implementation << "        if((count > minimum) || (ClearNodes(children) && Reset(start, index)))" << std::endl;
+		implementation << "        if((count > minimum) || (" << full_namespace << "ClearNodes(children) && " << full_namespace << "Reset(start, index)))" << std::endl;
 		implementation << "        {" << std::endl;
 		implementation << "            range_parser = new RangeParser<Parser, minimum, maximum>();" << std::endl;
 		implementation << "            range_parser->SetChildren(children);" << std::endl;
@@ -312,7 +357,7 @@ public:
 		implementation << "        Parser* node = NULL;" << std::endl;
 		implementation << "        int count = 0;" << std::endl;
 		implementation << std::endl;
-		implementation << "        while((node = Parser::Parse(index)) || Reset(local_start, index))" << std::endl;
+		implementation << "        while((node = Parser::Parse(index)) || " << full_namespace << "Reset(local_start, index))" << std::endl;
 		implementation << "        {" << std::endl;
 		implementation << "            local_start = index;" << std::endl;
 		implementation << "            ++count;" << std::endl;
@@ -320,7 +365,7 @@ public:
 		implementation << "            list.push_back(node);" << std::endl;
 		implementation << "        }" << std::endl;
 		implementation << std::endl;
-		implementation << "        if((count >= minimum) || (ClearNodes(children) && Reset(start, index)))" << std::endl;
+		implementation << "        if((count >= minimum) || (" << full_namespace << "ClearNodes(children) && " << full_namespace << "Reset(start, index)))" << std::endl;
 		implementation << "        {" << std::endl;
 		implementation << "            minimum_parser = new MinimumParser<Parser, minimum>();" << std::endl;
 		implementation << "            minimum_parser->SetChildren(children);" << std::endl;
@@ -396,57 +441,6 @@ public:
 		implementation << std::endl;
 		implementation << "};" << std::endl;
 		implementation << std::endl;
-		implementation << "static bool Match(std::list<" << full_namespace << "Node*>& nodes, " << full_namespace << "Node* node)" << std::endl;
-		implementation << "{" << std::endl;
-		implementation << "    if(node)" << std::endl;
-		implementation << "    {" << std::endl;
-		implementation << "        nodes.push_back(node);" << std::endl;
-		implementation << "        return true;" << std::endl;
-		implementation << "    }" << std::endl;
-		implementation << "    else" << std::endl;
-		implementation << "    {" << std::endl;
-		implementation << "        return false;" << std::endl;
-		implementation << "    }" << std::endl;
-		implementation << "}" << std::endl;
-		implementation << std::endl;
-		implementation << "static bool Optional(std::list<" << full_namespace << "Node*>& nodes, " << full_namespace << "Node* node)" << std::endl;
-		implementation << "{" << std::endl;
-		implementation << "    Match(nodes, node);" << std::endl;
-		implementation << "    return true;" << std::endl;
-		implementation << "}" << std::endl;
-		implementation << std::endl;
-		implementation << "template<typename Reference, typename Parser>" << std::endl;
-		implementation << "static bool Match(std::list<" << full_namespace << "Node*>& nodes, Reference*& reference, Parser* node)" << std::endl;
-		implementation << "{" << std::endl;
-		implementation << "    reference = node;" << std::endl;
-		implementation << "    return Match(nodes, node);" << std::endl;
-		implementation << "}" << std::endl;
-		implementation << std::endl;
-		implementation << "template<typename Reference, typename Parser>" << std::endl;
-		implementation << "static bool Optional(std::list<" << full_namespace << "Node*>& nodes, Reference*& reference, Parser* node)" << std::endl;
-		implementation << "{" << std::endl;
-		implementation << "    Match<Reference, Parser>(nodes, reference, node);" << std::endl;
-		implementation << "    return true;" << std::endl;
-		implementation << "}" << std::endl;
-		implementation << std::endl;
-		implementation << "static bool Reset(" << full_namespace << "LengthString value, " << full_namespace << "LengthString& index)" << std::endl;
-		implementation << "{" << std::endl;
-		implementation << "    index = value;" << std::endl;
-		implementation << "    return false;" << std::endl;
-		implementation << "}" << std::endl;
-		implementation << std::endl;
-		implementation << "static bool ClearNodes(std::list<" << full_namespace << "Node*>& nodes)" << std::endl;
-		implementation << "{" << std::endl;
-		implementation << "    while(!nodes.empty())" << std::endl;
-		implementation << "    {" << std::endl;
-		implementation << "        " << full_namespace << "Node* node = nodes.front();" << std::endl;
-		implementation << "        nodes.pop_front();" << std::endl;
-		implementation << "        delete node;" << std::endl;
-		implementation << "    }" << std::endl;
-		implementation << std::endl;
-		implementation << "    return true;" << std::endl;
-		implementation << "}" << std::endl;
-		implementation << std::endl;
 		implementation << "Node::Node()" << std::endl;
 		implementation << "{" << std::endl;
 		implementation << "    data_.data = NULL;" << std::endl;
@@ -455,7 +449,7 @@ public:
 		implementation << std::endl;
 		implementation << "Node::~Node()" << std::endl;
 		implementation << "{" << std::endl;
-		implementation << "    ClearNodes(children_);" << std::endl;
+		implementation << "    " << full_namespace << "ClearNodes(children_);" << std::endl;
 		implementation << "}" << std::endl;
 		implementation << std::endl;
 		implementation << "std::string Node::UnParse()" << std::endl;
@@ -481,7 +475,7 @@ public:
 		implementation << std::endl;
 		implementation << "void Node::SetChildren(std::list<" << full_namespace << "Node*> children)" << std::endl;
 		implementation << "{" << std::endl;
-		implementation << "    ClearNodes(children_);" << std::endl;
+		implementation << "    " << full_namespace << "ClearNodes(children_);" << std::endl;
 		implementation << "    children_ = children;" << std::endl;
 		implementation << "}" << std::endl;
 		implementation << std::endl;
@@ -554,14 +548,14 @@ public:
 			WriteExpression(*index, implementation, literal_names, full_namespace, class_name);
 		}
 
-		implementation << "    ClearNodes(children);" << std::endl;
+		implementation << "    " << full_namespace << "ClearNodes(children);" << std::endl;
 		implementation << "    return NULL;" << std::endl;
 		implementation << "}" << std::endl;
 	}
 
 	void WriteExpression(dsa::vent::tower::dbnf::Expression* expression, std::ostream& implementation, std::map<std::string, std::string> literal_names, std::string full_namespace, std::string class_name)
 	{
-		implementation << "    if ((ClearNodes(children)";
+		implementation << "    if ((" << full_namespace << "ClearNodes(children)";
 		std::list<dsa::vent::tower::dbnf::Token*> token_sequence = expression->GetTokenSequence()->GetList();
 
 		for (std::list<dsa::vent::tower::dbnf::Token*>::iterator index = token_sequence.begin();index != token_sequence.end();++index)
@@ -570,7 +564,7 @@ public:
 			std::string member = GenerateMemberName(token->GetName());
 			std::string mimic = GenerateMimicName(member);
 			implementation << " && ";
-			std::string match_function = "Match";
+			std::string match_function = full_namespace + "Match";
 			std::string match_function_parameters = "children, ";
 			std::string parser = "";
 
@@ -584,7 +578,7 @@ public:
 			}
 			else if ((token->GetValue()->GetHigh() != NULL) && (token->GetValue()->GetLow() != NULL))
 			{
-				parser = "CharacterParser<" + token->GetValue()->UnParse() + "u>";
+				parser = "CharacterParser<'\\" + token->GetValue()->UnParse().substr(1) + "'>";
 			}
 
 			if (token->GetName() != NULL)
@@ -602,7 +596,7 @@ public:
 				}
 				else if (modifier == "?")
 				{
-					match_function = "Optional";
+					match_function = full_namespace + "Optional";
 				}
 				else if (modifier == "+")
 				{
@@ -628,7 +622,7 @@ public:
 			implementation << match_function << "(" << match_function_parameters << parser << "::Parse(index))";
 		}
 
-		implementation << ") || Reset(start, index))" << std::endl;
+		implementation << ") || " + full_namespace + "Reset(start, index))" << std::endl;
 		implementation << "    {" << std::endl;
 		implementation << "        " << full_namespace << class_name << "* instance = new " << full_namespace << class_name << "();" << std::endl;
 		implementation << "        " << full_namespace << "LengthString data;" << std::endl;
