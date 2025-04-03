@@ -1239,6 +1239,17 @@ dsa::vent::tower::dbnf::Rule* Rule::Parse(dsa::vent::tower::dbnf::LengthString& 
         return instance;
     }
 
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, dsa::vent::tower::dbnf::Comment::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Rule* instance = new dsa::vent::tower::dbnf::Rule();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
     dsa::vent::tower::dbnf::ClearNodes(children);
     return NULL;
 }
@@ -1282,6 +1293,17 @@ dsa::vent::tower::dbnf::Expression* Expression::Parse(dsa::vent::tower::dbnf::Le
         instance->SetString(data);
         instance->SetChildren(children);
         instance->token_sequence_ = token_sequence;
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, dsa::vent::tower::dbnf::Comment::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Expression* instance = new dsa::vent::tower::dbnf::Expression();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
         return instance;
     }
 
@@ -2566,6 +2588,186 @@ dsa::vent::tower::dbnf::Digit* Digit::Parse(dsa::vent::tower::dbnf::LengthString
     if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_9_ID25>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Digit* instance = new dsa::vent::tower::dbnf::Digit();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    dsa::vent::tower::dbnf::ClearNodes(children);
+    return NULL;
+}
+
+Punctuation::Punctuation() : Node()
+{
+}
+
+Punctuation::~Punctuation()
+{
+}
+
+dsa::vent::tower::dbnf::Punctuation* Punctuation::Parse(const char*& index)
+{
+    dsa::vent::tower::dbnf::LengthString length_string_index;
+    length_string_index.data = index;
+    length_string_index.length = strlen(index);
+    dsa::vent::tower::dbnf::Punctuation* instance = Parse(length_string_index);
+    index = length_string_index.data;
+    return instance;
+}
+
+dsa::vent::tower::dbnf::Punctuation* Punctuation::Parse(dsa::vent::tower::dbnf::LengthString& index)
+{
+    dsa::vent::tower::dbnf::LengthString start = index;
+    std::list<dsa::vent::tower::dbnf::Node*> children;
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID11>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Punctuation* instance = new dsa::vent::tower::dbnf::Punctuation();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID13>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Punctuation* instance = new dsa::vent::tower::dbnf::Punctuation();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID32>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Punctuation* instance = new dsa::vent::tower::dbnf::Punctuation();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID1>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Punctuation* instance = new dsa::vent::tower::dbnf::Punctuation();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    dsa::vent::tower::dbnf::ClearNodes(children);
+    return NULL;
+}
+
+CommentCharacter::CommentCharacter() : Node()
+{
+}
+
+CommentCharacter::~CommentCharacter()
+{
+}
+
+dsa::vent::tower::dbnf::CommentCharacter* CommentCharacter::Parse(const char*& index)
+{
+    dsa::vent::tower::dbnf::LengthString length_string_index;
+    length_string_index.data = index;
+    length_string_index.length = strlen(index);
+    dsa::vent::tower::dbnf::CommentCharacter* instance = Parse(length_string_index);
+    index = length_string_index.data;
+    return instance;
+}
+
+dsa::vent::tower::dbnf::CommentCharacter* CommentCharacter::Parse(dsa::vent::tower::dbnf::LengthString& index)
+{
+    dsa::vent::tower::dbnf::LengthString start = index;
+    std::list<dsa::vent::tower::dbnf::Node*> children;
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, dsa::vent::tower::dbnf::NameCharacter::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::CommentCharacter* instance = new dsa::vent::tower::dbnf::CommentCharacter();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, dsa::vent::tower::dbnf::Punctuation::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::CommentCharacter* instance = new dsa::vent::tower::dbnf::CommentCharacter();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID0>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::CommentCharacter* instance = new dsa::vent::tower::dbnf::CommentCharacter();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID2>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::CommentCharacter* instance = new dsa::vent::tower::dbnf::CommentCharacter();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    dsa::vent::tower::dbnf::ClearNodes(children);
+    return NULL;
+}
+
+Comment::Comment() : Node()
+{
+}
+
+Comment::~Comment()
+{
+}
+
+dsa::vent::tower::dbnf::Comment* Comment::Parse(const char*& index)
+{
+    dsa::vent::tower::dbnf::LengthString length_string_index;
+    length_string_index.data = index;
+    length_string_index.length = strlen(index);
+    dsa::vent::tower::dbnf::Comment* instance = Parse(length_string_index);
+    index = length_string_index.data;
+    return instance;
+}
+
+dsa::vent::tower::dbnf::Comment* Comment::Parse(dsa::vent::tower::dbnf::LengthString& index)
+{
+    dsa::vent::tower::dbnf::LengthString start = index;
+    std::list<dsa::vent::tower::dbnf::Node*> children;
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID2>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::CommentCharacter, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, dsa::vent::tower::dbnf::Eol::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Comment* instance = new dsa::vent::tower::dbnf::Comment();
         dsa::vent::tower::dbnf::LengthString data;
         data.length = start.length - index.length;
         data.data = start.data;
@@ -5674,7 +5876,326 @@ dsa::vent::tower::dbnf::Whitespace* Whitespace::Parse(dsa::vent::tower::dbnf::Le
     dsa::vent::tower::dbnf::LengthString start = index;
     std::list<dsa::vent::tower::dbnf::Node*> children;
 
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x00'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x01'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x02'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x03'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x04'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x05'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x06'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x07'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x08'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
     if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x09'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x0B'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x0C'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x0E'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x0F'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x10'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x11'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x12'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x13'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x14'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x15'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x16'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x17'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x18'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x19'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x1A'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x1B'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x1C'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x1D'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x1E'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, CharacterParser<'\x1F'>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Whitespace* instance = new dsa::vent::tower::dbnf::Whitespace();
         dsa::vent::tower::dbnf::LengthString data;

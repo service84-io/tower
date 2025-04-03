@@ -26,6 +26,9 @@ class Name;
 class NameCharacter;
 class Number;
 class Digit;
+class Punctuation;
+class CommentCharacter;
+class Comment;
 class Literal;
 class LiteralCharacter;
 class HexDigit;
@@ -243,6 +246,36 @@ public:
 
     static dsa::vent::tower::dbnf::Digit* Parse(const char*& index);
     static dsa::vent::tower::dbnf::Digit* Parse(dsa::vent::tower::dbnf::LengthString& index);
+};
+
+class Punctuation : public dsa::vent::tower::dbnf::Node
+{
+public:
+    Punctuation();
+    ~Punctuation();
+
+    static dsa::vent::tower::dbnf::Punctuation* Parse(const char*& index);
+    static dsa::vent::tower::dbnf::Punctuation* Parse(dsa::vent::tower::dbnf::LengthString& index);
+};
+
+class CommentCharacter : public dsa::vent::tower::dbnf::Node
+{
+public:
+    CommentCharacter();
+    ~CommentCharacter();
+
+    static dsa::vent::tower::dbnf::CommentCharacter* Parse(const char*& index);
+    static dsa::vent::tower::dbnf::CommentCharacter* Parse(dsa::vent::tower::dbnf::LengthString& index);
+};
+
+class Comment : public dsa::vent::tower::dbnf::Node
+{
+public:
+    Comment();
+    ~Comment();
+
+    static dsa::vent::tower::dbnf::Comment* Parse(const char*& index);
+    static dsa::vent::tower::dbnf::Comment* Parse(dsa::vent::tower::dbnf::LengthString& index);
 };
 
 class Literal : public dsa::vent::tower::dbnf::Node

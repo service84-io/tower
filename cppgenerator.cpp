@@ -113,7 +113,9 @@ public:
 
 		for(std::list<dsa::vent::tower::dbnf::Rule*>::iterator index = rules.begin();index != rules.end();++index)
 		{
-			header << "class " << GenerateClassName((*index)->GetName()) << ";" << std::endl;
+			if ((*index)->GetName()) {
+				header << "class " << GenerateClassName((*index)->GetName()) << ";" << std::endl;
+			}
 		}
 	}
 
@@ -174,7 +176,9 @@ public:
 
 		for(std::list<dsa::vent::tower::dbnf::Rule*>::iterator index = rules.begin();index != rules.end();++index)
 		{
-			WriteClassDeclaration(*index, header, full_namespace);
+			if ((*index)->GetName()) {
+				WriteClassDeclaration(*index, header, full_namespace);
+			}
 		}
 	}
 
@@ -222,7 +226,9 @@ public:
 
 		for(std::list<dsa::vent::tower::dbnf::Rule*>::iterator index = rules.begin();index != rules.end();++index)
 		{
-			WriteClassDefinition(*index, implementation, literal_names, full_namespace);
+			if ((*index)->GetName()) {
+				WriteClassDefinition(*index, implementation, literal_names, full_namespace);
+			}
 		}
 	}
 
@@ -545,7 +551,9 @@ public:
 		
 		for(std::list<dsa::vent::tower::dbnf::Expression*>::iterator index = expressions.begin();index != expressions.end();++index)
 		{
-			WriteExpression(*index, implementation, literal_names, full_namespace, class_name);
+			if ((*index)->GetTokenSequence()) {
+				WriteExpression(*index, implementation, literal_names, full_namespace, class_name);
+			}
 		}
 
 		implementation << "    " << full_namespace << "ClearNodes(children);" << std::endl;
@@ -697,8 +705,10 @@ public:
 
 		for(std::list<dsa::vent::tower::dbnf::Rule*>::iterator index = rules.begin();index != rules.end();++index)
 		{
-			std::set<std::string> rule_literals = GetRuleLiterals(*index);
-			literals.insert(rule_literals.begin(), rule_literals.end());
+			if ((*index)->GetName()) {
+				std::set<std::string> rule_literals = GetRuleLiterals(*index);
+				literals.insert(rule_literals.begin(), rule_literals.end());
+			}
 		}
 
 		return literals;
@@ -711,16 +721,18 @@ public:
 		
 		for(std::list<dsa::vent::tower::dbnf::Expression*>::iterator expression = expressions.begin();expression != expressions.end();++expression)
 		{
-			std::list<dsa::vent::tower::dbnf::Token*> token_sequence = (*expression)->GetTokenSequence()->GetList();
+			if ((*expression)->GetTokenSequence()) {
+				std::list<dsa::vent::tower::dbnf::Token*> token_sequence = (*expression)->GetTokenSequence()->GetList();
 
-			for (std::list<dsa::vent::tower::dbnf::Token*>::iterator index = token_sequence.begin();index != token_sequence.end();++index)
-			{
-				dsa::vent::tower::dbnf::Token* token = *index;
-				dsa::vent::tower::dbnf::SimpleToken* value = token->GetValue();
-
-				if (value->GetLiteral())
+				for (std::list<dsa::vent::tower::dbnf::Token*>::iterator index = token_sequence.begin();index != token_sequence.end();++index)
 				{
-					literals.insert(value->UnParse());
+					dsa::vent::tower::dbnf::Token* token = *index;
+					dsa::vent::tower::dbnf::SimpleToken* value = token->GetValue();
+
+					if (value->GetLiteral())
+					{
+						literals.insert(value->UnParse());
+					}
 				}
 			}
 		}
@@ -782,55 +794,57 @@ public:
 		
 		for(std::list<dsa::vent::tower::dbnf::Expression*>::iterator expression = expressions.begin();expression != expressions.end();++expression)
 		{
-			std::list<dsa::vent::tower::dbnf::Token*> token_sequence = (*expression)->GetTokenSequence()->GetList();
+			if ((*expression)->GetTokenSequence()) {
+				std::list<dsa::vent::tower::dbnf::Token*> token_sequence = (*expression)->GetTokenSequence()->GetList();
 
-			for (std::list<dsa::vent::tower::dbnf::Token*>::iterator index = token_sequence.begin();index != token_sequence.end();++index)
-			{
-				dsa::vent::tower::dbnf::Token* token = *index;
-				std::string token_member_name = GenerateMemberName(token->GetName());
-
-				if(token_member_name != "")
+				for (std::list<dsa::vent::tower::dbnf::Token*>::iterator index = token_sequence.begin();index != token_sequence.end();++index)
 				{
-					std::string token_type_name = full_namespace + GenerateClassName(token->GetValue()->GetToken());
-					std::string previous_type = members[token_member_name];
-					std::string modifier = "";
+					dsa::vent::tower::dbnf::Token* token = *index;
+					std::string token_member_name = GenerateMemberName(token->GetName());
 
-					if (token->GetModifier() != NULL)
+					if(token_member_name != "")
 					{
-						modifier = token->GetModifier()->UnParse();
-					}
+						std::string token_type_name = full_namespace + GenerateClassName(token->GetValue()->GetToken());
+						std::string previous_type = members[token_member_name];
+						std::string modifier = "";
 
-					if ((token->GetValue()->GetHigh() != NULL) ||
-						(token->GetValue()->GetLow() != NULL) ||
-						(token->GetValue()->GetLiteral() != NULL))
-					{
-						token_type_name = full_namespace + "String";
-					}
+						if (token->GetModifier() != NULL)
+						{
+							modifier = token->GetModifier()->UnParse();
+						}
 
-					if ((modifier == "*") ||
-						(modifier == "+") ||
-						(modifier[0] == '{'))
-					{
-						token_type_name = "List<" + token_type_name + ">";
-					}
+						if ((token->GetValue()->GetHigh() != NULL) ||
+							(token->GetValue()->GetLow() != NULL) ||
+							(token->GetValue()->GetLiteral() != NULL))
+						{
+							token_type_name = full_namespace + "String";
+						}
 
-					token_type_name = token_type_name + "*";
-
-					if ((previous_type != "") && (previous_type != token_type_name))
-					{
 						if ((modifier == "*") ||
 							(modifier == "+") ||
 							(modifier[0] == '{'))
 						{
-							token_type_name = "List<" + full_namespace + "Node>*";
+							token_type_name = "List<" + token_type_name + ">";
 						}
-						else
-						{
-							token_type_name = full_namespace + "Node*";
-						}
-					}
 
-					members[token_member_name] = token_type_name;
+						token_type_name = token_type_name + "*";
+
+						if ((previous_type != "") && (previous_type != token_type_name))
+						{
+							if ((modifier == "*") ||
+								(modifier == "+") ||
+								(modifier[0] == '{'))
+							{
+								token_type_name = "List<" + full_namespace + "Node>*";
+							}
+							else
+							{
+								token_type_name = full_namespace + "Node*";
+							}
+						}
+
+						members[token_member_name] = token_type_name;
+					}
 				}
 			}
 		}
