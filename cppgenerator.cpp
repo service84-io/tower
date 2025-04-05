@@ -31,7 +31,7 @@ public:
 	{
 		const char* index = buffer;
 		dsa::vent::tower::dbnf::Grammar* grammar = dsa::vent::tower::dbnf::Grammar::Parse(index);
-		
+
 		if(grammar)
 		{
 			std::ofstream header("dbnf.hpp", std::ofstream::trunc | std::ofstream::out);
@@ -75,7 +75,7 @@ public:
 		{
 			header << "};" << std::endl;
 		}
-		
+
 		header << "};" << std::endl;
 		header << std::endl;
 		header << "#endif" << std::endl;
@@ -101,7 +101,7 @@ public:
 		{
 			implementation << "};" << std::endl;
 		}
-		
+
 		implementation << "};" << std::endl;
 	}
 
@@ -501,7 +501,7 @@ public:
 		std::map<std::string, std::string> members = GetMembers(rule, full_namespace);
 		implementation << std::endl;
 		implementation << class_name << "::" << class_name << "() : Node()" << std::endl;
-		
+
 		for (std::map<std::string, std::string>::iterator index = members.begin(); index != members.end();++index)
 		{
 			implementation << "    ," << index->first << "(NULL)" << std::endl;
@@ -540,7 +540,7 @@ public:
 		implementation << "{" << std::endl;
 		implementation << "    " << full_namespace << "LengthString start = index;" << std::endl;
 		implementation << "    std::list<" << full_namespace << "Node*> children;" << std::endl;
-		
+
 		for (std::map<std::string, std::string>::iterator index = members.begin(); index != members.end();++index)
 		{
 			implementation << "    " << index->second << " " << GenerateMimicName(index->first) << " = NULL;" << std::endl;
@@ -548,7 +548,7 @@ public:
 
 		implementation << std::endl;
 		std::list<dsa::vent::tower::dbnf::Expression*> expressions = rule->GetExpressions()->GetList();
-		
+
 		for(std::list<dsa::vent::tower::dbnf::Expression*>::iterator index = expressions.begin();index != expressions.end();++index)
 		{
 			if ((*index)->GetTokenSequence()) {
@@ -593,7 +593,7 @@ public:
 			{
 				match_function_parameters += mimic + ", ";
 			}
-			
+
 			if (token->GetModifier() != NULL)
 			{
 				std::string modifier = token->GetModifier()->UnParse();
@@ -697,7 +697,7 @@ public:
 
 		return named_literals;
 	}
-	
+
 	std::set<std::string> GetGrammarLiterals(dsa::vent::tower::dbnf::Grammar* grammar)
 	{
 		std::set<std::string> literals;
@@ -718,7 +718,7 @@ public:
 	{
 		std::set<std::string> literals;
 		std::list<dsa::vent::tower::dbnf::Expression*> expressions = rule->GetExpressions()->GetList();
-		
+
 		for(std::list<dsa::vent::tower::dbnf::Expression*>::iterator expression = expressions.begin();expression != expressions.end();++expression)
 		{
 			if ((*expression)->GetTokenSequence()) {
@@ -740,58 +740,11 @@ public:
 		return literals;
 	}
 
-	std::list<std::string> TokenizeBaseName(std::string name)
-	{
-		std::list<std::string> base_name_tokens;
-		std::stringstream splitter(name);
-		std::string item;
-		
-		while(std::getline(splitter, item, '.'))
-		{
-			base_name_tokens.push_back(item);
-		}
-
-		base_name_tokens.pop_back();
-		return base_name_tokens;
-	}
-
-	std::string GenerateGuardName(std::list<std::string> base_name_tokens)
-	{
-		std::string guard_name;
-		std::locale locale;
-
-		for(std::list<std::string>::iterator base_name_token = base_name_tokens.begin();base_name_token != base_name_tokens.end();++base_name_token)
-		{
-			guard_name += ToUpper(*base_name_token) + "_";
-		}
-
-		guard_name += "DBNF_H";
-		return guard_name;
-	}
-
-	std::string GenerateAccessorName(std::string member)
-	{
-		return "Get" + SnakeCaseToCamelCase(member);
-	}
-
-	std::string GenerateFullNamespace(std::list<std::string> base_name_tokens)
-	{
-		std::string full_namespace;
-
-		for(std::list<std::string>::iterator base_name_token = base_name_tokens.begin();base_name_token != base_name_tokens.end();++base_name_token)
-		{
-			full_namespace += ToLower(*base_name_token) + "::";
-		}
-
-		full_namespace += "dbnf::";
-		return full_namespace;
-	}
-
 	std::map<std::string, std::string> GetMembers(dsa::vent::tower::dbnf::Rule* rule, std::string full_namespace)
 	{
 		std::map<std::string, std::string> members;
 		std::list<dsa::vent::tower::dbnf::Expression*> expressions = rule->GetExpressions()->GetList();
-		
+
 		for(std::list<dsa::vent::tower::dbnf::Expression*>::iterator expression = expressions.begin();expression != expressions.end();++expression)
 		{
 			if ((*expression)->GetTokenSequence()) {
@@ -864,6 +817,75 @@ public:
 		}
 	}
 
+	std::string GenerateMemberName(dsa::vent::tower::dbnf::Name* name_node)
+	{
+		if(name_node)
+		{
+			return name_node->UnParse() + "_";
+		}
+		else
+		{
+			return "";
+		}
+	}
+
+	std::string GenerateMimicName(std::string member)
+	{
+		if (member.size() > 0)
+		{
+			return member.substr(0, member.size() - 1);
+		}
+
+		return "";
+	}
+
+	std::list<std::string> TokenizeBaseName(std::string name)
+	{
+		std::list<std::string> base_name_tokens;
+		std::stringstream splitter(name);
+		std::string item;
+
+		while(std::getline(splitter, item, '.'))
+		{
+			base_name_tokens.push_back(item);
+		}
+
+		base_name_tokens.pop_back();
+		return base_name_tokens;
+	}
+
+	std::string GenerateGuardName(std::list<std::string> base_name_tokens)
+	{
+		std::string guard_name;
+		std::locale locale;
+
+		for(std::list<std::string>::iterator base_name_token = base_name_tokens.begin();base_name_token != base_name_tokens.end();++base_name_token)
+		{
+			guard_name += ToUpper(*base_name_token) + "_";
+		}
+
+		guard_name += "DBNF_H";
+		return guard_name;
+	}
+
+	std::string GenerateAccessorName(std::string member)
+	{
+		return "Get" + SnakeCaseToCamelCase(member);
+	}
+
+	std::string GenerateFullNamespace(std::list<std::string> base_name_tokens)
+	{
+		std::string full_namespace;
+
+		for(std::list<std::string>::iterator base_name_token = base_name_tokens.begin();base_name_token != base_name_tokens.end();++base_name_token)
+		{
+			full_namespace += ToLower(*base_name_token) + "::";
+		}
+
+		full_namespace += "dbnf::";
+		return full_namespace;
+	}
+
 	std::string SnakeCaseToCamelCase(std::string snake_case)
 	{
 		bool capitalize_this_letter = true;
@@ -888,28 +910,6 @@ public:
 		}
 
 		return camel_case;
-	}
-
-	std::string GenerateMemberName(dsa::vent::tower::dbnf::Name* name_node)
-	{
-		if(name_node)
-		{
-			return name_node->UnParse() + "_";
-		}
-		else
-		{
-			return "";
-		}
-	}
-
-	std::string GenerateMimicName(std::string member)
-	{
-		if (member.size() > 0)
-		{
-			return member.substr(0, member.size() - 1);
-		}
-		
-		return "";
 	}
 
 	std::string ToLower(std::string string)
