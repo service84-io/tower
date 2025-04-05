@@ -124,7 +124,7 @@ public:
 		header << "struct LengthString" << std::endl;
 		header << "{" << std::endl;
 		header << "    const char* data;" << std::endl;
-		header << "    int length;" << std::endl;
+		header << "    size_t length;" << std::endl;
 		header << "};" << std::endl;
 		header << std::endl;
 		header << "class Node" << std::endl;

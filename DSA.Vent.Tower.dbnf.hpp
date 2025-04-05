@@ -38,7 +38,7 @@ class Eol;
 struct LengthString
 {
     const char* data;
-    int length;
+    size_t length;
 };
 
 class Node
