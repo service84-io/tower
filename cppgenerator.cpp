@@ -8,7 +8,7 @@
 #include <sstream>
 #include <string>
 
-#include "dbnf.hpp"
+#include "DSA.Vent.Tower.dbnf.hpp"
 #include "generator.hpp"
 
 namespace dsa
@@ -34,11 +34,11 @@ public:
 
 		if(grammar)
 		{
-			std::ofstream header("dbnf.hpp", std::ofstream::trunc | std::ofstream::out);
-			std::ofstream implementation("dbnf.cpp", std::ofstream::trunc | std::ofstream::out);
+			std::ofstream header(base_name + ".hpp", std::ofstream::trunc | std::ofstream::out);
+			std::ofstream implementation(base_name + ".cpp", std::ofstream::trunc | std::ofstream::out);
 			std::list<std::string> base_name_tokens = TokenizeBaseName(base_name);
 			GenerateHeader(grammar, header, base_name_tokens);
-			GenerateImplementation(grammar, implementation, base_name_tokens);
+			GenerateImplementation(grammar, implementation, base_name, base_name_tokens);
 			return 0;
 		}
 		else
@@ -81,9 +81,9 @@ public:
 		header << "#endif" << std::endl;
 	}
 
-	void GenerateImplementation(dsa::vent::tower::dbnf::Grammar* grammar, std::ostream& implementation, std::list<std::string> base_name_tokens)
+	void GenerateImplementation(dsa::vent::tower::dbnf::Grammar* grammar, std::ostream& implementation, std::string base_name, std::list<std::string> base_name_tokens)
 	{
-		implementation << "#include \"dbnf.hpp\"" << std::endl;
+		implementation << "#include \"" + base_name + ".hpp\"" << std::endl;
 		implementation << std::endl;
 
 		for(std::list<std::string>::iterator base_name_token = base_name_tokens.begin();base_name_token != base_name_tokens.end();++base_name_token)

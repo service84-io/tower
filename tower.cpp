@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 
-#include "dbnf.hpp"
+#include "DSA.Vent.Tower.dbnf.hpp"
 #include "generator.hpp"
 
 char* ReadFileIntoBuffer(std::string file)
