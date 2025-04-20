@@ -1,9 +1,10 @@
 #ifndef DSA_VENT_TOWER_DBNF_H
 #define DSA_VENT_TOWER_DBNF_H
 
+#include <cstring>
 #include <list>
 #include <string>
-#include <cstring>
+#include <vector>
 
 namespace dsa
 {
@@ -74,6 +75,11 @@ public:
     virtual std::list<T*> GetList()
     {
         return list_;
+    }
+
+    virtual std::list<T*> GetVector()
+    {
+        return {list_.begin(), list_.end()};
     }
 
 protected:

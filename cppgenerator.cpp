@@ -53,9 +53,10 @@ public:
 		header << "#ifndef " << guard_name << std::endl;
 		header << "#define " << guard_name << std::endl;
 		header << std::endl;
+		header << "#include <cstring>" << std::endl;
 		header << "#include <list>" << std::endl;
 		header << "#include <string>" << std::endl;
-		header << "#include <cstring>" << std::endl;
+		header << "#include <vector>" << std::endl;
 		header << std::endl;
 
 		for(std::list<std::string>::iterator base_name_token = base_name_tokens.begin();base_name_token != base_name_tokens.end();++base_name_token)
@@ -160,6 +161,11 @@ public:
 		header << "    virtual std::list<T*> GetList()" << std::endl;
 		header << "    {" << std::endl;
 		header << "        return list_;" << std::endl;
+		header << "    }" << std::endl;
+		header << std::endl;
+		header << "    virtual std::list<T*> GetVector()" << std::endl;
+		header << "    {" << std::endl;
+		header << "        return {list_.begin(), list_.end()};" << std::endl;
 		header << "    }" << std::endl;
 		header << std::endl;
 		header << "protected:" << std::endl;
