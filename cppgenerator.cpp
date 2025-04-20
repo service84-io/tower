@@ -163,7 +163,7 @@ public:
 		header << "        return list_;" << std::endl;
 		header << "    }" << std::endl;
 		header << std::endl;
-		header << "    virtual std::list<T*> GetVector()" << std::endl;
+		header << "    virtual std::vector<T*> GetVector()" << std::endl;
 		header << "    {" << std::endl;
 		header << "        return {list_.begin(), list_.end()};" << std::endl;
 		header << "    }" << std::endl;

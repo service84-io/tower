@@ -77,7 +77,7 @@ public:
         return list_;
     }
 
-    virtual std::list<T*> GetVector()
+    virtual std::vector<T*> GetVector()
     {
         return {list_.begin(), list_.end()};
     }
