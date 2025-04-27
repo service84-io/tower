@@ -93,6 +93,8 @@ public:
     ~String();
 };
 
+typedef List<Grammar> GrammarList;
+
 class Grammar : public dsa::vent::tower::dbnf::Node
 {
 public:
@@ -107,6 +109,8 @@ public:
 private:
     List<dsa::vent::tower::dbnf::Rule>* rules_;
 };
+
+typedef List<Rule> RuleList;
 
 class Rule : public dsa::vent::tower::dbnf::Node
 {
@@ -125,6 +129,8 @@ private:
     dsa::vent::tower::dbnf::Name* name_;
 };
 
+typedef List<Expression> ExpressionList;
+
 class Expression : public dsa::vent::tower::dbnf::Node
 {
 public:
@@ -139,6 +145,8 @@ public:
 private:
     List<dsa::vent::tower::dbnf::Token>* token_sequence_;
 };
+
+typedef List<Token> TokenList;
 
 class Token : public dsa::vent::tower::dbnf::Node
 {
@@ -158,6 +166,8 @@ private:
     dsa::vent::tower::dbnf::Name* name_;
     dsa::vent::tower::dbnf::SimpleToken* value_;
 };
+
+typedef List<SimpleToken> SimpleTokenList;
 
 class SimpleToken : public dsa::vent::tower::dbnf::Node
 {
@@ -180,6 +190,8 @@ private:
     dsa::vent::tower::dbnf::Name* token_;
 };
 
+typedef List<Modifier> ModifierList;
+
 class Modifier : public dsa::vent::tower::dbnf::Node
 {
 public:
@@ -194,6 +206,8 @@ public:
 private:
     dsa::vent::tower::dbnf::Cardinality* cardinality_;
 };
+
+typedef List<Cardinality> CardinalityList;
 
 class Cardinality : public dsa::vent::tower::dbnf::Node
 {
@@ -214,6 +228,8 @@ private:
     dsa::vent::tower::dbnf::Number* minimum_;
 };
 
+typedef List<Name> NameList;
+
 class Name : public dsa::vent::tower::dbnf::Node
 {
 public:
@@ -223,6 +239,8 @@ public:
     static dsa::vent::tower::dbnf::Name* Parse(const char*& index);
     static dsa::vent::tower::dbnf::Name* Parse(dsa::vent::tower::dbnf::LengthString& index);
 };
+
+typedef List<NameCharacter> NameCharacterList;
 
 class NameCharacter : public dsa::vent::tower::dbnf::Node
 {
@@ -234,6 +252,8 @@ public:
     static dsa::vent::tower::dbnf::NameCharacter* Parse(dsa::vent::tower::dbnf::LengthString& index);
 };
 
+typedef List<Number> NumberList;
+
 class Number : public dsa::vent::tower::dbnf::Node
 {
 public:
@@ -243,6 +263,8 @@ public:
     static dsa::vent::tower::dbnf::Number* Parse(const char*& index);
     static dsa::vent::tower::dbnf::Number* Parse(dsa::vent::tower::dbnf::LengthString& index);
 };
+
+typedef List<Digit> DigitList;
 
 class Digit : public dsa::vent::tower::dbnf::Node
 {
@@ -254,6 +276,8 @@ public:
     static dsa::vent::tower::dbnf::Digit* Parse(dsa::vent::tower::dbnf::LengthString& index);
 };
 
+typedef List<Punctuation> PunctuationList;
+
 class Punctuation : public dsa::vent::tower::dbnf::Node
 {
 public:
@@ -263,6 +287,8 @@ public:
     static dsa::vent::tower::dbnf::Punctuation* Parse(const char*& index);
     static dsa::vent::tower::dbnf::Punctuation* Parse(dsa::vent::tower::dbnf::LengthString& index);
 };
+
+typedef List<CommentCharacter> CommentCharacterList;
 
 class CommentCharacter : public dsa::vent::tower::dbnf::Node
 {
@@ -274,6 +300,8 @@ public:
     static dsa::vent::tower::dbnf::CommentCharacter* Parse(dsa::vent::tower::dbnf::LengthString& index);
 };
 
+typedef List<Comment> CommentList;
+
 class Comment : public dsa::vent::tower::dbnf::Node
 {
 public:
@@ -283,6 +311,8 @@ public:
     static dsa::vent::tower::dbnf::Comment* Parse(const char*& index);
     static dsa::vent::tower::dbnf::Comment* Parse(dsa::vent::tower::dbnf::LengthString& index);
 };
+
+typedef List<Literal> LiteralList;
 
 class Literal : public dsa::vent::tower::dbnf::Node
 {
@@ -294,6 +324,8 @@ public:
     static dsa::vent::tower::dbnf::Literal* Parse(dsa::vent::tower::dbnf::LengthString& index);
 };
 
+typedef List<LiteralCharacter> LiteralCharacterList;
+
 class LiteralCharacter : public dsa::vent::tower::dbnf::Node
 {
 public:
@@ -303,6 +335,8 @@ public:
     static dsa::vent::tower::dbnf::LiteralCharacter* Parse(const char*& index);
     static dsa::vent::tower::dbnf::LiteralCharacter* Parse(dsa::vent::tower::dbnf::LengthString& index);
 };
+
+typedef List<HexDigit> HexDigitList;
 
 class HexDigit : public dsa::vent::tower::dbnf::Node
 {
@@ -314,6 +348,8 @@ public:
     static dsa::vent::tower::dbnf::HexDigit* Parse(dsa::vent::tower::dbnf::LengthString& index);
 };
 
+typedef List<Whitespace> WhitespaceList;
+
 class Whitespace : public dsa::vent::tower::dbnf::Node
 {
 public:
@@ -323,6 +359,8 @@ public:
     static dsa::vent::tower::dbnf::Whitespace* Parse(const char*& index);
     static dsa::vent::tower::dbnf::Whitespace* Parse(dsa::vent::tower::dbnf::LengthString& index);
 };
+
+typedef List<Eol> EolList;
 
 class Eol : public dsa::vent::tower::dbnf::Node
 {
