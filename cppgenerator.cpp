@@ -193,6 +193,8 @@ public:
 		std::string class_name = GenerateClassName(rule->GetName());
 		std::map<std::string, std::string> members = GetMembers(rule, full_namespace);
 		header << std::endl;
+		header << "typedef List<" << class_name << "> " << class_name << "List;" << std::endl;
+		header << std::endl;
 		header << "class " << class_name << " : public " << full_namespace << "Node" << std::endl;
 		header << "{" << std::endl;
 		header << "public:" << std::endl;
