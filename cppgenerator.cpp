@@ -661,6 +661,20 @@ public:
 		}
 
 		implementation << "        return instance;" << std::endl;
+		implementation << "    } else {" << std::endl;
+
+		for (std::list<dsa::vent::tower::dbnf::Token*>::iterator index = token_sequence.begin();index != token_sequence.end();++index)
+		{
+			dsa::vent::tower::dbnf::Token* token = *index;
+			std::string member = GenerateMemberName(token->GetName());
+
+			if (member != "")
+			{
+				std::string mimic = GenerateMimicName(member);
+				implementation << "        " << mimic << " = NULL;" << std::endl;
+			}
+		}
+
 		implementation << "    }" << std::endl;
 		implementation << std::endl;
 	}
