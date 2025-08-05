@@ -20,7 +20,13 @@ namespace dbnf
 namespace ctcode
 {
 class StringParser;
+class StringResult;
+class StringListResult;
+class String;
 class CharacterParser;
+class CharacterResult;
+class CharacterListResult;
+class Character;
 class ParserNetwork;
 class DBNFOmniType;
 class DBNFOmniTypeResult;
@@ -180,7 +186,53 @@ public:
     inline StringParser() {};
     inline ~StringParser() {};
 
+    bool ParseSingleSave(OmniPointer<LengthString> index, std::string value, OmniPointer<StringResult> result);
     bool ParseSingle(OmniPointer<LengthString> index, std::string value);
+};
+
+class StringResult
+{
+public:
+    inline StringResult() {};
+    inline ~StringResult() {};
+
+    void SetValue(OmniPointer<String> new_value);
+    OmniPointer<String> GetValue();
+    void SetResult(bool new_result);
+    bool GetResult();
+
+private:
+    OmniPointer<String> value;
+    bool result;
+};
+
+class StringListResult
+{
+public:
+    inline StringListResult() {};
+    inline ~StringListResult() {};
+
+    void SetValue(std::vector<OmniPointer<String>> new_value);
+    std::vector<OmniPointer<String>> GetValue();
+    void SetResult(bool new_result);
+    bool GetResult();
+
+private:
+    std::vector<OmniPointer<String>> value;
+    bool result;
+};
+
+class String
+{
+public:
+    inline String() {};
+    inline ~String() {};
+
+    void SetLengthString(OmniPointer<LengthString> new_value);
+    std::string UnParse();
+
+private:
+    OmniPointer<LengthString> length_string;
 };
 
 class CharacterParser
@@ -190,6 +242,51 @@ public:
     inline ~CharacterParser() {};
 
     bool ParseSingle(OmniPointer<LengthString> index, int value);
+};
+
+class CharacterResult
+{
+public:
+    inline CharacterResult() {};
+    inline ~CharacterResult() {};
+
+    void SetValue(OmniPointer<Character> new_value);
+    OmniPointer<Character> GetValue();
+    void SetResult(bool new_result);
+    bool GetResult();
+
+private:
+    OmniPointer<Character> value;
+    bool result;
+};
+
+class CharacterListResult
+{
+public:
+    inline CharacterListResult() {};
+    inline ~CharacterListResult() {};
+
+    void SetValue(std::vector<OmniPointer<Character>> new_value);
+    std::vector<OmniPointer<Character>> GetValue();
+    void SetResult(bool new_result);
+    bool GetResult();
+
+private:
+    std::vector<OmniPointer<Character>> value;
+    bool result;
+};
+
+class Character
+{
+public:
+    inline Character() {};
+    inline ~Character() {};
+
+    void SetLengthString(OmniPointer<LengthString> new_value);
+    std::string UnParse();
+
+private:
+    OmniPointer<LengthString> length_string;
 };
 
 class ParserNetwork

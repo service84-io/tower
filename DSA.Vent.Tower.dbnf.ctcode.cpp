@@ -11,12 +11,19 @@ namespace dbnf
 {
 namespace ctcode
 {
-    bool StringParser::ParseSingle(OmniPointer<LengthString> index, std::string value)
+    bool StringParser::ParseSingleSave(OmniPointer<LengthString> index, std::string value, OmniPointer<StringResult> result)
     {
+        int start_index = index->GetStart();
+        OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
+        consumed_string->SetData(index->GetData());
+        consumed_string->SetStart(index->GetStart());
+        consumed_string->SetLength(0);
+        OmniPointer<String> instance = std::shared_ptr<String>(new String());
         int value_length = Length(value);
         int total_used = Length(value) + index->GetStart();
         if (total_used > index->GetLength())
         {
+            result->SetResult(false);
             return false;
         }
 
@@ -25,6 +32,7 @@ namespace ctcode
         {
             if (At(index->GetData(), index->GetStart() + offset_index) != At(value, offset_index))
             {
+                result->SetResult(false);
                 return false;
             }
 
@@ -32,7 +40,70 @@ namespace ctcode
         }
 
         index->SetStart(index->GetStart() + value_length);
+        consumed_string->SetLength(index->GetStart() - start_index);
+        instance->SetLengthString(consumed_string);
+        result->SetValue(instance);
+        result->SetResult(true);
         return true;
+    }
+
+    bool StringParser::ParseSingle(OmniPointer<LengthString> index, std::string value)
+    {
+        OmniPointer<StringResult> result = std::shared_ptr<StringResult>(new StringResult());
+        return ParseSingleSave(index, value, result);
+    }
+
+    void StringResult::SetValue(OmniPointer<String> new_value)
+    {
+        value = new_value;
+    }
+
+    OmniPointer<String> StringResult::GetValue()
+    {
+        return value;
+    }
+
+    void StringResult::SetResult(bool new_result)
+    {
+        result = new_result;
+    }
+
+    bool StringResult::GetResult()
+    {
+        return result;
+    }
+
+    void StringListResult::SetValue(std::vector<OmniPointer<String>> new_value)
+    {
+        value = new_value;
+    }
+
+    std::vector<OmniPointer<String>> StringListResult::GetValue()
+    {
+        return value;
+    }
+
+    void StringListResult::SetResult(bool new_result)
+    {
+        result = new_result;
+    }
+
+    bool StringListResult::GetResult()
+    {
+        return result;
+    }
+
+    void String::SetLengthString(OmniPointer<LengthString> new_value)
+    {
+        length_string = std::shared_ptr<LengthString>(new LengthString());
+        length_string->SetData(new_value->GetData());
+        length_string->SetStart(new_value->GetStart());
+        length_string->SetLength(new_value->GetLength());
+    }
+
+    std::string String::UnParse()
+    {
+        return length_string->GetString();
     }
 
     bool CharacterParser::ParseSingle(OmniPointer<LengthString> index, int value)
@@ -50,6 +121,59 @@ namespace ctcode
         }
 
         return false;
+    }
+
+    void CharacterResult::SetValue(OmniPointer<Character> new_value)
+    {
+        value = new_value;
+    }
+
+    OmniPointer<Character> CharacterResult::GetValue()
+    {
+        return value;
+    }
+
+    void CharacterResult::SetResult(bool new_result)
+    {
+        result = new_result;
+    }
+
+    bool CharacterResult::GetResult()
+    {
+        return result;
+    }
+
+    void CharacterListResult::SetValue(std::vector<OmniPointer<Character>> new_value)
+    {
+        value = new_value;
+    }
+
+    std::vector<OmniPointer<Character>> CharacterListResult::GetValue()
+    {
+        return value;
+    }
+
+    void CharacterListResult::SetResult(bool new_result)
+    {
+        result = new_result;
+    }
+
+    bool CharacterListResult::GetResult()
+    {
+        return result;
+    }
+
+    void Character::SetLengthString(OmniPointer<LengthString> new_value)
+    {
+        length_string = std::shared_ptr<LengthString>(new LengthString());
+        length_string->SetData(new_value->GetData());
+        length_string->SetStart(new_value->GetStart());
+        length_string->SetLength(new_value->GetLength());
+    }
+
+    std::string Character::UnParse()
+    {
+        return length_string->GetString();
     }
 
     OmniPointer<GrammarParser> ParserNetwork::GetGrammarParser()

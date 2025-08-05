@@ -1,12 +1,19 @@
 class StringParser
 {
-    function bool ParseSingle(LengthString index, string value)
+    function bool ParseSingleSave(LengthString index, string value, StringResult result)
     {
+        int start_index = index.GetStart();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
+        String instance = new String;
         int value_length = Length(value);
         int total_used = Length(value) + index.GetStart();
 
         if (total_used > index.GetLength())
         {
+            result.SetResult(false);
             return false;
         }
 
@@ -16,6 +23,7 @@ class StringParser
         {
             if (At(index.GetData(), index.GetStart() + offset_index) != At(value, offset_index))
             {
+                result.SetResult(false);
                 return false;
             }
 
@@ -23,8 +31,54 @@ class StringParser
         }
 
         index.SetStart(index.GetStart() + value_length);
+        consumed_string.SetLength(index.GetStart() - start_index);
+        instance.SetLengthString(consumed_string);
+        result.SetValue(instance);
+        result.SetResult(true);
         return true;
     }
+    function bool ParseSingle(LengthString index, string value)
+    {
+        StringResult result = new StringResult;
+        return ParseSingleSave(index, value, result);
+    }
+}
+
+class StringResult
+{
+    function void SetValue(String new_value) { value = new_value; }
+    function String GetValue() { return value; }
+    function void SetResult(bool new_result) { result = new_result; }
+    function bool GetResult() { return result; }
+
+    String value;
+    bool result;
+}
+
+class StringListResult
+{
+    function void SetValue(String[] new_value) { value = new_value; }
+    function String[] GetValue() { return value; }
+    function void SetResult(bool new_result) { result = new_result; }
+    function bool GetResult() { return result; }
+
+    String[] value;
+    bool result;
+}
+
+class String
+{
+    function void SetLengthString(LengthString new_value)
+    {
+        length_string = new LengthString;
+        length_string.SetData(new_value.GetData());
+        length_string.SetStart(new_value.GetStart());
+        length_string.SetLength(new_value.GetLength());
+    }
+
+    function string UnParse() { return length_string.GetString(); }
+
+    LengthString length_string;
 }
 
 class CharacterParser
@@ -46,6 +100,43 @@ class CharacterParser
 
         return false;
     }
+}
+
+class CharacterResult
+{
+    function void SetValue(Character new_value) { value = new_value; }
+    function Character GetValue() { return value; }
+    function void SetResult(bool new_result) { result = new_result; }
+    function bool GetResult() { return result; }
+
+    Character value;
+    bool result;
+}
+
+class CharacterListResult
+{
+    function void SetValue(Character[] new_value) { value = new_value; }
+    function Character[] GetValue() { return value; }
+    function void SetResult(bool new_result) { result = new_result; }
+    function bool GetResult() { return result; }
+
+    Character[] value;
+    bool result;
+}
+
+class Character
+{
+    function void SetLengthString(LengthString new_value)
+    {
+        length_string = new LengthString;
+        length_string.SetData(new_value.GetData());
+        length_string.SetStart(new_value.GetStart());
+        length_string.SetLength(new_value.GetLength());
+    }
+
+    function string UnParse() { return length_string.GetString(); }
+
+    LengthString length_string;
 }
 
 class ParserNetwork
