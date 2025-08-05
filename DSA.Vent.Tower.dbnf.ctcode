@@ -2,6 +2,7 @@ class StringParser
 {
     function bool ParseSingle(LengthString index, string value)
     {
+        int value_length = Length(value);
         int total_used = Length(value) + index.GetStart();
 
         if (total_used > index.GetLength())
@@ -11,7 +12,7 @@ class StringParser
 
         int offset_index = 0;
 
-        while (offset_index < total_used)
+        while (offset_index < value_length)
         {
             if (At(index.GetData(), index.GetStart() + offset_index) != At(value, offset_index))
             {
@@ -21,7 +22,7 @@ class StringParser
             offset_index = offset_index + 1;
         }
 
-        index.SetStart(index.GetStart() + total_used);
+        index.SetStart(index.GetStart() + value_length);
         return true;
     }
 }
@@ -556,6 +557,10 @@ class GrammarParser
     function bool ParseSingleSave(LengthString index, GrammarResult result)
     {
         int start_index = index.GetStart();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
         Grammar instance = new Grammar;
         RuleListResult rules_field = new RuleListResult;
 
@@ -583,6 +588,8 @@ class GrammarParser
 
         if (true && rule_parser_instance.ParseManySave(index, rules_field, 0, -1)) {
             instance.SetRules(rules_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -614,10 +621,9 @@ class GrammarParser
         return ParseOptionalSave(index, result);
     }
 
-    function bool ParseManySave(LengthString index, GrammarListResult result, int minimum, int maximum)
+    function bool ParseManySave(LengthString index, GrammarListResult list_result, int minimum, int maximum)
     {
         int start = index.GetStart();
-        GrammarListResult list_result = new GrammarListResult;
         Grammar[] results;
         int count = 0;
         int max_check = maximum;
@@ -712,6 +718,10 @@ class RuleParser
     function bool ParseSingleSave(LengthString index, RuleResult result)
     {
         int start_index = index.GetStart();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
         Rule instance = new Rule;
         ExpressionListResult expressions_field = new ExpressionListResult;
         NameResult name_field = new NameResult;
@@ -741,6 +751,8 @@ class RuleParser
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "<") && name_parser_instance.ParseSingleSave(index, name_field) && string_parser_instance.ParseSingle(index, ">") && expression_parser_instance.ParseManySave(index, expressions_field, 0, -1)) {
             instance.SetExpressions(expressions_field.GetValue());
             instance.SetName(name_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -753,6 +765,8 @@ class RuleParser
         if (true && comment_parser_instance.ParseSingle(index)) {
             instance.SetExpressions(expressions_field.GetValue());
             instance.SetName(name_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -785,10 +799,9 @@ class RuleParser
         return ParseOptionalSave(index, result);
     }
 
-    function bool ParseManySave(LengthString index, RuleListResult result, int minimum, int maximum)
+    function bool ParseManySave(LengthString index, RuleListResult list_result, int minimum, int maximum)
     {
         int start = index.GetStart();
-        RuleListResult list_result = new RuleListResult;
         Rule[] results;
         int count = 0;
         int max_check = maximum;
@@ -886,6 +899,10 @@ class ExpressionParser
     function bool ParseSingleSave(LengthString index, ExpressionResult result)
     {
         int start_index = index.GetStart();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
         Expression instance = new Expression;
         TokenListResult token_sequence_field = new TokenListResult;
 
@@ -913,6 +930,8 @@ class ExpressionParser
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "::=") && token_parser_instance.ParseManySave(index, token_sequence_field, 0, -1) && eol_parser_instance.ParseSingle(index)) {
             instance.SetTokenSequence(token_sequence_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -923,6 +942,8 @@ class ExpressionParser
 
         if (true && comment_parser_instance.ParseSingle(index)) {
             instance.SetTokenSequence(token_sequence_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -954,10 +975,9 @@ class ExpressionParser
         return ParseOptionalSave(index, result);
     }
 
-    function bool ParseManySave(LengthString index, ExpressionListResult result, int minimum, int maximum)
+    function bool ParseManySave(LengthString index, ExpressionListResult list_result, int minimum, int maximum)
     {
         int start = index.GetStart();
-        ExpressionListResult list_result = new ExpressionListResult;
         Expression[] results;
         int count = 0;
         int max_check = maximum;
@@ -1052,6 +1072,10 @@ class TokenParser
     function bool ParseSingleSave(LengthString index, TokenResult result)
     {
         int start_index = index.GetStart();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
         Token instance = new Token;
         ModifierResult modifier_field = new ModifierResult;
         NameResult name_field = new NameResult;
@@ -1083,6 +1107,8 @@ class TokenParser
             instance.SetModifier(modifier_field.GetValue());
             instance.SetName(name_field.GetValue());
             instance.SetValue(value_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -1097,6 +1123,8 @@ class TokenParser
             instance.SetModifier(modifier_field.GetValue());
             instance.SetName(name_field.GetValue());
             instance.SetValue(value_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -1111,6 +1139,8 @@ class TokenParser
             instance.SetModifier(modifier_field.GetValue());
             instance.SetName(name_field.GetValue());
             instance.SetValue(value_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -1125,6 +1155,8 @@ class TokenParser
             instance.SetModifier(modifier_field.GetValue());
             instance.SetName(name_field.GetValue());
             instance.SetValue(value_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -1158,10 +1190,9 @@ class TokenParser
         return ParseOptionalSave(index, result);
     }
 
-    function bool ParseManySave(LengthString index, TokenListResult result, int minimum, int maximum)
+    function bool ParseManySave(LengthString index, TokenListResult list_result, int minimum, int maximum)
     {
         int start = index.GetStart();
-        TokenListResult list_result = new TokenListResult;
         Token[] results;
         int count = 0;
         int max_check = maximum;
@@ -1262,6 +1293,10 @@ class SimpleTokenParser
     function bool ParseSingleSave(LengthString index, SimpleTokenResult result)
     {
         int start_index = index.GetStart();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
         SimpleToken instance = new SimpleToken;
         HexDigitResult high_field = new HexDigitResult;
         LiteralResult literal_field = new LiteralResult;
@@ -1295,6 +1330,8 @@ class SimpleTokenParser
             instance.SetLiteral(literal_field.GetValue());
             instance.SetLow(low_field.GetValue());
             instance.SetToken(token_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -1311,6 +1348,8 @@ class SimpleTokenParser
             instance.SetLiteral(literal_field.GetValue());
             instance.SetLow(low_field.GetValue());
             instance.SetToken(token_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -1327,6 +1366,8 @@ class SimpleTokenParser
             instance.SetLiteral(literal_field.GetValue());
             instance.SetLow(low_field.GetValue());
             instance.SetToken(token_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -1361,10 +1402,9 @@ class SimpleTokenParser
         return ParseOptionalSave(index, result);
     }
 
-    function bool ParseManySave(LengthString index, SimpleTokenListResult result, int minimum, int maximum)
+    function bool ParseManySave(LengthString index, SimpleTokenListResult list_result, int minimum, int maximum)
     {
         int start = index.GetStart();
-        SimpleTokenListResult list_result = new SimpleTokenListResult;
         SimpleToken[] results;
         int count = 0;
         int max_check = maximum;
@@ -1468,6 +1508,10 @@ class ModifierParser
     function bool ParseSingleSave(LengthString index, ModifierResult result)
     {
         int start_index = index.GetStart();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
         Modifier instance = new Modifier;
         CardinalityResult cardinality_field = new CardinalityResult;
 
@@ -1495,6 +1539,8 @@ class ModifierParser
 
         if (true && string_parser_instance.ParseSingle(index, "*")) {
             instance.SetCardinality(cardinality_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -1505,6 +1551,8 @@ class ModifierParser
 
         if (true && string_parser_instance.ParseSingle(index, "?")) {
             instance.SetCardinality(cardinality_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -1515,6 +1563,8 @@ class ModifierParser
 
         if (true && string_parser_instance.ParseSingle(index, "+")) {
             instance.SetCardinality(cardinality_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -1525,6 +1575,8 @@ class ModifierParser
 
         if (true && string_parser_instance.ParseSingle(index, "{") && whitespace_parser_instance.ParseMany(index, 0, -1) && cardinality_parser_instance.ParseSingleSave(index, cardinality_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "}")) {
             instance.SetCardinality(cardinality_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -1556,10 +1608,9 @@ class ModifierParser
         return ParseOptionalSave(index, result);
     }
 
-    function bool ParseManySave(LengthString index, ModifierListResult result, int minimum, int maximum)
+    function bool ParseManySave(LengthString index, ModifierListResult list_result, int minimum, int maximum)
     {
         int start = index.GetStart();
-        ModifierListResult list_result = new ModifierListResult;
         Modifier[] results;
         int count = 0;
         int max_check = maximum;
@@ -1654,6 +1705,10 @@ class CardinalityParser
     function bool ParseSingleSave(LengthString index, CardinalityResult result)
     {
         int start_index = index.GetStart();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
         Cardinality instance = new Cardinality;
         NumberResult count_field = new NumberResult;
         NumberResult maximum_field = new NumberResult;
@@ -1685,6 +1740,8 @@ class CardinalityParser
             instance.SetCount(count_field.GetValue());
             instance.SetMaximum(maximum_field.GetValue());
             instance.SetMinimum(minimum_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -1699,6 +1756,8 @@ class CardinalityParser
             instance.SetCount(count_field.GetValue());
             instance.SetMaximum(maximum_field.GetValue());
             instance.SetMinimum(minimum_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -1713,6 +1772,8 @@ class CardinalityParser
             instance.SetCount(count_field.GetValue());
             instance.SetMaximum(maximum_field.GetValue());
             instance.SetMinimum(minimum_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -1746,10 +1807,9 @@ class CardinalityParser
         return ParseOptionalSave(index, result);
     }
 
-    function bool ParseManySave(LengthString index, CardinalityListResult result, int minimum, int maximum)
+    function bool ParseManySave(LengthString index, CardinalityListResult list_result, int minimum, int maximum)
     {
         int start = index.GetStart();
-        CardinalityListResult list_result = new CardinalityListResult;
         Cardinality[] results;
         int count = 0;
         int max_check = maximum;
@@ -1850,6 +1910,10 @@ class NameParser
     function bool ParseSingleSave(LengthString index, NameResult result)
     {
         int start_index = index.GetStart();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
         Name instance = new Name;
 
         GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
@@ -1875,6 +1939,8 @@ class NameParser
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
 
         if (true && name_character_parser_instance.ParseMany(index, 1, -1)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -1905,10 +1971,9 @@ class NameParser
         return ParseOptionalSave(index, result);
     }
 
-    function bool ParseManySave(LengthString index, NameListResult result, int minimum, int maximum)
+    function bool ParseManySave(LengthString index, NameListResult list_result, int minimum, int maximum)
     {
         int start = index.GetStart();
-        NameListResult list_result = new NameListResult;
         Name[] results;
         int count = 0;
         int max_check = maximum;
@@ -2000,6 +2065,10 @@ class NameCharacterParser
     function bool ParseSingleSave(LengthString index, NameCharacterResult result)
     {
         int start_index = index.GetStart();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
         NameCharacter instance = new NameCharacter;
 
         GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
@@ -2025,6 +2094,8 @@ class NameCharacterParser
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
 
         if (true && string_parser_instance.ParseSingle(index, "0")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2033,6 +2104,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "1")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2041,6 +2114,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "2")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2049,6 +2124,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "3")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2057,6 +2134,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "4")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2065,6 +2144,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "5")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2073,6 +2154,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "6")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2081,6 +2164,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "7")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2089,6 +2174,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "8")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2097,6 +2184,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "9")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2105,6 +2194,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "A")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2113,6 +2204,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "B")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2121,6 +2214,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "C")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2129,6 +2224,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "D")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2137,6 +2234,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "E")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2145,6 +2244,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "F")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2153,6 +2254,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "G")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2161,6 +2264,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "H")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2169,6 +2274,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "I")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2177,6 +2284,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "J")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2185,6 +2294,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "K")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2193,6 +2304,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "L")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2201,6 +2314,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "M")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2209,6 +2324,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "N")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2217,6 +2334,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "O")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2225,6 +2344,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "P")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2233,6 +2354,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "Q")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2241,6 +2364,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "R")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2249,6 +2374,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "S")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2257,6 +2384,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "T")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2265,6 +2394,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "U")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2273,6 +2404,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "V")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2281,6 +2414,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "W")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2289,6 +2424,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "X")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2297,6 +2434,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "Y")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2305,6 +2444,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "Z")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2313,6 +2454,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "_")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2321,6 +2464,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "a")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2329,6 +2474,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "b")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2337,6 +2484,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "c")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2345,6 +2494,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "d")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2353,6 +2504,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "e")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2361,6 +2514,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "f")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2369,6 +2524,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "g")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2377,6 +2534,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "h")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2385,6 +2544,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "i")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2393,6 +2554,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "j")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2401,6 +2564,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "k")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2409,6 +2574,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "l")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2417,6 +2584,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "m")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2425,6 +2594,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "n")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2433,6 +2604,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "o")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2441,6 +2614,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "p")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2449,6 +2624,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "q")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2457,6 +2634,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "r")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2465,6 +2644,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "s")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2473,6 +2654,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "t")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2481,6 +2664,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "u")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2489,6 +2674,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "v")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2497,6 +2684,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "w")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2505,6 +2694,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "x")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2513,6 +2704,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "y")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2521,6 +2714,8 @@ class NameCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "z")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2551,10 +2746,9 @@ class NameCharacterParser
         return ParseOptionalSave(index, result);
     }
 
-    function bool ParseManySave(LengthString index, NameCharacterListResult result, int minimum, int maximum)
+    function bool ParseManySave(LengthString index, NameCharacterListResult list_result, int minimum, int maximum)
     {
         int start = index.GetStart();
-        NameCharacterListResult list_result = new NameCharacterListResult;
         NameCharacter[] results;
         int count = 0;
         int max_check = maximum;
@@ -2646,6 +2840,10 @@ class NumberParser
     function bool ParseSingleSave(LengthString index, NumberResult result)
     {
         int start_index = index.GetStart();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
         Number instance = new Number;
 
         GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
@@ -2671,6 +2869,8 @@ class NumberParser
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
 
         if (true && digit_parser_instance.ParseMany(index, 1, -1)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2701,10 +2901,9 @@ class NumberParser
         return ParseOptionalSave(index, result);
     }
 
-    function bool ParseManySave(LengthString index, NumberListResult result, int minimum, int maximum)
+    function bool ParseManySave(LengthString index, NumberListResult list_result, int minimum, int maximum)
     {
         int start = index.GetStart();
-        NumberListResult list_result = new NumberListResult;
         Number[] results;
         int count = 0;
         int max_check = maximum;
@@ -2796,6 +2995,10 @@ class DigitParser
     function bool ParseSingleSave(LengthString index, DigitResult result)
     {
         int start_index = index.GetStart();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
         Digit instance = new Digit;
 
         GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
@@ -2821,6 +3024,8 @@ class DigitParser
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
 
         if (true && string_parser_instance.ParseSingle(index, "0")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2829,6 +3034,8 @@ class DigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "1")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2837,6 +3044,8 @@ class DigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "2")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2845,6 +3054,8 @@ class DigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "3")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2853,6 +3064,8 @@ class DigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "4")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2861,6 +3074,8 @@ class DigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "5")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2869,6 +3084,8 @@ class DigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "6")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2877,6 +3094,8 @@ class DigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "7")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2885,6 +3104,8 @@ class DigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "8")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2893,6 +3114,8 @@ class DigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "9")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -2923,10 +3146,9 @@ class DigitParser
         return ParseOptionalSave(index, result);
     }
 
-    function bool ParseManySave(LengthString index, DigitListResult result, int minimum, int maximum)
+    function bool ParseManySave(LengthString index, DigitListResult list_result, int minimum, int maximum)
     {
         int start = index.GetStart();
-        DigitListResult list_result = new DigitListResult;
         Digit[] results;
         int count = 0;
         int max_check = maximum;
@@ -3018,6 +3240,10 @@ class PunctuationParser
     function bool ParseSingleSave(LengthString index, PunctuationResult result)
     {
         int start_index = index.GetStart();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
         Punctuation instance = new Punctuation;
 
         GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
@@ -3043,6 +3269,8 @@ class PunctuationParser
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
 
         if (true && string_parser_instance.ParseSingle(index, ",")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3051,6 +3279,8 @@ class PunctuationParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, ".")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3059,6 +3289,8 @@ class PunctuationParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "?")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3067,6 +3299,8 @@ class PunctuationParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "!")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3097,10 +3331,9 @@ class PunctuationParser
         return ParseOptionalSave(index, result);
     }
 
-    function bool ParseManySave(LengthString index, PunctuationListResult result, int minimum, int maximum)
+    function bool ParseManySave(LengthString index, PunctuationListResult list_result, int minimum, int maximum)
     {
         int start = index.GetStart();
-        PunctuationListResult list_result = new PunctuationListResult;
         Punctuation[] results;
         int count = 0;
         int max_check = maximum;
@@ -3192,6 +3425,10 @@ class CommentCharacterParser
     function bool ParseSingleSave(LengthString index, CommentCharacterResult result)
     {
         int start_index = index.GetStart();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
         CommentCharacter instance = new CommentCharacter;
 
         GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
@@ -3217,6 +3454,8 @@ class CommentCharacterParser
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
 
         if (true && name_character_parser_instance.ParseSingle(index)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3225,6 +3464,8 @@ class CommentCharacterParser
         }
 
         if (true && punctuation_parser_instance.ParseSingle(index)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3233,6 +3474,8 @@ class CommentCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, " ")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3241,6 +3484,8 @@ class CommentCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "#")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3271,10 +3516,9 @@ class CommentCharacterParser
         return ParseOptionalSave(index, result);
     }
 
-    function bool ParseManySave(LengthString index, CommentCharacterListResult result, int minimum, int maximum)
+    function bool ParseManySave(LengthString index, CommentCharacterListResult list_result, int minimum, int maximum)
     {
         int start = index.GetStart();
-        CommentCharacterListResult list_result = new CommentCharacterListResult;
         CommentCharacter[] results;
         int count = 0;
         int max_check = maximum;
@@ -3366,6 +3610,10 @@ class CommentParser
     function bool ParseSingleSave(LengthString index, CommentResult result)
     {
         int start_index = index.GetStart();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
         Comment instance = new Comment;
 
         GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
@@ -3391,6 +3639,8 @@ class CommentParser
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "#") && comment_character_parser_instance.ParseMany(index, 0, -1) && eol_parser_instance.ParseSingle(index)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3421,10 +3671,9 @@ class CommentParser
         return ParseOptionalSave(index, result);
     }
 
-    function bool ParseManySave(LengthString index, CommentListResult result, int minimum, int maximum)
+    function bool ParseManySave(LengthString index, CommentListResult list_result, int minimum, int maximum)
     {
         int start = index.GetStart();
-        CommentListResult list_result = new CommentListResult;
         Comment[] results;
         int count = 0;
         int max_check = maximum;
@@ -3516,6 +3765,10 @@ class LiteralParser
     function bool ParseSingleSave(LengthString index, LiteralResult result)
     {
         int start_index = index.GetStart();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
         Literal instance = new Literal;
 
         GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
@@ -3541,6 +3794,8 @@ class LiteralParser
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
 
         if (true && literal_character_parser_instance.ParseMany(index, 0, -1)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3571,10 +3826,9 @@ class LiteralParser
         return ParseOptionalSave(index, result);
     }
 
-    function bool ParseManySave(LengthString index, LiteralListResult result, int minimum, int maximum)
+    function bool ParseManySave(LengthString index, LiteralListResult list_result, int minimum, int maximum)
     {
         int start = index.GetStart();
-        LiteralListResult list_result = new LiteralListResult;
         Literal[] results;
         int count = 0;
         int max_check = maximum;
@@ -3666,6 +3920,10 @@ class LiteralCharacterParser
     function bool ParseSingleSave(LengthString index, LiteralCharacterResult result)
     {
         int start_index = index.GetStart();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
         LiteralCharacter instance = new LiteralCharacter;
 
         GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
@@ -3691,6 +3949,8 @@ class LiteralCharacterParser
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
 
         if (true && character_parser_instance.ParseSingle(index, 0x00)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3699,6 +3959,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x01)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3707,6 +3969,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x02)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3715,6 +3979,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x03)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3723,6 +3989,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x04)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3731,6 +3999,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x05)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3739,6 +4009,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x06)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3747,6 +4019,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x07)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3755,6 +4029,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x08)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3763,6 +4039,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x09)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3771,6 +4049,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x0A)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3779,6 +4059,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x0B)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3787,6 +4069,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x0C)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3795,6 +4079,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x0D)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3803,6 +4089,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x0E)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3811,6 +4099,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x0F)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3819,6 +4109,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x10)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3827,6 +4119,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x11)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3835,6 +4129,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x12)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3843,6 +4139,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x13)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3851,6 +4149,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x14)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3859,6 +4159,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x15)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3867,6 +4169,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x16)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3875,6 +4179,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x17)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3883,6 +4189,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x18)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3891,6 +4199,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x19)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3899,6 +4209,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x1A)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3907,6 +4219,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x1B)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3915,6 +4229,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x1C)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3923,6 +4239,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x1D)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3931,6 +4249,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x1E)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3939,6 +4259,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x1F)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3947,6 +4269,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, " ")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3955,6 +4279,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "!")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3963,6 +4289,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "\\\"")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3971,6 +4299,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "#")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3979,6 +4309,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "$")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3987,6 +4319,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "%")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -3995,6 +4329,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "&")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4003,6 +4339,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "'")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4011,6 +4349,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "(")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4019,6 +4359,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, ")")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4027,6 +4369,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "*")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4035,6 +4379,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "+")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4043,6 +4389,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, ",")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4051,6 +4399,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "-")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4059,6 +4409,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, ".")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4067,6 +4419,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "/")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4075,6 +4429,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "0")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4083,6 +4439,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "1")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4091,6 +4449,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "2")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4099,6 +4459,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "3")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4107,6 +4469,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "4")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4115,6 +4479,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "5")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4123,6 +4489,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "6")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4131,6 +4499,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "7")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4139,6 +4509,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "8")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4147,6 +4519,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "9")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4155,6 +4529,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, ":")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4163,6 +4539,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, ";")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4171,6 +4549,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "<")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4179,6 +4559,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "=")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4187,6 +4569,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, ">")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4195,6 +4579,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "?")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4203,6 +4589,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "@")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4211,6 +4599,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "A")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4219,6 +4609,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "B")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4227,6 +4619,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "C")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4235,6 +4629,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "D")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4243,6 +4639,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "E")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4251,6 +4649,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "F")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4259,6 +4659,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "G")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4267,6 +4669,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "H")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4275,6 +4679,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "I")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4283,6 +4689,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "J")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4291,6 +4699,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "K")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4299,6 +4709,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "L")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4307,6 +4719,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "M")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4315,6 +4729,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "N")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4323,6 +4739,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "O")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4331,6 +4749,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "P")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4339,6 +4759,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "Q")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4347,6 +4769,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "R")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4355,6 +4779,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "S")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4363,6 +4789,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "T")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4371,6 +4799,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "U")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4379,6 +4809,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "V")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4387,6 +4819,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "W")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4395,6 +4829,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "X")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4403,6 +4839,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "Y")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4411,6 +4849,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "Z")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4419,6 +4859,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "[")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4427,6 +4869,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "\\\\")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4435,6 +4879,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "]")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4443,6 +4889,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "^")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4451,6 +4899,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "_")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4459,6 +4909,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "`")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4467,6 +4919,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "a")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4475,6 +4929,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "b")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4483,6 +4939,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "c")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4491,6 +4949,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "d")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4499,6 +4959,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "e")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4507,6 +4969,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "f")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4515,6 +4979,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "g")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4523,6 +4989,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "h")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4531,6 +4999,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "i")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4539,6 +5009,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "j")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4547,6 +5019,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "k")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4555,6 +5029,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "l")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4563,6 +5039,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "m")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4571,6 +5049,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "n")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4579,6 +5059,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "o")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4587,6 +5069,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "p")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4595,6 +5079,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "q")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4603,6 +5089,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "r")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4611,6 +5099,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "s")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4619,6 +5109,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "t")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4627,6 +5119,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "u")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4635,6 +5129,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "v")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4643,6 +5139,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "w")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4651,6 +5149,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "x")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4659,6 +5159,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "y")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4667,6 +5169,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "z")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4675,6 +5179,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "{")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4683,6 +5189,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "|")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4691,6 +5199,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "}")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4699,6 +5209,8 @@ class LiteralCharacterParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "~")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4707,6 +5219,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x80)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4715,6 +5229,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x81)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4723,6 +5239,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x82)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4731,6 +5249,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x83)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4739,6 +5259,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x84)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4747,6 +5269,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x85)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4755,6 +5279,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x86)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4763,6 +5289,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x87)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4771,6 +5299,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x88)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4779,6 +5309,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x89)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4787,6 +5319,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x8A)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4795,6 +5329,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x8B)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4803,6 +5339,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x8C)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4811,6 +5349,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x8D)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4819,6 +5359,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x8E)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4827,6 +5369,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x8F)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4835,6 +5379,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x90)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4843,6 +5389,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x91)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4851,6 +5399,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x92)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4859,6 +5409,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x93)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4867,6 +5419,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x94)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4875,6 +5429,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x95)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4883,6 +5439,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x96)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4891,6 +5449,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x97)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4899,6 +5459,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x98)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4907,6 +5469,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x99)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4915,6 +5479,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x9A)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4923,6 +5489,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x9B)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4931,6 +5499,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x9C)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4939,6 +5509,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x9D)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4947,6 +5519,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x9E)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4955,6 +5529,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x9F)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4963,6 +5539,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xA0)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4971,6 +5549,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xA1)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4979,6 +5559,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xA2)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4987,6 +5569,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xA3)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -4995,6 +5579,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xA4)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5003,6 +5589,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xA5)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5011,6 +5599,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xA6)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5019,6 +5609,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xA7)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5027,6 +5619,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xA8)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5035,6 +5629,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xA9)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5043,6 +5639,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xAA)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5051,6 +5649,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xAB)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5059,6 +5659,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xAC)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5067,6 +5669,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xAD)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5075,6 +5679,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xAE)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5083,6 +5689,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xAF)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5091,6 +5699,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xB0)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5099,6 +5709,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xB1)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5107,6 +5719,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xB2)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5115,6 +5729,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xB3)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5123,6 +5739,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xB4)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5131,6 +5749,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xB5)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5139,6 +5759,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xB6)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5147,6 +5769,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xB7)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5155,6 +5779,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xB8)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5163,6 +5789,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xB9)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5171,6 +5799,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xBA)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5179,6 +5809,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xBB)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5187,6 +5819,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xBC)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5195,6 +5829,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xBD)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5203,6 +5839,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xBE)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5211,6 +5849,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xBF)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5219,6 +5859,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xC0)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5227,6 +5869,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xC1)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5235,6 +5879,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xC2)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5243,6 +5889,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xC3)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5251,6 +5899,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xC4)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5259,6 +5909,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xC5)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5267,6 +5919,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xC6)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5275,6 +5929,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xC7)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5283,6 +5939,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xC8)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5291,6 +5949,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xC9)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5299,6 +5959,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xCA)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5307,6 +5969,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xCB)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5315,6 +5979,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xCC)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5323,6 +5989,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xCD)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5331,6 +5999,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xCE)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5339,6 +6009,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xCF)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5347,6 +6019,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xD0)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5355,6 +6029,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xD1)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5363,6 +6039,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xD2)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5371,6 +6049,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xD3)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5379,6 +6059,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xD4)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5387,6 +6069,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xD5)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5395,6 +6079,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xD6)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5403,6 +6089,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xD7)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5411,6 +6099,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xD8)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5419,6 +6109,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xD9)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5427,6 +6119,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xDA)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5435,6 +6129,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xDB)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5443,6 +6139,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xDC)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5451,6 +6149,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xDD)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5459,6 +6159,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xDE)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5467,6 +6169,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xDF)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5475,6 +6179,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xE0)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5483,6 +6189,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xE1)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5491,6 +6199,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xE2)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5499,6 +6209,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xE3)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5507,6 +6219,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xE4)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5515,6 +6229,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xE5)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5523,6 +6239,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xE6)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5531,6 +6249,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xE7)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5539,6 +6259,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xE8)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5547,6 +6269,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xE9)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5555,6 +6279,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xEA)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5563,6 +6289,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xEB)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5571,6 +6299,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xEC)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5579,6 +6309,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xED)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5587,6 +6319,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xEE)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5595,6 +6329,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xEF)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5603,6 +6339,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xF0)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5611,6 +6349,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xF1)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5619,6 +6359,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xF2)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5627,6 +6369,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xF3)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5635,6 +6379,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xF4)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5643,6 +6389,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xF5)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5651,6 +6399,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xF6)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5659,6 +6409,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xF7)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5667,6 +6419,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xF8)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5675,6 +6429,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xF9)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5683,6 +6439,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xFA)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5691,6 +6449,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xFB)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5699,6 +6459,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xFC)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5707,6 +6469,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xFD)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5715,6 +6479,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xFE)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5723,6 +6489,8 @@ class LiteralCharacterParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0xFF)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5753,10 +6521,9 @@ class LiteralCharacterParser
         return ParseOptionalSave(index, result);
     }
 
-    function bool ParseManySave(LengthString index, LiteralCharacterListResult result, int minimum, int maximum)
+    function bool ParseManySave(LengthString index, LiteralCharacterListResult list_result, int minimum, int maximum)
     {
         int start = index.GetStart();
-        LiteralCharacterListResult list_result = new LiteralCharacterListResult;
         LiteralCharacter[] results;
         int count = 0;
         int max_check = maximum;
@@ -5848,6 +6615,10 @@ class HexDigitParser
     function bool ParseSingleSave(LengthString index, HexDigitResult result)
     {
         int start_index = index.GetStart();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
         HexDigit instance = new HexDigit;
 
         GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
@@ -5873,6 +6644,8 @@ class HexDigitParser
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
 
         if (true && string_parser_instance.ParseSingle(index, "0")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5881,6 +6654,8 @@ class HexDigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "1")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5889,6 +6664,8 @@ class HexDigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "2")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5897,6 +6674,8 @@ class HexDigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "3")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5905,6 +6684,8 @@ class HexDigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "4")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5913,6 +6694,8 @@ class HexDigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "5")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5921,6 +6704,8 @@ class HexDigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "6")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5929,6 +6714,8 @@ class HexDigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "7")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5937,6 +6724,8 @@ class HexDigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "8")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5945,6 +6734,8 @@ class HexDigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "9")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5953,6 +6744,8 @@ class HexDigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "A")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5961,6 +6754,8 @@ class HexDigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "B")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5969,6 +6764,8 @@ class HexDigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "C")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5977,6 +6774,8 @@ class HexDigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "D")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5985,6 +6784,8 @@ class HexDigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "E")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -5993,6 +6794,8 @@ class HexDigitParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, "F")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6023,10 +6826,9 @@ class HexDigitParser
         return ParseOptionalSave(index, result);
     }
 
-    function bool ParseManySave(LengthString index, HexDigitListResult result, int minimum, int maximum)
+    function bool ParseManySave(LengthString index, HexDigitListResult list_result, int minimum, int maximum)
     {
         int start = index.GetStart();
-        HexDigitListResult list_result = new HexDigitListResult;
         HexDigit[] results;
         int count = 0;
         int max_check = maximum;
@@ -6118,6 +6920,10 @@ class WhitespaceParser
     function bool ParseSingleSave(LengthString index, WhitespaceResult result)
     {
         int start_index = index.GetStart();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
         Whitespace instance = new Whitespace;
 
         GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
@@ -6143,6 +6949,8 @@ class WhitespaceParser
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
 
         if (true && character_parser_instance.ParseSingle(index, 0x00)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6151,6 +6959,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x01)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6159,6 +6969,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x02)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6167,6 +6979,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x03)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6175,6 +6989,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x04)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6183,6 +6999,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x05)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6191,6 +7009,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x06)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6199,6 +7019,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x07)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6207,6 +7029,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x08)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6215,6 +7039,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x09)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6223,6 +7049,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x0B)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6231,6 +7059,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x0C)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6239,6 +7069,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x0E)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6247,6 +7079,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x0F)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6255,6 +7089,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x10)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6263,6 +7099,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x11)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6271,6 +7109,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x12)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6279,6 +7119,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x13)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6287,6 +7129,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x14)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6295,6 +7139,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x15)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6303,6 +7149,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x16)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6311,6 +7159,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x17)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6319,6 +7169,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x18)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6327,6 +7179,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x19)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6335,6 +7189,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x1A)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6343,6 +7199,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x1B)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6351,6 +7209,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x1C)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6359,6 +7219,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x1D)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6367,6 +7229,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x1E)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6375,6 +7239,8 @@ class WhitespaceParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x1F)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6383,6 +7249,8 @@ class WhitespaceParser
         }
 
         if (true && string_parser_instance.ParseSingle(index, " ")) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6413,10 +7281,9 @@ class WhitespaceParser
         return ParseOptionalSave(index, result);
     }
 
-    function bool ParseManySave(LengthString index, WhitespaceListResult result, int minimum, int maximum)
+    function bool ParseManySave(LengthString index, WhitespaceListResult list_result, int minimum, int maximum)
     {
         int start = index.GetStart();
-        WhitespaceListResult list_result = new WhitespaceListResult;
         Whitespace[] results;
         int count = 0;
         int max_check = maximum;
@@ -6508,6 +7375,10 @@ class EolParser
     function bool ParseSingleSave(LengthString index, EolResult result)
     {
         int start_index = index.GetStart();
+        LengthString consumed_string = new LengthString;
+        consumed_string.SetData(index.GetData());
+        consumed_string.SetStart(index.GetStart());
+        consumed_string.SetLength(0);
         Eol instance = new Eol;
 
         GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
@@ -6533,6 +7404,8 @@ class EolParser
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
 
         if (true && character_parser_instance.ParseSingle(index, 0x0A) && character_parser_instance.ParseSingle(index, 0x0D)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6541,6 +7414,8 @@ class EolParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x0D) && character_parser_instance.ParseSingle(index, 0x0A)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6549,6 +7424,8 @@ class EolParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x0A)) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6557,14 +7434,8 @@ class EolParser
         }
 
         if (true && character_parser_instance.ParseSingle(index, 0x0D)) {
-            result.SetValue(instance);
-            result.SetResult(true);
-            return result.GetResult();
-        } else {
-            index.SetStart(start_index);
-        }
-
-        if (true) {
+            consumed_string.SetLength(index.GetStart() - start_index);
+            instance.SetLengthString(consumed_string);
             result.SetValue(instance);
             result.SetResult(true);
             return result.GetResult();
@@ -6595,10 +7466,9 @@ class EolParser
         return ParseOptionalSave(index, result);
     }
 
-    function bool ParseManySave(LengthString index, EolListResult result, int minimum, int maximum)
+    function bool ParseManySave(LengthString index, EolListResult list_result, int minimum, int maximum)
     {
         int start = index.GetStart();
-        EolListResult list_result = new EolListResult;
         Eol[] results;
         int count = 0;
         int max_check = maximum;

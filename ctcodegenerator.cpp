@@ -47,7 +47,8 @@ public:
 
 		if(grammar)
 		{
-			std::cout << "Grammar parsed!" << std::endl << "Generating CTCode..." << std::endl;
+			std::cout << "Grammar parsed!" << std::endl;
+			std::cout << "Generating CTCode..." << std::endl;
 			std::ofstream ctcode(base_name + ".ctcode", std::ofstream::trunc | std::ofstream::out);
 			WriteClasses(grammar, ctcode);
 			std::cout << "Done!" << std::endl;
@@ -67,6 +68,7 @@ public:
 		ctcode << "{" << std::endl;
 		ctcode << "    function bool ParseSingle(LengthString index, string value)" << std::endl;
 		ctcode << "    {" << std::endl;
+		ctcode << "        int value_length = Length(value);" << std::endl;
 		ctcode << "        int total_used = Length(value) + index.GetStart();" << std::endl;
 		ctcode << std::endl;
 		ctcode << "        if (total_used > index.GetLength())" << std::endl;
@@ -76,7 +78,7 @@ public:
 		ctcode << std::endl;
 		ctcode << "        int offset_index = 0;" << std::endl;
 		ctcode << std::endl;
-		ctcode << "        while (offset_index < total_used)" << std::endl;
+		ctcode << "        while (offset_index < value_length)" << std::endl;
 		ctcode << "        {" << std::endl;
 		ctcode << "            if (At(index.GetData(), index.GetStart() + offset_index) != At(value, offset_index))" << std::endl;
 		ctcode << "            {" << std::endl;
@@ -86,7 +88,7 @@ public:
 		ctcode << "            offset_index = offset_index + 1;" << std::endl;
 		ctcode << "        }" << std::endl;
 		ctcode << std::endl;
-		ctcode << "        index.SetStart(index.GetStart() + total_used);" << std::endl;
+		ctcode << "        index.SetStart(index.GetStart() + value_length);" << std::endl;
 		ctcode << "        return true;" << std::endl;
 		ctcode << "    }" << std::endl;
 		ctcode << "}" << std::endl;
@@ -371,6 +373,10 @@ public:
 		ctcode << "    function bool ParseSingleSave(LengthString index, " << class_name << "Result result)" << std::endl;
 		ctcode << "    {" << std::endl;
 		ctcode << "        int start_index = index.GetStart();" << std::endl;
+		ctcode << "        LengthString consumed_string = new LengthString;" << std::endl;
+		ctcode << "        consumed_string.SetData(index.GetData());" << std::endl;
+		ctcode << "        consumed_string.SetStart(index.GetStart());" << std::endl;
+		ctcode << "        consumed_string.SetLength(0);" << std::endl;
 		ctcode << "        " << class_name << " instance = new " << class_name << ";" << std::endl;
 
 		if(members.size() > 0)
@@ -423,6 +429,8 @@ public:
 					ctcode << "            instance." << GenerateSetterName(index->first) << "(" << index->first << ".GetValue());" << std::endl;
 				}
 
+				ctcode << "            consumed_string.SetLength(index.GetStart() - start_index);" << std::endl;
+				ctcode << "            instance.SetLengthString(consumed_string);" << std::endl;
 				ctcode << "            result.SetValue(instance);" << std::endl;
 				ctcode << "            result.SetResult(true);" << std::endl;
 				ctcode << "            return result.GetResult();" << std::endl;
@@ -466,10 +474,9 @@ public:
 		ctcode << "        return ParseOptionalSave(index, result);" << std::endl;
 		ctcode << "    }" << std::endl;
 		ctcode << std::endl;
-		ctcode << "    function bool ParseManySave(LengthString index, " << class_name << "ListResult result, int minimum, int maximum)" << std::endl;
+		ctcode << "    function bool ParseManySave(LengthString index, " << class_name << "ListResult list_result, int minimum, int maximum)" << std::endl;
 		ctcode << "    {" << std::endl;
 		ctcode << "        int start = index.GetStart();" << std::endl;
-		ctcode << "        " << class_name << "ListResult list_result = new " << class_name << "ListResult;" << std::endl;
 		ctcode << "        " << class_name << "[] results;" << std::endl;
 		ctcode << "        int count = 0;" << std::endl;
 		ctcode << "        int max_check = maximum;" << std::endl;

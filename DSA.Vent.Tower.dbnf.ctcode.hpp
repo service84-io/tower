@@ -413,7 +413,7 @@ public:
     bool ParseSingle(OmniPointer<LengthString> index);
     bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<GrammarResult> result);
     bool ParseOptional(OmniPointer<LengthString> index);
-    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<GrammarListResult> result, int minimum, int maximum);
+    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<GrammarListResult> list_result, int minimum, int maximum);
     bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
 
 private:
@@ -479,7 +479,7 @@ public:
     bool ParseSingle(OmniPointer<LengthString> index);
     bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<RuleResult> result);
     bool ParseOptional(OmniPointer<LengthString> index);
-    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<RuleListResult> result, int minimum, int maximum);
+    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<RuleListResult> list_result, int minimum, int maximum);
     bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
 
 private:
@@ -548,7 +548,7 @@ public:
     bool ParseSingle(OmniPointer<LengthString> index);
     bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<ExpressionResult> result);
     bool ParseOptional(OmniPointer<LengthString> index);
-    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<ExpressionListResult> result, int minimum, int maximum);
+    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<ExpressionListResult> list_result, int minimum, int maximum);
     bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
 
 private:
@@ -614,7 +614,7 @@ public:
     bool ParseSingle(OmniPointer<LengthString> index);
     bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<TokenResult> result);
     bool ParseOptional(OmniPointer<LengthString> index);
-    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<TokenListResult> result, int minimum, int maximum);
+    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<TokenListResult> list_result, int minimum, int maximum);
     bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
 
 private:
@@ -686,7 +686,7 @@ public:
     bool ParseSingle(OmniPointer<LengthString> index);
     bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<SimpleTokenResult> result);
     bool ParseOptional(OmniPointer<LengthString> index);
-    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<SimpleTokenListResult> result, int minimum, int maximum);
+    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<SimpleTokenListResult> list_result, int minimum, int maximum);
     bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
 
 private:
@@ -761,7 +761,7 @@ public:
     bool ParseSingle(OmniPointer<LengthString> index);
     bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<ModifierResult> result);
     bool ParseOptional(OmniPointer<LengthString> index);
-    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<ModifierListResult> result, int minimum, int maximum);
+    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<ModifierListResult> list_result, int minimum, int maximum);
     bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
 
 private:
@@ -827,7 +827,7 @@ public:
     bool ParseSingle(OmniPointer<LengthString> index);
     bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<CardinalityResult> result);
     bool ParseOptional(OmniPointer<LengthString> index);
-    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<CardinalityListResult> result, int minimum, int maximum);
+    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<CardinalityListResult> list_result, int minimum, int maximum);
     bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
 
 private:
@@ -899,7 +899,7 @@ public:
     bool ParseSingle(OmniPointer<LengthString> index);
     bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<NameResult> result);
     bool ParseOptional(OmniPointer<LengthString> index);
-    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<NameListResult> result, int minimum, int maximum);
+    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<NameListResult> list_result, int minimum, int maximum);
     bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
 
 private:
@@ -962,7 +962,7 @@ public:
     bool ParseSingle(OmniPointer<LengthString> index);
     bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<NameCharacterResult> result);
     bool ParseOptional(OmniPointer<LengthString> index);
-    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<NameCharacterListResult> result, int minimum, int maximum);
+    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<NameCharacterListResult> list_result, int minimum, int maximum);
     bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
 
 private:
@@ -1025,7 +1025,7 @@ public:
     bool ParseSingle(OmniPointer<LengthString> index);
     bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<NumberResult> result);
     bool ParseOptional(OmniPointer<LengthString> index);
-    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<NumberListResult> result, int minimum, int maximum);
+    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<NumberListResult> list_result, int minimum, int maximum);
     bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
 
 private:
@@ -1088,7 +1088,7 @@ public:
     bool ParseSingle(OmniPointer<LengthString> index);
     bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<DigitResult> result);
     bool ParseOptional(OmniPointer<LengthString> index);
-    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<DigitListResult> result, int minimum, int maximum);
+    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<DigitListResult> list_result, int minimum, int maximum);
     bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
 
 private:
@@ -1151,7 +1151,7 @@ public:
     bool ParseSingle(OmniPointer<LengthString> index);
     bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<PunctuationResult> result);
     bool ParseOptional(OmniPointer<LengthString> index);
-    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<PunctuationListResult> result, int minimum, int maximum);
+    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<PunctuationListResult> list_result, int minimum, int maximum);
     bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
 
 private:
@@ -1214,7 +1214,7 @@ public:
     bool ParseSingle(OmniPointer<LengthString> index);
     bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<CommentCharacterResult> result);
     bool ParseOptional(OmniPointer<LengthString> index);
-    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<CommentCharacterListResult> result, int minimum, int maximum);
+    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<CommentCharacterListResult> list_result, int minimum, int maximum);
     bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
 
 private:
@@ -1277,7 +1277,7 @@ public:
     bool ParseSingle(OmniPointer<LengthString> index);
     bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<CommentResult> result);
     bool ParseOptional(OmniPointer<LengthString> index);
-    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<CommentListResult> result, int minimum, int maximum);
+    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<CommentListResult> list_result, int minimum, int maximum);
     bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
 
 private:
@@ -1340,7 +1340,7 @@ public:
     bool ParseSingle(OmniPointer<LengthString> index);
     bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<LiteralResult> result);
     bool ParseOptional(OmniPointer<LengthString> index);
-    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<LiteralListResult> result, int minimum, int maximum);
+    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<LiteralListResult> list_result, int minimum, int maximum);
     bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
 
 private:
@@ -1403,7 +1403,7 @@ public:
     bool ParseSingle(OmniPointer<LengthString> index);
     bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<LiteralCharacterResult> result);
     bool ParseOptional(OmniPointer<LengthString> index);
-    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<LiteralCharacterListResult> result, int minimum, int maximum);
+    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<LiteralCharacterListResult> list_result, int minimum, int maximum);
     bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
 
 private:
@@ -1466,7 +1466,7 @@ public:
     bool ParseSingle(OmniPointer<LengthString> index);
     bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<HexDigitResult> result);
     bool ParseOptional(OmniPointer<LengthString> index);
-    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<HexDigitListResult> result, int minimum, int maximum);
+    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<HexDigitListResult> list_result, int minimum, int maximum);
     bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
 
 private:
@@ -1529,7 +1529,7 @@ public:
     bool ParseSingle(OmniPointer<LengthString> index);
     bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<WhitespaceResult> result);
     bool ParseOptional(OmniPointer<LengthString> index);
-    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<WhitespaceListResult> result, int minimum, int maximum);
+    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<WhitespaceListResult> list_result, int minimum, int maximum);
     bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
 
 private:
@@ -1592,7 +1592,7 @@ public:
     bool ParseSingle(OmniPointer<LengthString> index);
     bool ParseOptionalSave(OmniPointer<LengthString> index, OmniPointer<EolResult> result);
     bool ParseOptional(OmniPointer<LengthString> index);
-    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<EolListResult> result, int minimum, int maximum);
+    bool ParseManySave(OmniPointer<LengthString> index, OmniPointer<EolListResult> list_result, int minimum, int maximum);
     bool ParseMany(OmniPointer<LengthString> index, int minimum, int maximum);
 
 private:
