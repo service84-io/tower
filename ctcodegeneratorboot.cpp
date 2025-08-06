@@ -72,16 +72,16 @@ CTCodeGeneratorBoot()
 		ctcode << "{" << std::endl;
 		ctcode << "    function bool ParseSingleSave(LengthString index, string value, StringResult result)" << std::endl;
 		ctcode << "    {" << std::endl;
-        ctcode << "        int start_index = index.GetStart();" << std::endl;
+        ctcode << "        int index_start = index.GetStart();" << std::endl;
+		ctcode << "        int index_length = index.GetLength();" << std::endl;
         ctcode << "        LengthString consumed_string = new LengthString;" << std::endl;
         ctcode << "        consumed_string.SetData(index.GetData());" << std::endl;
         ctcode << "        consumed_string.SetStart(index.GetStart());" << std::endl;
         ctcode << "        consumed_string.SetLength(0);" << std::endl;
         ctcode << "        String instance = new String;" << std::endl;
 		ctcode << "        int value_length = Length(value);" << std::endl;
-		ctcode << "        int total_used = Length(value) + index.GetStart();" << std::endl;
 		ctcode << std::endl;
-		ctcode << "        if (total_used > index.GetLength())" << std::endl;
+		ctcode << "        if (value_length > index.GetLength())" << std::endl;
 		ctcode << "        {" << std::endl;
 		ctcode << "            result.SetResult(false);" << std::endl;
 		ctcode << "            return false;" << std::endl;
@@ -101,7 +101,8 @@ CTCodeGeneratorBoot()
 		ctcode << "        }" << std::endl;
 		ctcode << std::endl;
 		ctcode << "        index.SetStart(index.GetStart() + value_length);" << std::endl;
-		ctcode << "        consumed_string.SetLength(index.GetStart() - start_index);" << std::endl;
+		ctcode << "        index.SetLength(index.GetLength() - value_length);" << std::endl;
+		ctcode << "        consumed_string.SetLength(index.GetStart() - index_start);" << std::endl;
 		ctcode << "        instance.SetLengthString(consumed_string);" << std::endl;
 		ctcode << "        result.SetValue(instance);" << std::endl;
 		ctcode << "        result.SetResult(true);" << std::endl;
@@ -156,7 +157,7 @@ CTCodeGeneratorBoot()
 		ctcode << "{" << std::endl;
 		ctcode << "    function bool ParseSingle(LengthString index, int value)" << std::endl;
 		ctcode << "    {" << std::endl;
-		ctcode << "        if (index.GetStart() == index.GetLength())" << std::endl;
+		ctcode << "        if (0 == index.GetLength())" << std::endl;
 		ctcode << "        {" << std::endl;
 		ctcode << "            return false;" << std::endl;
 		ctcode << "        }" << std::endl;
@@ -166,6 +167,7 @@ CTCodeGeneratorBoot()
 		ctcode << "        if (current_character == value)" << std::endl;
 		ctcode << "        {" << std::endl;
 		ctcode << "            index.SetStart(index.GetStart() + 1);" << std::endl;
+		ctcode << "            index.SetLength(index.GetLength() - 1);" << std::endl;
 		ctcode << "            return true;" << std::endl;
 		ctcode << "        }" << std::endl;
 		ctcode << std::endl;
@@ -467,7 +469,8 @@ CTCodeGeneratorBoot()
 		ctcode << "    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }" << std::endl;
 		ctcode << "    function bool ParseSingleSave(LengthString index, " << class_name << "Result result)" << std::endl;
 		ctcode << "    {" << std::endl;
-		ctcode << "        int start_index = index.GetStart();" << std::endl;
+		ctcode << "        int index_start = index.GetStart();" << std::endl;
+		ctcode << "        int index_length = index.GetLength();" << std::endl;
 		ctcode << "        LengthString consumed_string = new LengthString;" << std::endl;
 		ctcode << "        consumed_string.SetData(index.GetData());" << std::endl;
 		ctcode << "        consumed_string.SetStart(index.GetStart());" << std::endl;
@@ -524,13 +527,14 @@ CTCodeGeneratorBoot()
 					ctcode << "            instance." << GenerateSetterName(index->first) << "(" << index->first << ".GetValue());" << std::endl;
 				}
 
-				ctcode << "            consumed_string.SetLength(index.GetStart() - start_index);" << std::endl;
+				ctcode << "            consumed_string.SetLength(index.GetStart() - index_start);" << std::endl;
 				ctcode << "            instance.SetLengthString(consumed_string);" << std::endl;
 				ctcode << "            result.SetValue(instance);" << std::endl;
 				ctcode << "            result.SetResult(true);" << std::endl;
 				ctcode << "            return result.GetResult();" << std::endl;
 				ctcode << "        } else {" << std::endl;
-				ctcode << "            index.SetStart(start_index);" << std::endl;
+				ctcode << "            index.SetStart(index_start);" << std::endl;
+				ctcode << "            index.SetLength(index_length);" << std::endl;
 
 				for (std::map<std::string, std::pair<std::string, bool>>::iterator index = members.begin(); index != members.end();++index)
 				{
@@ -571,7 +575,8 @@ CTCodeGeneratorBoot()
 		ctcode << std::endl;
 		ctcode << "    function bool ParseManySave(LengthString index, " << class_name << "ListResult list_result, int minimum, int maximum)" << std::endl;
 		ctcode << "    {" << std::endl;
-		ctcode << "        int start = index.GetStart();" << std::endl;
+		ctcode << "        int index_start = index.GetStart();" << std::endl;
+		ctcode << "        int index_length = index.GetLength();" << std::endl;
 		ctcode << "        " << class_name << "[] results;" << std::endl;
 		ctcode << "        int count = 0;" << std::endl;
 		ctcode << "        int max_check = maximum;" << std::endl;
@@ -605,7 +610,8 @@ CTCodeGeneratorBoot()
 		ctcode << "            list_result.SetValue(results);" << std::endl;
 		ctcode << "            list_result.SetResult(true);" << std::endl;
 		ctcode << "        } else {" << std::endl;
-		ctcode << "            index.SetStart(start);" << std::endl;
+		ctcode << "            index.SetStart(index_start);" << std::endl;
+		ctcode << "            index.SetLength(index_length);" << std::endl;
 		ctcode << "            list_result.SetResult(false);" << std::endl;
 		ctcode << "        }" << std::endl;
 		ctcode << std::endl;

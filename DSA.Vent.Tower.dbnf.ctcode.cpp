@@ -13,15 +13,15 @@ namespace ctcode
 {
     bool StringParser::ParseSingleSave(OmniPointer<LengthString> index, std::string value, OmniPointer<StringResult> result)
     {
-        int start_index = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
         consumed_string->SetLength(0);
         OmniPointer<String> instance = std::shared_ptr<String>(new String());
         int value_length = Length(value);
-        int total_used = Length(value) + index->GetStart();
-        if (total_used > index->GetLength())
+        if (value_length > index->GetLength())
         {
             result->SetResult(false);
             return false;
@@ -40,7 +40,8 @@ namespace ctcode
         }
 
         index->SetStart(index->GetStart() + value_length);
-        consumed_string->SetLength(index->GetStart() - start_index);
+        index->SetLength(index->GetLength() - value_length);
+        consumed_string->SetLength(index->GetStart() - index_start);
         instance->SetLengthString(consumed_string);
         result->SetValue(instance);
         result->SetResult(true);
@@ -108,7 +109,7 @@ namespace ctcode
 
     bool CharacterParser::ParseSingle(OmniPointer<LengthString> index, int value)
     {
-        if (index->GetStart() == index->GetLength())
+        if (0 == index->GetLength())
         {
             return false;
         }
@@ -117,6 +118,7 @@ namespace ctcode
         if (current_character == value)
         {
             index->SetStart(index->GetStart() + 1);
+            index->SetLength(index->GetLength() - 1);
             return true;
         }
 
@@ -929,7 +931,8 @@ namespace ctcode
 
     bool GrammarParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<GrammarResult> result)
     {
-        int start_index = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
@@ -960,7 +963,7 @@ namespace ctcode
         if (true && rule_parser_instance->ParseManySave(index, rules_field, 0, -1))
         {
             instance->SetRules(rules_field->GetValue());
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -968,7 +971,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             rules_field = std::shared_ptr<RuleListResult>(new RuleListResult());
         }
 
@@ -997,7 +1001,8 @@ namespace ctcode
 
     bool GrammarParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<GrammarListResult> list_result, int minimum, int maximum)
     {
-        int start = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         std::vector<OmniPointer<Grammar>> results;
         int count = 0;
         int max_check = maximum;
@@ -1031,7 +1036,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             list_result->SetResult(false);
         }
 
@@ -1114,7 +1120,8 @@ namespace ctcode
 
     bool RuleParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<RuleResult> result)
     {
-        int start_index = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
@@ -1147,7 +1154,7 @@ namespace ctcode
         {
             instance->SetExpressions(expressions_field->GetValue());
             instance->SetName(name_field->GetValue());
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -1155,7 +1162,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             expressions_field = std::shared_ptr<ExpressionListResult>(new ExpressionListResult());
             name_field = std::shared_ptr<NameResult>(new NameResult());
         }
@@ -1164,7 +1172,7 @@ namespace ctcode
         {
             instance->SetExpressions(expressions_field->GetValue());
             instance->SetName(name_field->GetValue());
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -1172,7 +1180,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             expressions_field = std::shared_ptr<ExpressionListResult>(new ExpressionListResult());
             name_field = std::shared_ptr<NameResult>(new NameResult());
         }
@@ -1202,7 +1211,8 @@ namespace ctcode
 
     bool RuleParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<RuleListResult> list_result, int minimum, int maximum)
     {
-        int start = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         std::vector<OmniPointer<Rule>> results;
         int count = 0;
         int max_check = maximum;
@@ -1236,7 +1246,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             list_result->SetResult(false);
         }
 
@@ -1329,7 +1340,8 @@ namespace ctcode
 
     bool ExpressionParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<ExpressionResult> result)
     {
-        int start_index = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
@@ -1360,7 +1372,7 @@ namespace ctcode
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("::=")) && token_parser_instance->ParseManySave(index, token_sequence_field, 0, -1) && eol_parser_instance->ParseSingle(index))
         {
             instance->SetTokenSequence(token_sequence_field->GetValue());
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -1368,14 +1380,15 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             token_sequence_field = std::shared_ptr<TokenListResult>(new TokenListResult());
         }
 
         if (true && comment_parser_instance->ParseSingle(index))
         {
             instance->SetTokenSequence(token_sequence_field->GetValue());
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -1383,7 +1396,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             token_sequence_field = std::shared_ptr<TokenListResult>(new TokenListResult());
         }
 
@@ -1412,7 +1426,8 @@ namespace ctcode
 
     bool ExpressionParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<ExpressionListResult> list_result, int minimum, int maximum)
     {
-        int start = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         std::vector<OmniPointer<Expression>> results;
         int count = 0;
         int max_check = maximum;
@@ -1446,7 +1461,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             list_result->SetResult(false);
         }
 
@@ -1529,7 +1545,8 @@ namespace ctcode
 
     bool TokenParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<TokenResult> result)
     {
-        int start_index = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
@@ -1564,7 +1581,7 @@ namespace ctcode
             instance->SetModifier(modifier_field->GetValue());
             instance->SetName(name_field->GetValue());
             instance->SetValue(value_field->GetValue());
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -1572,7 +1589,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             modifier_field = std::shared_ptr<ModifierResult>(new ModifierResult());
             name_field = std::shared_ptr<NameResult>(new NameResult());
             value_field = std::shared_ptr<SimpleTokenResult>(new SimpleTokenResult());
@@ -1583,7 +1601,7 @@ namespace ctcode
             instance->SetModifier(modifier_field->GetValue());
             instance->SetName(name_field->GetValue());
             instance->SetValue(value_field->GetValue());
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -1591,7 +1609,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             modifier_field = std::shared_ptr<ModifierResult>(new ModifierResult());
             name_field = std::shared_ptr<NameResult>(new NameResult());
             value_field = std::shared_ptr<SimpleTokenResult>(new SimpleTokenResult());
@@ -1602,7 +1621,7 @@ namespace ctcode
             instance->SetModifier(modifier_field->GetValue());
             instance->SetName(name_field->GetValue());
             instance->SetValue(value_field->GetValue());
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -1610,7 +1629,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             modifier_field = std::shared_ptr<ModifierResult>(new ModifierResult());
             name_field = std::shared_ptr<NameResult>(new NameResult());
             value_field = std::shared_ptr<SimpleTokenResult>(new SimpleTokenResult());
@@ -1621,7 +1641,7 @@ namespace ctcode
             instance->SetModifier(modifier_field->GetValue());
             instance->SetName(name_field->GetValue());
             instance->SetValue(value_field->GetValue());
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -1629,7 +1649,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             modifier_field = std::shared_ptr<ModifierResult>(new ModifierResult());
             name_field = std::shared_ptr<NameResult>(new NameResult());
             value_field = std::shared_ptr<SimpleTokenResult>(new SimpleTokenResult());
@@ -1660,7 +1681,8 @@ namespace ctcode
 
     bool TokenParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<TokenListResult> list_result, int minimum, int maximum)
     {
-        int start = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         std::vector<OmniPointer<Token>> results;
         int count = 0;
         int max_check = maximum;
@@ -1694,7 +1716,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             list_result->SetResult(false);
         }
 
@@ -1797,7 +1820,8 @@ namespace ctcode
 
     bool SimpleTokenParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<SimpleTokenResult> result)
     {
-        int start_index = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
@@ -1834,7 +1858,7 @@ namespace ctcode
             instance->SetLiteral(literal_field->GetValue());
             instance->SetLow(low_field->GetValue());
             instance->SetToken(token_field->GetValue());
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -1842,7 +1866,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             high_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
             literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
             low_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
@@ -1855,7 +1880,7 @@ namespace ctcode
             instance->SetLiteral(literal_field->GetValue());
             instance->SetLow(low_field->GetValue());
             instance->SetToken(token_field->GetValue());
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -1863,7 +1888,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             high_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
             literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
             low_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
@@ -1876,7 +1902,7 @@ namespace ctcode
             instance->SetLiteral(literal_field->GetValue());
             instance->SetLow(low_field->GetValue());
             instance->SetToken(token_field->GetValue());
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -1884,7 +1910,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             high_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
             literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
             low_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
@@ -1916,7 +1943,8 @@ namespace ctcode
 
     bool SimpleTokenParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<SimpleTokenListResult> list_result, int minimum, int maximum)
     {
-        int start = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         std::vector<OmniPointer<SimpleToken>> results;
         int count = 0;
         int max_check = maximum;
@@ -1950,7 +1978,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             list_result->SetResult(false);
         }
 
@@ -2063,7 +2092,8 @@ namespace ctcode
 
     bool ModifierParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<ModifierResult> result)
     {
-        int start_index = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
@@ -2094,7 +2124,7 @@ namespace ctcode
         if (true && string_parser_instance->ParseSingle(index, std::string("*")))
         {
             instance->SetCardinality(cardinality_field->GetValue());
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2102,14 +2132,15 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             cardinality_field = std::shared_ptr<CardinalityResult>(new CardinalityResult());
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("?")))
         {
             instance->SetCardinality(cardinality_field->GetValue());
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2117,14 +2148,15 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             cardinality_field = std::shared_ptr<CardinalityResult>(new CardinalityResult());
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("+")))
         {
             instance->SetCardinality(cardinality_field->GetValue());
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2132,14 +2164,15 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             cardinality_field = std::shared_ptr<CardinalityResult>(new CardinalityResult());
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("{")) && whitespace_parser_instance->ParseMany(index, 0, -1) && cardinality_parser_instance->ParseSingleSave(index, cardinality_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("}")))
         {
             instance->SetCardinality(cardinality_field->GetValue());
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2147,7 +2180,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             cardinality_field = std::shared_ptr<CardinalityResult>(new CardinalityResult());
         }
 
@@ -2176,7 +2210,8 @@ namespace ctcode
 
     bool ModifierParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<ModifierListResult> list_result, int minimum, int maximum)
     {
-        int start = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         std::vector<OmniPointer<Modifier>> results;
         int count = 0;
         int max_check = maximum;
@@ -2210,7 +2245,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             list_result->SetResult(false);
         }
 
@@ -2293,7 +2329,8 @@ namespace ctcode
 
     bool CardinalityParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<CardinalityResult> result)
     {
-        int start_index = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
@@ -2328,7 +2365,7 @@ namespace ctcode
             instance->SetCount(count_field->GetValue());
             instance->SetMaximum(maximum_field->GetValue());
             instance->SetMinimum(minimum_field->GetValue());
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2336,7 +2373,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             count_field = std::shared_ptr<NumberResult>(new NumberResult());
             maximum_field = std::shared_ptr<NumberResult>(new NumberResult());
             minimum_field = std::shared_ptr<NumberResult>(new NumberResult());
@@ -2347,7 +2385,7 @@ namespace ctcode
             instance->SetCount(count_field->GetValue());
             instance->SetMaximum(maximum_field->GetValue());
             instance->SetMinimum(minimum_field->GetValue());
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2355,7 +2393,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             count_field = std::shared_ptr<NumberResult>(new NumberResult());
             maximum_field = std::shared_ptr<NumberResult>(new NumberResult());
             minimum_field = std::shared_ptr<NumberResult>(new NumberResult());
@@ -2366,7 +2405,7 @@ namespace ctcode
             instance->SetCount(count_field->GetValue());
             instance->SetMaximum(maximum_field->GetValue());
             instance->SetMinimum(minimum_field->GetValue());
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2374,7 +2413,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             count_field = std::shared_ptr<NumberResult>(new NumberResult());
             maximum_field = std::shared_ptr<NumberResult>(new NumberResult());
             minimum_field = std::shared_ptr<NumberResult>(new NumberResult());
@@ -2405,7 +2445,8 @@ namespace ctcode
 
     bool CardinalityParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<CardinalityListResult> list_result, int minimum, int maximum)
     {
-        int start = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         std::vector<OmniPointer<Cardinality>> results;
         int count = 0;
         int max_check = maximum;
@@ -2439,7 +2480,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             list_result->SetResult(false);
         }
 
@@ -2542,7 +2584,8 @@ namespace ctcode
 
     bool NameParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<NameResult> result)
     {
-        int start_index = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
@@ -2571,7 +2614,7 @@ namespace ctcode
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
         if (true && name_character_parser_instance->ParseMany(index, 1, -1))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2579,7 +2622,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         result->SetResult(false);
@@ -2607,7 +2651,8 @@ namespace ctcode
 
     bool NameParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<NameListResult> list_result, int minimum, int maximum)
     {
-        int start = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         std::vector<OmniPointer<Name>> results;
         int count = 0;
         int max_check = maximum;
@@ -2641,7 +2686,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             list_result->SetResult(false);
         }
 
@@ -2714,7 +2760,8 @@ namespace ctcode
 
     bool NameCharacterParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<NameCharacterResult> result)
     {
-        int start_index = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
@@ -2743,7 +2790,7 @@ namespace ctcode
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
         if (true && string_parser_instance->ParseSingle(index, std::string("0")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2751,12 +2798,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("1")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2764,12 +2812,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("2")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2777,12 +2826,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("3")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2790,12 +2840,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("4")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2803,12 +2854,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("5")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2816,12 +2868,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("6")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2829,12 +2882,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("7")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2842,12 +2896,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("8")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2855,12 +2910,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("9")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2868,12 +2924,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("A")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2881,12 +2938,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("B")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2894,12 +2952,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("C")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2907,12 +2966,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("D")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2920,12 +2980,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("E")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2933,12 +2994,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("F")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2946,12 +3008,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("G")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2959,12 +3022,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("H")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2972,12 +3036,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("I")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2985,12 +3050,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("J")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -2998,12 +3064,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("K")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3011,12 +3078,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("L")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3024,12 +3092,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("M")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3037,12 +3106,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("N")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3050,12 +3120,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("O")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3063,12 +3134,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("P")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3076,12 +3148,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("Q")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3089,12 +3162,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("R")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3102,12 +3176,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("S")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3115,12 +3190,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("T")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3128,12 +3204,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("U")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3141,12 +3218,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("V")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3154,12 +3232,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("W")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3167,12 +3246,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("X")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3180,12 +3260,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("Y")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3193,12 +3274,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("Z")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3206,12 +3288,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("_")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3219,12 +3302,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("a")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3232,12 +3316,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("b")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3245,12 +3330,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("c")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3258,12 +3344,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("d")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3271,12 +3358,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("e")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3284,12 +3372,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("f")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3297,12 +3386,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("g")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3310,12 +3400,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("h")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3323,12 +3414,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("i")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3336,12 +3428,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("j")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3349,12 +3442,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("k")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3362,12 +3456,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("l")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3375,12 +3470,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("m")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3388,12 +3484,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("n")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3401,12 +3498,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("o")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3414,12 +3512,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("p")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3427,12 +3526,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("q")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3440,12 +3540,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("r")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3453,12 +3554,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("s")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3466,12 +3568,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("t")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3479,12 +3582,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("u")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3492,12 +3596,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("v")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3505,12 +3610,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("w")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3518,12 +3624,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("x")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3531,12 +3638,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("y")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3544,12 +3652,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("z")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3557,7 +3666,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         result->SetResult(false);
@@ -3585,7 +3695,8 @@ namespace ctcode
 
     bool NameCharacterParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<NameCharacterListResult> list_result, int minimum, int maximum)
     {
-        int start = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         std::vector<OmniPointer<NameCharacter>> results;
         int count = 0;
         int max_check = maximum;
@@ -3619,7 +3730,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             list_result->SetResult(false);
         }
 
@@ -3692,7 +3804,8 @@ namespace ctcode
 
     bool NumberParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<NumberResult> result)
     {
-        int start_index = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
@@ -3721,7 +3834,7 @@ namespace ctcode
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
         if (true && digit_parser_instance->ParseMany(index, 1, -1))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3729,7 +3842,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         result->SetResult(false);
@@ -3757,7 +3871,8 @@ namespace ctcode
 
     bool NumberParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<NumberListResult> list_result, int minimum, int maximum)
     {
-        int start = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         std::vector<OmniPointer<Number>> results;
         int count = 0;
         int max_check = maximum;
@@ -3791,7 +3906,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             list_result->SetResult(false);
         }
 
@@ -3864,7 +3980,8 @@ namespace ctcode
 
     bool DigitParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<DigitResult> result)
     {
-        int start_index = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
@@ -3893,7 +4010,7 @@ namespace ctcode
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
         if (true && string_parser_instance->ParseSingle(index, std::string("0")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3901,12 +4018,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("1")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3914,12 +4032,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("2")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3927,12 +4046,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("3")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3940,12 +4060,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("4")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3953,12 +4074,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("5")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3966,12 +4088,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("6")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3979,12 +4102,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("7")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -3992,12 +4116,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("8")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -4005,12 +4130,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("9")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -4018,7 +4144,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         result->SetResult(false);
@@ -4046,7 +4173,8 @@ namespace ctcode
 
     bool DigitParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<DigitListResult> list_result, int minimum, int maximum)
     {
-        int start = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         std::vector<OmniPointer<Digit>> results;
         int count = 0;
         int max_check = maximum;
@@ -4080,7 +4208,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             list_result->SetResult(false);
         }
 
@@ -4153,7 +4282,8 @@ namespace ctcode
 
     bool PunctuationParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<PunctuationResult> result)
     {
-        int start_index = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
@@ -4182,7 +4312,7 @@ namespace ctcode
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
         if (true && string_parser_instance->ParseSingle(index, std::string(",")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -4190,12 +4320,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string(".")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -4203,12 +4334,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("?")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -4216,12 +4348,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("!")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -4229,7 +4362,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         result->SetResult(false);
@@ -4257,7 +4391,8 @@ namespace ctcode
 
     bool PunctuationParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<PunctuationListResult> list_result, int minimum, int maximum)
     {
-        int start = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         std::vector<OmniPointer<Punctuation>> results;
         int count = 0;
         int max_check = maximum;
@@ -4291,7 +4426,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             list_result->SetResult(false);
         }
 
@@ -4364,7 +4500,8 @@ namespace ctcode
 
     bool CommentCharacterParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<CommentCharacterResult> result)
     {
-        int start_index = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
@@ -4393,7 +4530,7 @@ namespace ctcode
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
         if (true && name_character_parser_instance->ParseSingle(index))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -4401,12 +4538,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && punctuation_parser_instance->ParseSingle(index))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -4414,12 +4552,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string(" ")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -4427,12 +4566,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("#")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -4440,7 +4580,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         result->SetResult(false);
@@ -4468,7 +4609,8 @@ namespace ctcode
 
     bool CommentCharacterParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<CommentCharacterListResult> list_result, int minimum, int maximum)
     {
-        int start = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         std::vector<OmniPointer<CommentCharacter>> results;
         int count = 0;
         int max_check = maximum;
@@ -4502,7 +4644,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             list_result->SetResult(false);
         }
 
@@ -4575,7 +4718,8 @@ namespace ctcode
 
     bool CommentParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<CommentResult> result)
     {
-        int start_index = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
@@ -4604,7 +4748,7 @@ namespace ctcode
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("#")) && comment_character_parser_instance->ParseMany(index, 0, -1) && eol_parser_instance->ParseSingle(index))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -4612,7 +4756,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         result->SetResult(false);
@@ -4640,7 +4785,8 @@ namespace ctcode
 
     bool CommentParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<CommentListResult> list_result, int minimum, int maximum)
     {
-        int start = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         std::vector<OmniPointer<Comment>> results;
         int count = 0;
         int max_check = maximum;
@@ -4674,7 +4820,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             list_result->SetResult(false);
         }
 
@@ -4747,7 +4894,8 @@ namespace ctcode
 
     bool LiteralParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<LiteralResult> result)
     {
-        int start_index = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
@@ -4776,7 +4924,7 @@ namespace ctcode
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
         if (true && literal_character_parser_instance->ParseMany(index, 0, -1))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -4784,7 +4932,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         result->SetResult(false);
@@ -4812,7 +4961,8 @@ namespace ctcode
 
     bool LiteralParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<LiteralListResult> list_result, int minimum, int maximum)
     {
-        int start = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         std::vector<OmniPointer<Literal>> results;
         int count = 0;
         int max_check = maximum;
@@ -4846,7 +4996,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             list_result->SetResult(false);
         }
 
@@ -4919,7 +5070,8 @@ namespace ctcode
 
     bool LiteralCharacterParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<LiteralCharacterResult> result)
     {
-        int start_index = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
@@ -4948,7 +5100,7 @@ namespace ctcode
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
         if (true && character_parser_instance->ParseSingle(index, 0x00))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -4956,12 +5108,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x01))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -4969,12 +5122,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x02))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -4982,12 +5136,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x03))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -4995,12 +5150,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x04))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5008,12 +5164,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x05))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5021,12 +5178,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x06))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5034,12 +5192,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x07))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5047,12 +5206,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x08))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5060,12 +5220,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x09))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5073,12 +5234,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x0A))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5086,12 +5248,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x0B))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5099,12 +5262,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x0C))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5112,12 +5276,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x0D))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5125,12 +5290,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x0E))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5138,12 +5304,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x0F))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5151,12 +5318,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x10))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5164,12 +5332,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x11))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5177,12 +5346,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x12))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5190,12 +5360,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x13))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5203,12 +5374,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x14))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5216,12 +5388,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x15))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5229,12 +5402,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x16))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5242,12 +5416,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x17))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5255,12 +5430,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x18))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5268,12 +5444,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x19))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5281,12 +5458,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x1A))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5294,12 +5472,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x1B))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5307,12 +5486,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x1C))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5320,12 +5500,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x1D))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5333,12 +5514,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x1E))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5346,12 +5528,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x1F))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5359,12 +5542,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string(" ")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5372,12 +5556,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("!")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5385,12 +5570,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("\\\"")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5398,12 +5584,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("#")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5411,12 +5598,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("$")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5424,12 +5612,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("%")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5437,12 +5626,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("&")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5450,12 +5640,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("'")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5463,12 +5654,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("(")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5476,12 +5668,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string(")")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5489,12 +5682,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("*")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5502,12 +5696,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("+")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5515,12 +5710,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string(",")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5528,12 +5724,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("-")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5541,12 +5738,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string(".")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5554,12 +5752,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("/")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5567,12 +5766,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("0")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5580,12 +5780,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("1")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5593,12 +5794,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("2")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5606,12 +5808,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("3")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5619,12 +5822,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("4")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5632,12 +5836,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("5")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5645,12 +5850,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("6")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5658,12 +5864,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("7")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5671,12 +5878,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("8")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5684,12 +5892,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("9")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5697,12 +5906,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string(":")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5710,12 +5920,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string(";")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5723,12 +5934,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("<")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5736,12 +5948,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("=")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5749,12 +5962,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string(">")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5762,12 +5976,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("?")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5775,12 +5990,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("@")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5788,12 +6004,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("A")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5801,12 +6018,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("B")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5814,12 +6032,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("C")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5827,12 +6046,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("D")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5840,12 +6060,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("E")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5853,12 +6074,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("F")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5866,12 +6088,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("G")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5879,12 +6102,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("H")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5892,12 +6116,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("I")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5905,12 +6130,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("J")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5918,12 +6144,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("K")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5931,12 +6158,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("L")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5944,12 +6172,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("M")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5957,12 +6186,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("N")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5970,12 +6200,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("O")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5983,12 +6214,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("P")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -5996,12 +6228,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("Q")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6009,12 +6242,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("R")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6022,12 +6256,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("S")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6035,12 +6270,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("T")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6048,12 +6284,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("U")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6061,12 +6298,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("V")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6074,12 +6312,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("W")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6087,12 +6326,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("X")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6100,12 +6340,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("Y")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6113,12 +6354,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("Z")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6126,12 +6368,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("[")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6139,12 +6382,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("\\\\")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6152,12 +6396,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("]")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6165,12 +6410,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("^")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6178,12 +6424,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("_")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6191,12 +6438,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("`")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6204,12 +6452,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("a")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6217,12 +6466,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("b")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6230,12 +6480,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("c")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6243,12 +6494,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("d")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6256,12 +6508,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("e")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6269,12 +6522,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("f")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6282,12 +6536,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("g")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6295,12 +6550,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("h")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6308,12 +6564,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("i")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6321,12 +6578,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("j")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6334,12 +6592,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("k")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6347,12 +6606,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("l")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6360,12 +6620,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("m")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6373,12 +6634,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("n")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6386,12 +6648,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("o")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6399,12 +6662,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("p")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6412,12 +6676,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("q")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6425,12 +6690,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("r")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6438,12 +6704,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("s")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6451,12 +6718,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("t")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6464,12 +6732,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("u")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6477,12 +6746,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("v")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6490,12 +6760,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("w")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6503,12 +6774,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("x")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6516,12 +6788,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("y")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6529,12 +6802,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("z")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6542,12 +6816,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("{")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6555,12 +6830,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("|")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6568,12 +6844,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("}")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6581,12 +6858,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("~")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6594,12 +6872,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x80))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6607,12 +6886,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x81))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6620,12 +6900,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x82))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6633,12 +6914,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x83))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6646,12 +6928,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x84))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6659,12 +6942,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x85))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6672,12 +6956,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x86))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6685,12 +6970,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x87))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6698,12 +6984,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x88))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6711,12 +6998,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x89))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6724,12 +7012,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x8A))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6737,12 +7026,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x8B))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6750,12 +7040,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x8C))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6763,12 +7054,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x8D))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6776,12 +7068,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x8E))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6789,12 +7082,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x8F))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6802,12 +7096,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x90))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6815,12 +7110,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x91))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6828,12 +7124,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x92))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6841,12 +7138,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x93))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6854,12 +7152,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x94))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6867,12 +7166,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x95))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6880,12 +7180,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x96))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6893,12 +7194,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x97))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6906,12 +7208,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x98))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6919,12 +7222,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x99))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6932,12 +7236,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x9A))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6945,12 +7250,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x9B))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6958,12 +7264,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x9C))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6971,12 +7278,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x9D))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6984,12 +7292,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x9E))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -6997,12 +7306,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x9F))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7010,12 +7320,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xA0))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7023,12 +7334,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xA1))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7036,12 +7348,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xA2))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7049,12 +7362,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xA3))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7062,12 +7376,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xA4))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7075,12 +7390,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xA5))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7088,12 +7404,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xA6))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7101,12 +7418,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xA7))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7114,12 +7432,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xA8))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7127,12 +7446,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xA9))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7140,12 +7460,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xAA))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7153,12 +7474,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xAB))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7166,12 +7488,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xAC))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7179,12 +7502,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xAD))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7192,12 +7516,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xAE))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7205,12 +7530,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xAF))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7218,12 +7544,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xB0))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7231,12 +7558,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xB1))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7244,12 +7572,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xB2))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7257,12 +7586,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xB3))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7270,12 +7600,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xB4))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7283,12 +7614,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xB5))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7296,12 +7628,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xB6))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7309,12 +7642,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xB7))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7322,12 +7656,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xB8))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7335,12 +7670,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xB9))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7348,12 +7684,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xBA))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7361,12 +7698,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xBB))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7374,12 +7712,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xBC))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7387,12 +7726,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xBD))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7400,12 +7740,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xBE))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7413,12 +7754,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xBF))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7426,12 +7768,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xC0))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7439,12 +7782,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xC1))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7452,12 +7796,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xC2))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7465,12 +7810,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xC3))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7478,12 +7824,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xC4))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7491,12 +7838,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xC5))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7504,12 +7852,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xC6))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7517,12 +7866,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xC7))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7530,12 +7880,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xC8))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7543,12 +7894,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xC9))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7556,12 +7908,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xCA))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7569,12 +7922,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xCB))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7582,12 +7936,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xCC))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7595,12 +7950,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xCD))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7608,12 +7964,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xCE))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7621,12 +7978,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xCF))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7634,12 +7992,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xD0))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7647,12 +8006,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xD1))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7660,12 +8020,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xD2))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7673,12 +8034,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xD3))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7686,12 +8048,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xD4))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7699,12 +8062,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xD5))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7712,12 +8076,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xD6))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7725,12 +8090,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xD7))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7738,12 +8104,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xD8))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7751,12 +8118,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xD9))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7764,12 +8132,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xDA))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7777,12 +8146,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xDB))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7790,12 +8160,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xDC))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7803,12 +8174,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xDD))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7816,12 +8188,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xDE))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7829,12 +8202,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xDF))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7842,12 +8216,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xE0))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7855,12 +8230,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xE1))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7868,12 +8244,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xE2))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7881,12 +8258,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xE3))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7894,12 +8272,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xE4))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7907,12 +8286,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xE5))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7920,12 +8300,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xE6))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7933,12 +8314,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xE7))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7946,12 +8328,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xE8))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7959,12 +8342,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xE9))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7972,12 +8356,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xEA))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7985,12 +8370,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xEB))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -7998,12 +8384,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xEC))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8011,12 +8398,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xED))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8024,12 +8412,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xEE))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8037,12 +8426,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xEF))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8050,12 +8440,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xF0))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8063,12 +8454,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xF1))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8076,12 +8468,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xF2))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8089,12 +8482,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xF3))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8102,12 +8496,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xF4))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8115,12 +8510,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xF5))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8128,12 +8524,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xF6))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8141,12 +8538,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xF7))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8154,12 +8552,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xF8))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8167,12 +8566,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xF9))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8180,12 +8580,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xFA))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8193,12 +8594,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xFB))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8206,12 +8608,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xFC))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8219,12 +8622,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xFD))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8232,12 +8636,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xFE))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8245,12 +8650,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0xFF))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8258,7 +8664,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         result->SetResult(false);
@@ -8286,7 +8693,8 @@ namespace ctcode
 
     bool LiteralCharacterParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<LiteralCharacterListResult> list_result, int minimum, int maximum)
     {
-        int start = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         std::vector<OmniPointer<LiteralCharacter>> results;
         int count = 0;
         int max_check = maximum;
@@ -8320,7 +8728,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             list_result->SetResult(false);
         }
 
@@ -8393,7 +8802,8 @@ namespace ctcode
 
     bool HexDigitParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<HexDigitResult> result)
     {
-        int start_index = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
@@ -8422,7 +8832,7 @@ namespace ctcode
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
         if (true && string_parser_instance->ParseSingle(index, std::string("0")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8430,12 +8840,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("1")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8443,12 +8854,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("2")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8456,12 +8868,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("3")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8469,12 +8882,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("4")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8482,12 +8896,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("5")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8495,12 +8910,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("6")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8508,12 +8924,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("7")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8521,12 +8938,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("8")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8534,12 +8952,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("9")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8547,12 +8966,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("A")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8560,12 +8980,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("B")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8573,12 +8994,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("C")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8586,12 +9008,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("D")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8599,12 +9022,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("E")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8612,12 +9036,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("F")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8625,7 +9050,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         result->SetResult(false);
@@ -8653,7 +9079,8 @@ namespace ctcode
 
     bool HexDigitParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<HexDigitListResult> list_result, int minimum, int maximum)
     {
-        int start = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         std::vector<OmniPointer<HexDigit>> results;
         int count = 0;
         int max_check = maximum;
@@ -8687,7 +9114,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             list_result->SetResult(false);
         }
 
@@ -8760,7 +9188,8 @@ namespace ctcode
 
     bool WhitespaceParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<WhitespaceResult> result)
     {
-        int start_index = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
@@ -8789,7 +9218,7 @@ namespace ctcode
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
         if (true && character_parser_instance->ParseSingle(index, 0x00))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8797,12 +9226,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x01))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8810,12 +9240,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x02))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8823,12 +9254,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x03))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8836,12 +9268,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x04))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8849,12 +9282,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x05))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8862,12 +9296,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x06))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8875,12 +9310,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x07))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8888,12 +9324,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x08))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8901,12 +9338,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x09))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8914,12 +9352,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x0B))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8927,12 +9366,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x0C))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8940,12 +9380,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x0E))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8953,12 +9394,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x0F))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8966,12 +9408,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x10))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8979,12 +9422,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x11))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -8992,12 +9436,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x12))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -9005,12 +9450,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x13))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -9018,12 +9464,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x14))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -9031,12 +9478,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x15))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -9044,12 +9492,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x16))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -9057,12 +9506,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x17))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -9070,12 +9520,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x18))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -9083,12 +9534,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x19))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -9096,12 +9548,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x1A))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -9109,12 +9562,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x1B))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -9122,12 +9576,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x1C))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -9135,12 +9590,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x1D))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -9148,12 +9604,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x1E))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -9161,12 +9618,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x1F))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -9174,12 +9632,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string(" ")))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -9187,7 +9646,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         result->SetResult(false);
@@ -9215,7 +9675,8 @@ namespace ctcode
 
     bool WhitespaceParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<WhitespaceListResult> list_result, int minimum, int maximum)
     {
-        int start = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         std::vector<OmniPointer<Whitespace>> results;
         int count = 0;
         int max_check = maximum;
@@ -9249,7 +9710,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             list_result->SetResult(false);
         }
 
@@ -9322,7 +9784,8 @@ namespace ctcode
 
     bool EolParser::ParseSingleSave(OmniPointer<LengthString> index, OmniPointer<EolResult> result)
     {
-        int start_index = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
@@ -9351,7 +9814,7 @@ namespace ctcode
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
         if (true && character_parser_instance->ParseSingle(index, 0x0A) && character_parser_instance->ParseSingle(index, 0x0D))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -9359,12 +9822,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x0D) && character_parser_instance->ParseSingle(index, 0x0A))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -9372,12 +9836,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x0A))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -9385,12 +9850,13 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         if (true && character_parser_instance->ParseSingle(index, 0x0D))
         {
-            consumed_string->SetLength(index->GetStart() - start_index);
+            consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
             result->SetValue(instance);
             result->SetResult(true);
@@ -9398,7 +9864,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start_index);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
         }
 
         result->SetResult(false);
@@ -9426,7 +9893,8 @@ namespace ctcode
 
     bool EolParser::ParseManySave(OmniPointer<LengthString> index, OmniPointer<EolListResult> list_result, int minimum, int maximum)
     {
-        int start = index->GetStart();
+        int index_start = index->GetStart();
+        int index_length = index->GetLength();
         std::vector<OmniPointer<Eol>> results;
         int count = 0;
         int max_check = maximum;
@@ -9460,7 +9928,8 @@ namespace ctcode
         }
         else
         {
-            index->SetStart(start);
+            index->SetStart(index_start);
+            index->SetLength(index_length);
             list_result->SetResult(false);
         }
 

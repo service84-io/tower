@@ -9,6 +9,80 @@
 #include <string>
 #include <vector>
 
+#ifndef CTCODE_COMMON_FUNCTIONS_VERSION_1
+#define CTCODE_COMMON_FUNCTIONS_VERSION_1
+template<typename T>
+class OmniPointer
+{
+public:
+    OmniPointer() { value_raw = NULL; }
+    OmniPointer(T* value) { value_raw = value; }
+    OmniPointer(std::shared_ptr<T> value) { value_raw = NULL; value_shared = value; }
+
+    operator bool()
+    {
+        if (value_raw) return true;
+        return value_shared.get() != NULL;
+    }
+    T& operator*()
+    {
+        if (value_raw) return *value_raw;
+        return *value_shared;
+    }
+    T* operator->()
+    {
+        if (value_raw) return value_raw;
+        return value_shared.get();
+    }
+    T* raw()
+    {
+        if (value_raw) return value_raw;
+        return value_shared.get();
+    }
+
+private:
+    T* value_raw;
+    std::shared_ptr<T> value_shared;
+};
+
+template<typename T>
+inline std::vector<T*> UnwrapOmniList(std::vector<OmniPointer<T>> input) {
+	std::vector<T*> result;
+	for (typename std::vector<OmniPointer<T>>::iterator index = input.begin();index != input.end();index++) {
+		result.push_back(index->raw());
+	}
+	return result;
+};
+template<typename T>
+inline void ClearList(std::vector<T>& input) { input.clear(); };
+template<typename T>
+inline int Size(const std::vector<T>& input) { return input.size(); };
+template<typename T>
+inline T Element(const std::vector<T>& input, int element) { return input.at(element); };
+template<typename T>
+inline void Append(std::vector<T>& input, T element) { input.push_back(element); };
+template<typename T>
+inline void ClearMap(std::unordered_map<std::string, T>& input) { input.clear(); };
+template<typename T>
+inline void SetKV(std::unordered_map<std::string, T>& input, std::string key, T element)
+{
+    input.erase(key);
+    input.insert(std::pair<std::string, T>(key, element));
+}
+template<typename T>
+inline bool HasKV(const std::unordered_map<std::string, T>& input, std::string key)
+{
+    typename std::unordered_map<std::string, T>::iterator beginning = input.find(key);
+    return beginning != input.end();
+}
+template<typename T>
+inline T GetKV(const std::unordered_map<std::string, T>& input, std::string key) { return input.at(key); }
+inline int Length(std::string input) { return (int)input.length(); };
+inline std::string At(std::string input, int index) { return input.substr(index, 1); };
+inline int IntAt(std::string input, int index) { return input.at(index); };
+inline std::string Concat(std::string left, std::string right) { return left + right; };
+#endif
+
 namespace dsa
 {
 namespace vent
@@ -109,76 +183,6 @@ class EolResult;
 class EolListResult;
 class Eol;
 
-template<typename T>
-class OmniPointer
-{
-public:
-    OmniPointer() { value_raw = NULL; }
-    OmniPointer(T* value) { value_raw = value; }
-    OmniPointer(std::shared_ptr<T> value) { value_raw = NULL; value_shared = value; }
-
-    operator bool()
-    {
-        if (value_raw) return true;
-        return value_shared.get() != NULL;
-    }
-    T& operator*()
-    {
-        if (value_raw) return *value_raw;
-        return *value_shared;
-    }
-    T* operator->()
-    {
-        if (value_raw) return value_raw;
-        return value_shared.get();
-    }
-    T* raw()
-    {
-        if (value_raw) return value_raw;
-        return value_shared.get();
-    }
-
-private:
-    T* value_raw;
-    std::shared_ptr<T> value_shared;
-};
-
-template<typename T>
-inline std::vector<T*> UnwrapOmniList(std::vector<OmniPointer<T>> input) {
-	std::vector<T*> result;
-	for (typename std::vector<OmniPointer<T>>::iterator index = input.begin();index != input.end();index++) {
-		result.push_back(index->raw());
-	}
-	return result;
-};
-template<typename T>
-inline void ClearList(std::vector<T>& input) { input.clear(); };
-template<typename T>
-inline int Size(const std::vector<T>& input) { return input.size(); };
-template<typename T>
-inline T Element(const std::vector<T>& input, int element) { return input.at(element); };
-template<typename T>
-inline void Append(std::vector<T>& input, T element) { input.push_back(element); };
-template<typename T>
-inline void ClearMap(std::unordered_map<std::string, T>& input) { input.clear(); };
-template<typename T>
-inline void SetKV(std::unordered_map<std::string, T>& input, std::string key, T element)
-{
-    input.erase(key);
-    input.insert(std::pair<std::string, T>(key, element));
-}
-template<typename T>
-inline bool HasKV(const std::unordered_map<std::string, T>& input, std::string key)
-{
-    typename std::unordered_map<std::string, T>::iterator beginning = input.find(key);
-    return beginning != input.end();
-}
-template<typename T>
-inline T GetKV(const std::unordered_map<std::string, T>& input, std::string key) { return input.at(key); }
-inline int Length(std::string input) { return (int)input.length(); };
-inline std::string At(std::string input, int index) { return input.substr(index, 1); };
-inline int IntAt(std::string input, int index) { return input.at(index); };
-inline std::string Concat(std::string left, std::string right) { return left + right; };
 
 class StringParser
 {
