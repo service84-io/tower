@@ -9883,6 +9883,20 @@ namespace ctcode
             index->SetLength(index_length);
         }
 
+        if (true)
+        {
+            consumed_string->SetLength(index->GetStart() - index_start);
+            instance->SetLengthString(consumed_string);
+            result->SetValue(instance);
+            result->SetResult(true);
+            return result->GetResult();
+        }
+        else
+        {
+            index->SetStart(index_start);
+            index->SetLength(index_length);
+        }
+
         result->SetResult(false);
         return result->GetResult();
     }
