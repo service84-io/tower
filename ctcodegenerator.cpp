@@ -515,7 +515,7 @@ public:
 
 		for(std::vector<Expression*>::iterator index = expressions.begin();index != expressions.end();++index)
 		{
-			if (sequence((*index)->GetTokenSequence())) {
+			if ((*index)->GetExpressionDiscriminator()) {
 				WriteExpression(*index, ctcode);
 
 				for (std::map<std::string, std::pair<std::string, bool>>::iterator index = members.begin(); index != members.end();++index)

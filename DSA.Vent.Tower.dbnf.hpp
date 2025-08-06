@@ -140,9 +140,11 @@ public:
     static dsa::vent::tower::dbnf::Expression* Parse(const char*& index);
     static dsa::vent::tower::dbnf::Expression* Parse(dsa::vent::tower::dbnf::LengthString& index);
 
+    dsa::vent::tower::dbnf::String* GetExpressionDiscriminator();
     List<dsa::vent::tower::dbnf::Token>* GetTokenSequence();
 
 private:
+    dsa::vent::tower::dbnf::String* expression_discriminator_;
     List<dsa::vent::tower::dbnf::Token>* token_sequence_;
 };
 

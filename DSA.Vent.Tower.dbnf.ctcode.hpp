@@ -696,11 +696,14 @@ public:
 
     void SetLengthString(OmniPointer<LengthString> new_value);
     std::string UnParse();
+    void SetExpressionDiscriminator(OmniPointer<String> input_value);
+    OmniPointer<String> GetExpressionDiscriminator();
     void SetTokenSequence(std::vector<OmniPointer<Token>> input_value);
     std::vector<OmniPointer<Token>> GetTokenSequence();
 
 private:
     OmniPointer<LengthString> length_string;
+    OmniPointer<String> expression_discriminator_field;
     std::vector<OmniPointer<Token>> token_sequence_field;
 };
 

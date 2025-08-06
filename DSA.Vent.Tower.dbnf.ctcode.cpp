@@ -1347,6 +1347,7 @@ namespace ctcode
         consumed_string->SetStart(index->GetStart());
         consumed_string->SetLength(0);
         OmniPointer<Expression> instance = std::shared_ptr<Expression>(new Expression());
+        OmniPointer<StringResult> expression_discriminator_field = std::shared_ptr<StringResult>(new StringResult());
         OmniPointer<TokenListResult> token_sequence_field = std::shared_ptr<TokenListResult>(new TokenListResult());
         OmniPointer<GrammarParser> grammar_parser_instance = parser_network->GetGrammarParser();
         OmniPointer<RuleParser> rule_parser_instance = parser_network->GetRuleParser();
@@ -1369,8 +1370,9 @@ namespace ctcode
         OmniPointer<EolParser> eol_parser_instance = parser_network->GetEolParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
-        if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("::=")) && token_parser_instance->ParseManySave(index, token_sequence_field, 0, -1) && eol_parser_instance->ParseSingle(index))
+        if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingleSave(index, std::string("::="), expression_discriminator_field) && token_parser_instance->ParseManySave(index, token_sequence_field, 0, -1) && eol_parser_instance->ParseSingle(index))
         {
+            instance->SetExpressionDiscriminator(expression_discriminator_field->GetValue());
             instance->SetTokenSequence(token_sequence_field->GetValue());
             consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
@@ -1382,11 +1384,13 @@ namespace ctcode
         {
             index->SetStart(index_start);
             index->SetLength(index_length);
+            expression_discriminator_field = std::shared_ptr<StringResult>(new StringResult());
             token_sequence_field = std::shared_ptr<TokenListResult>(new TokenListResult());
         }
 
         if (true && comment_parser_instance->ParseSingle(index))
         {
+            instance->SetExpressionDiscriminator(expression_discriminator_field->GetValue());
             instance->SetTokenSequence(token_sequence_field->GetValue());
             consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
@@ -1398,6 +1402,7 @@ namespace ctcode
         {
             index->SetStart(index_start);
             index->SetLength(index_length);
+            expression_discriminator_field = std::shared_ptr<StringResult>(new StringResult());
             token_sequence_field = std::shared_ptr<TokenListResult>(new TokenListResult());
         }
 
@@ -1526,6 +1531,16 @@ namespace ctcode
     std::string Expression::UnParse()
     {
         return length_string->GetString();
+    }
+
+    void Expression::SetExpressionDiscriminator(OmniPointer<String> input_value)
+    {
+        expression_discriminator_field = input_value;
+    }
+
+    OmniPointer<String> Expression::GetExpressionDiscriminator()
+    {
+        return expression_discriminator_field;
     }
 
     void Expression::SetTokenSequence(std::vector<OmniPointer<Token>> input_value)

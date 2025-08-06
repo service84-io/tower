@@ -1007,6 +1007,7 @@ class ExpressionParser
         consumed_string.SetStart(index.GetStart());
         consumed_string.SetLength(0);
         Expression instance = new Expression;
+        StringResult expression_discriminator_field = new StringResult;
         TokenListResult token_sequence_field = new TokenListResult;
 
         GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
@@ -1031,7 +1032,8 @@ class ExpressionParser
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
 
-        if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "::=") && token_parser_instance.ParseManySave(index, token_sequence_field, 0, -1) && eol_parser_instance.ParseSingle(index)) {
+        if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingleSave(index, "::=", expression_discriminator_field) && token_parser_instance.ParseManySave(index, token_sequence_field, 0, -1) && eol_parser_instance.ParseSingle(index)) {
+            instance.SetExpressionDiscriminator(expression_discriminator_field.GetValue());
             instance.SetTokenSequence(token_sequence_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
@@ -1041,10 +1043,12 @@ class ExpressionParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
+            expression_discriminator_field = new StringResult;
             token_sequence_field = new TokenListResult;
         }
 
         if (true && comment_parser_instance.ParseSingle(index)) {
+            instance.SetExpressionDiscriminator(expression_discriminator_field.GetValue());
             instance.SetTokenSequence(token_sequence_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
@@ -1054,6 +1058,7 @@ class ExpressionParser
         } else {
             index.SetStart(index_start);
             index.SetLength(index_length);
+            expression_discriminator_field = new StringResult;
             token_sequence_field = new TokenListResult;
         }
 
@@ -1165,10 +1170,13 @@ class Expression
     }
 
     function string UnParse() { return length_string.GetString(); }
+    function void SetExpressionDiscriminator(String input_value) { expression_discriminator_field = input_value; }
+    function String GetExpressionDiscriminator() { return expression_discriminator_field; }
     function void SetTokenSequence(Token[] input_value) { token_sequence_field = input_value; }
     function Token[] GetTokenSequence() { return token_sequence_field; }
 
     LengthString length_string;
+    String expression_discriminator_field;
     Token[] token_sequence_field;
 }
 

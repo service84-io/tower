@@ -4,7 +4,7 @@
 <rule>              ::= <whitespace>* "<" attribute(name <name>) ">" attribute(expressions <expression>*)
                     ::= <comment>
 # An expression is a token sequence, but for implimentation purposes it can also be a comment
-<expression>        ::= <whitespace>* "::=" attribute(token_sequence <token>*) <eol>
+<expression>        ::= <whitespace>* attribute(expression_discriminator "::=") attribute(token_sequence <token>*) <eol>
                     ::= <comment>
 <token>             ::= <whitespace>* "attribute" <whitespace>* "(" <whitespace>* attribute(name <name>) <whitespace>* attribute(value <simple_token>) <whitespace>* attribute(modifier <modifier>) <whitespace>* ")" <whitespace>*
                     ::= <whitespace>* "attribute" <whitespace>* "(" <whitespace>* attribute(name <name>) <whitespace>* attribute(value <simple_token>) <whitespace>* ")" <whitespace>*

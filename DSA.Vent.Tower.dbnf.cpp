@@ -1261,8 +1261,14 @@ dsa::vent::tower::dbnf::Rule* Rule::Parse(dsa::vent::tower::dbnf::LengthString& 
 }
 
 Expression::Expression() : Node()
+    ,expression_discriminator_(NULL)
     ,token_sequence_(NULL)
 {
+}
+
+dsa::vent::tower::dbnf::String* Expression::GetExpressionDiscriminator()
+{
+    return expression_discriminator_;
 }
 
 List<dsa::vent::tower::dbnf::Token>* Expression::GetTokenSequence()
@@ -1288,9 +1294,10 @@ dsa::vent::tower::dbnf::Expression* Expression::Parse(dsa::vent::tower::dbnf::Le
 {
     dsa::vent::tower::dbnf::LengthString start = index;
     std::list<dsa::vent::tower::dbnf::Node*> children;
+    dsa::vent::tower::dbnf::String* expression_discriminator = NULL;
     List<dsa::vent::tower::dbnf::Token>* token_sequence = NULL;
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID27>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, token_sequence, MinimumParser<dsa::vent::tower::dbnf::Token, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, dsa::vent::tower::dbnf::Eol::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, expression_discriminator, StringParser<LITERAL_ID27>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, token_sequence, MinimumParser<dsa::vent::tower::dbnf::Token, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, dsa::vent::tower::dbnf::Eol::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Expression* instance = new dsa::vent::tower::dbnf::Expression();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1298,9 +1305,11 @@ dsa::vent::tower::dbnf::Expression* Expression::Parse(dsa::vent::tower::dbnf::Le
         data.data = start.data;
         instance->SetString(data);
         instance->SetChildren(children);
+        instance->expression_discriminator_ = expression_discriminator;
         instance->token_sequence_ = token_sequence;
         return instance;
     } else {
+        expression_discriminator = NULL;
         token_sequence = NULL;
     }
 
