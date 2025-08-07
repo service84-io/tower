@@ -101,6 +101,10 @@ class CharacterParser;
 class CharacterResult;
 class CharacterListResult;
 class Character;
+class CharacterRangeParser;
+class CharacterRangeResult;
+class CharacterRangeListResult;
+class CharacterRange;
 class ParserNetwork;
 class DBNFOmniType;
 class DBNFOmniTypeResult;
@@ -293,6 +297,60 @@ private:
     OmniPointer<LengthString> length_string;
 };
 
+class CharacterRangeParser
+{
+public:
+    inline CharacterRangeParser() {};
+    inline ~CharacterRangeParser() {};
+
+    bool ParseSingle(OmniPointer<LengthString> index, int low_value, int high_value);
+};
+
+class CharacterRangeResult
+{
+public:
+    inline CharacterRangeResult() {};
+    inline ~CharacterRangeResult() {};
+
+    void SetValue(OmniPointer<CharacterRange> new_value);
+    OmniPointer<CharacterRange> GetValue();
+    void SetResult(bool new_result);
+    bool GetResult();
+
+private:
+    OmniPointer<CharacterRange> value;
+    bool result;
+};
+
+class CharacterRangeListResult
+{
+public:
+    inline CharacterRangeListResult() {};
+    inline ~CharacterRangeListResult() {};
+
+    void SetValue(std::vector<OmniPointer<CharacterRange>> new_value);
+    std::vector<OmniPointer<CharacterRange>> GetValue();
+    void SetResult(bool new_result);
+    bool GetResult();
+
+private:
+    std::vector<OmniPointer<CharacterRange>> value;
+    bool result;
+};
+
+class CharacterRange
+{
+public:
+    inline CharacterRange() {};
+    inline ~CharacterRange() {};
+
+    void SetLengthString(OmniPointer<LengthString> new_value);
+    std::string UnParse();
+
+private:
+    OmniPointer<LengthString> length_string;
+};
+
 class ParserNetwork
 {
 public:
@@ -320,6 +378,7 @@ public:
     OmniPointer<EolParser> GetEolParser();
     OmniPointer<StringParser> GetStringParser();
     OmniPointer<CharacterParser> GetCharacterParser();
+    OmniPointer<CharacterRangeParser> GetCharacterRangeParser();
     void Initialize();
 
 private:
@@ -344,6 +403,7 @@ private:
     OmniPointer<EolParser> eol_parser_field;
     OmniPointer<StringParser> string_parser_field;
     OmniPointer<CharacterParser> character_parser_field;
+    OmniPointer<CharacterRangeParser> character_range_parser_field;
 };
 
 class DBNFOmniType
@@ -839,18 +899,30 @@ public:
     std::string UnParse();
     void SetHigh(OmniPointer<HexDigit> input_value);
     OmniPointer<HexDigit> GetHigh();
+    void SetHighHigh(OmniPointer<HexDigit> input_value);
+    OmniPointer<HexDigit> GetHighHigh();
+    void SetHighLow(OmniPointer<HexDigit> input_value);
+    OmniPointer<HexDigit> GetHighLow();
     void SetLiteral(OmniPointer<Literal> input_value);
     OmniPointer<Literal> GetLiteral();
     void SetLow(OmniPointer<HexDigit> input_value);
     OmniPointer<HexDigit> GetLow();
+    void SetLowHigh(OmniPointer<HexDigit> input_value);
+    OmniPointer<HexDigit> GetLowHigh();
+    void SetLowLow(OmniPointer<HexDigit> input_value);
+    OmniPointer<HexDigit> GetLowLow();
     void SetToken(OmniPointer<Name> input_value);
     OmniPointer<Name> GetToken();
 
 private:
     OmniPointer<LengthString> length_string;
     OmniPointer<HexDigit> high_field;
+    OmniPointer<HexDigit> high_high_field;
+    OmniPointer<HexDigit> high_low_field;
     OmniPointer<Literal> literal_field;
     OmniPointer<HexDigit> low_field;
+    OmniPointer<HexDigit> low_high_field;
+    OmniPointer<HexDigit> low_low_field;
     OmniPointer<Name> token_field;
 };
 

@@ -126,12 +126,12 @@ public:
     }
 };
 
-class LITERAL_ID13
+class LITERAL_0X_ID13
 {
 public:
     static const char* GetLiteral()
     {
-        return ".";
+        return "-0x";
     }
 };
 
@@ -140,11 +140,20 @@ class LITERAL_ID14
 public:
     static const char* GetLiteral()
     {
+        return ".";
+    }
+};
+
+class LITERAL_ID15
+{
+public:
+    static const char* GetLiteral()
+    {
         return "/";
     }
 };
 
-class LITERAL_0_ID15
+class LITERAL_0_ID16
 {
 public:
     static const char* GetLiteral()
@@ -153,7 +162,7 @@ public:
     }
 };
 
-class LITERAL_0X_ID16
+class LITERAL_0X_ID17
 {
 public:
     static const char* GetLiteral()
@@ -162,7 +171,7 @@ public:
     }
 };
 
-class LITERAL_1_ID17
+class LITERAL_1_ID18
 {
 public:
     static const char* GetLiteral()
@@ -171,7 +180,7 @@ public:
     }
 };
 
-class LITERAL_2_ID18
+class LITERAL_2_ID19
 {
 public:
     static const char* GetLiteral()
@@ -180,7 +189,7 @@ public:
     }
 };
 
-class LITERAL_3_ID19
+class LITERAL_3_ID20
 {
 public:
     static const char* GetLiteral()
@@ -189,7 +198,7 @@ public:
     }
 };
 
-class LITERAL_4_ID20
+class LITERAL_4_ID21
 {
 public:
     static const char* GetLiteral()
@@ -198,7 +207,7 @@ public:
     }
 };
 
-class LITERAL_5_ID21
+class LITERAL_5_ID22
 {
 public:
     static const char* GetLiteral()
@@ -207,7 +216,7 @@ public:
     }
 };
 
-class LITERAL_6_ID22
+class LITERAL_6_ID23
 {
 public:
     static const char* GetLiteral()
@@ -216,7 +225,7 @@ public:
     }
 };
 
-class LITERAL_7_ID23
+class LITERAL_7_ID24
 {
 public:
     static const char* GetLiteral()
@@ -225,7 +234,7 @@ public:
     }
 };
 
-class LITERAL_8_ID24
+class LITERAL_8_ID25
 {
 public:
     static const char* GetLiteral()
@@ -234,7 +243,7 @@ public:
     }
 };
 
-class LITERAL_9_ID25
+class LITERAL_9_ID26
 {
 public:
     static const char* GetLiteral()
@@ -243,7 +252,7 @@ public:
     }
 };
 
-class LITERAL_ID26
+class LITERAL_ID27
 {
 public:
     static const char* GetLiteral()
@@ -252,7 +261,7 @@ public:
     }
 };
 
-class LITERAL_ID27
+class LITERAL_ID28
 {
 public:
     static const char* GetLiteral()
@@ -261,7 +270,7 @@ public:
     }
 };
 
-class LITERAL_ID28
+class LITERAL_ID29
 {
 public:
     static const char* GetLiteral()
@@ -270,7 +279,7 @@ public:
     }
 };
 
-class LITERAL_ID29
+class LITERAL_ID30
 {
 public:
     static const char* GetLiteral()
@@ -279,7 +288,7 @@ public:
     }
 };
 
-class LITERAL_ID30
+class LITERAL_ID31
 {
 public:
     static const char* GetLiteral()
@@ -288,7 +297,7 @@ public:
     }
 };
 
-class LITERAL_ID31
+class LITERAL_ID32
 {
 public:
     static const char* GetLiteral()
@@ -297,7 +306,7 @@ public:
     }
 };
 
-class LITERAL_ID32
+class LITERAL_ID33
 {
 public:
     static const char* GetLiteral()
@@ -306,7 +315,7 @@ public:
     }
 };
 
-class LITERAL_ID33
+class LITERAL_ID34
 {
 public:
     static const char* GetLiteral()
@@ -315,7 +324,7 @@ public:
     }
 };
 
-class LITERAL_A_ID34
+class LITERAL_A_ID35
 {
 public:
     static const char* GetLiteral()
@@ -324,7 +333,7 @@ public:
     }
 };
 
-class LITERAL_B_ID35
+class LITERAL_B_ID36
 {
 public:
     static const char* GetLiteral()
@@ -333,7 +342,7 @@ public:
     }
 };
 
-class LITERAL_C_ID36
+class LITERAL_C_ID37
 {
 public:
     static const char* GetLiteral()
@@ -342,7 +351,7 @@ public:
     }
 };
 
-class LITERAL_D_ID37
+class LITERAL_D_ID38
 {
 public:
     static const char* GetLiteral()
@@ -351,7 +360,7 @@ public:
     }
 };
 
-class LITERAL_E_ID38
+class LITERAL_E_ID39
 {
 public:
     static const char* GetLiteral()
@@ -360,7 +369,7 @@ public:
     }
 };
 
-class LITERAL_F_ID39
+class LITERAL_F_ID40
 {
 public:
     static const char* GetLiteral()
@@ -369,7 +378,7 @@ public:
     }
 };
 
-class LITERAL_G_ID40
+class LITERAL_G_ID41
 {
 public:
     static const char* GetLiteral()
@@ -378,7 +387,7 @@ public:
     }
 };
 
-class LITERAL_H_ID41
+class LITERAL_H_ID42
 {
 public:
     static const char* GetLiteral()
@@ -387,7 +396,7 @@ public:
     }
 };
 
-class LITERAL_I_ID42
+class LITERAL_I_ID43
 {
 public:
     static const char* GetLiteral()
@@ -396,7 +405,7 @@ public:
     }
 };
 
-class LITERAL_J_ID43
+class LITERAL_J_ID44
 {
 public:
     static const char* GetLiteral()
@@ -405,7 +414,7 @@ public:
     }
 };
 
-class LITERAL_K_ID44
+class LITERAL_K_ID45
 {
 public:
     static const char* GetLiteral()
@@ -414,7 +423,7 @@ public:
     }
 };
 
-class LITERAL_L_ID45
+class LITERAL_L_ID46
 {
 public:
     static const char* GetLiteral()
@@ -423,7 +432,7 @@ public:
     }
 };
 
-class LITERAL_M_ID46
+class LITERAL_M_ID47
 {
 public:
     static const char* GetLiteral()
@@ -432,7 +441,7 @@ public:
     }
 };
 
-class LITERAL_N_ID47
+class LITERAL_N_ID48
 {
 public:
     static const char* GetLiteral()
@@ -441,7 +450,7 @@ public:
     }
 };
 
-class LITERAL_O_ID48
+class LITERAL_O_ID49
 {
 public:
     static const char* GetLiteral()
@@ -450,7 +459,7 @@ public:
     }
 };
 
-class LITERAL_P_ID49
+class LITERAL_P_ID50
 {
 public:
     static const char* GetLiteral()
@@ -459,7 +468,7 @@ public:
     }
 };
 
-class LITERAL_Q_ID50
+class LITERAL_Q_ID51
 {
 public:
     static const char* GetLiteral()
@@ -468,7 +477,7 @@ public:
     }
 };
 
-class LITERAL_R_ID51
+class LITERAL_R_ID52
 {
 public:
     static const char* GetLiteral()
@@ -477,7 +486,7 @@ public:
     }
 };
 
-class LITERAL_S_ID52
+class LITERAL_S_ID53
 {
 public:
     static const char* GetLiteral()
@@ -486,7 +495,7 @@ public:
     }
 };
 
-class LITERAL_T_ID53
+class LITERAL_T_ID54
 {
 public:
     static const char* GetLiteral()
@@ -495,7 +504,7 @@ public:
     }
 };
 
-class LITERAL_U_ID54
+class LITERAL_U_ID55
 {
 public:
     static const char* GetLiteral()
@@ -504,7 +513,7 @@ public:
     }
 };
 
-class LITERAL_V_ID55
+class LITERAL_V_ID56
 {
 public:
     static const char* GetLiteral()
@@ -513,7 +522,7 @@ public:
     }
 };
 
-class LITERAL_W_ID56
+class LITERAL_W_ID57
 {
 public:
     static const char* GetLiteral()
@@ -522,7 +531,7 @@ public:
     }
 };
 
-class LITERAL_X_ID57
+class LITERAL_X_ID58
 {
 public:
     static const char* GetLiteral()
@@ -531,7 +540,7 @@ public:
     }
 };
 
-class LITERAL_Y_ID58
+class LITERAL_Y_ID59
 {
 public:
     static const char* GetLiteral()
@@ -540,7 +549,7 @@ public:
     }
 };
 
-class LITERAL_Z_ID59
+class LITERAL_Z_ID60
 {
 public:
     static const char* GetLiteral()
@@ -549,7 +558,7 @@ public:
     }
 };
 
-class LITERAL_ID60
+class LITERAL_ID61
 {
 public:
     static const char* GetLiteral()
@@ -558,21 +567,12 @@ public:
     }
 };
 
-class LITERAL_ID61
+class LITERAL_0X_ID62
 {
 public:
     static const char* GetLiteral()
     {
-        return "\"";
-    }
-};
-
-class LITERAL_ID62
-{
-public:
-    static const char* GetLiteral()
-    {
-        return "\\\"";
+        return "[0x";
     }
 };
 
@@ -581,7 +581,7 @@ class LITERAL_ID63
 public:
     static const char* GetLiteral()
     {
-        return "\\\\";
+        return "\"";
     }
 };
 
@@ -590,7 +590,7 @@ class LITERAL_ID64
 public:
     static const char* GetLiteral()
     {
-        return "]";
+        return "\\\"";
     }
 };
 
@@ -599,16 +599,16 @@ class LITERAL_ID65
 public:
     static const char* GetLiteral()
     {
-        return "^";
+        return "\\\\";
     }
 };
 
-class LITERAL___ID66
+class LITERAL_ID66
 {
 public:
     static const char* GetLiteral()
     {
-        return "_";
+        return "]";
     }
 };
 
@@ -617,11 +617,29 @@ class LITERAL_ID67
 public:
     static const char* GetLiteral()
     {
+        return "^";
+    }
+};
+
+class LITERAL___ID68
+{
+public:
+    static const char* GetLiteral()
+    {
+        return "_";
+    }
+};
+
+class LITERAL_ID69
+{
+public:
+    static const char* GetLiteral()
+    {
         return "`";
     }
 };
 
-class LITERAL_A_ID68
+class LITERAL_A_ID70
 {
 public:
     static const char* GetLiteral()
@@ -630,7 +648,7 @@ public:
     }
 };
 
-class LITERAL_ATTRIBUTE_ID69
+class LITERAL_ATTRIBUTE_ID71
 {
 public:
     static const char* GetLiteral()
@@ -639,7 +657,7 @@ public:
     }
 };
 
-class LITERAL_B_ID70
+class LITERAL_B_ID72
 {
 public:
     static const char* GetLiteral()
@@ -648,7 +666,7 @@ public:
     }
 };
 
-class LITERAL_C_ID71
+class LITERAL_C_ID73
 {
 public:
     static const char* GetLiteral()
@@ -657,7 +675,7 @@ public:
     }
 };
 
-class LITERAL_D_ID72
+class LITERAL_D_ID74
 {
 public:
     static const char* GetLiteral()
@@ -666,7 +684,7 @@ public:
     }
 };
 
-class LITERAL_E_ID73
+class LITERAL_E_ID75
 {
 public:
     static const char* GetLiteral()
@@ -675,7 +693,7 @@ public:
     }
 };
 
-class LITERAL_F_ID74
+class LITERAL_F_ID76
 {
 public:
     static const char* GetLiteral()
@@ -684,7 +702,7 @@ public:
     }
 };
 
-class LITERAL_G_ID75
+class LITERAL_G_ID77
 {
 public:
     static const char* GetLiteral()
@@ -693,7 +711,7 @@ public:
     }
 };
 
-class LITERAL_H_ID76
+class LITERAL_H_ID78
 {
 public:
     static const char* GetLiteral()
@@ -702,7 +720,7 @@ public:
     }
 };
 
-class LITERAL_I_ID77
+class LITERAL_I_ID79
 {
 public:
     static const char* GetLiteral()
@@ -711,7 +729,7 @@ public:
     }
 };
 
-class LITERAL_J_ID78
+class LITERAL_J_ID80
 {
 public:
     static const char* GetLiteral()
@@ -720,7 +738,7 @@ public:
     }
 };
 
-class LITERAL_K_ID79
+class LITERAL_K_ID81
 {
 public:
     static const char* GetLiteral()
@@ -729,7 +747,7 @@ public:
     }
 };
 
-class LITERAL_L_ID80
+class LITERAL_L_ID82
 {
 public:
     static const char* GetLiteral()
@@ -738,7 +756,7 @@ public:
     }
 };
 
-class LITERAL_M_ID81
+class LITERAL_M_ID83
 {
 public:
     static const char* GetLiteral()
@@ -747,7 +765,7 @@ public:
     }
 };
 
-class LITERAL_N_ID82
+class LITERAL_N_ID84
 {
 public:
     static const char* GetLiteral()
@@ -756,7 +774,7 @@ public:
     }
 };
 
-class LITERAL_O_ID83
+class LITERAL_O_ID85
 {
 public:
     static const char* GetLiteral()
@@ -765,7 +783,7 @@ public:
     }
 };
 
-class LITERAL_P_ID84
+class LITERAL_P_ID86
 {
 public:
     static const char* GetLiteral()
@@ -774,7 +792,7 @@ public:
     }
 };
 
-class LITERAL_Q_ID85
+class LITERAL_Q_ID87
 {
 public:
     static const char* GetLiteral()
@@ -783,7 +801,7 @@ public:
     }
 };
 
-class LITERAL_R_ID86
+class LITERAL_R_ID88
 {
 public:
     static const char* GetLiteral()
@@ -792,7 +810,7 @@ public:
     }
 };
 
-class LITERAL_S_ID87
+class LITERAL_S_ID89
 {
 public:
     static const char* GetLiteral()
@@ -801,7 +819,7 @@ public:
     }
 };
 
-class LITERAL_T_ID88
+class LITERAL_T_ID90
 {
 public:
     static const char* GetLiteral()
@@ -810,7 +828,7 @@ public:
     }
 };
 
-class LITERAL_U_ID89
+class LITERAL_U_ID91
 {
 public:
     static const char* GetLiteral()
@@ -819,7 +837,7 @@ public:
     }
 };
 
-class LITERAL_V_ID90
+class LITERAL_V_ID92
 {
 public:
     static const char* GetLiteral()
@@ -828,7 +846,7 @@ public:
     }
 };
 
-class LITERAL_W_ID91
+class LITERAL_W_ID93
 {
 public:
     static const char* GetLiteral()
@@ -837,7 +855,7 @@ public:
     }
 };
 
-class LITERAL_X_ID92
+class LITERAL_X_ID94
 {
 public:
     static const char* GetLiteral()
@@ -846,7 +864,7 @@ public:
     }
 };
 
-class LITERAL_Y_ID93
+class LITERAL_Y_ID95
 {
 public:
     static const char* GetLiteral()
@@ -855,7 +873,7 @@ public:
     }
 };
 
-class LITERAL_Z_ID94
+class LITERAL_Z_ID96
 {
 public:
     static const char* GetLiteral()
@@ -864,7 +882,7 @@ public:
     }
 };
 
-class LITERAL_ID95
+class LITERAL_ID97
 {
 public:
     static const char* GetLiteral()
@@ -873,7 +891,7 @@ public:
     }
 };
 
-class LITERAL_ID96
+class LITERAL_ID98
 {
 public:
     static const char* GetLiteral()
@@ -882,7 +900,7 @@ public:
     }
 };
 
-class LITERAL_ID97
+class LITERAL_ID99
 {
 public:
     static const char* GetLiteral()
@@ -891,7 +909,7 @@ public:
     }
 };
 
-class LITERAL_ID98
+class LITERAL_ID100
 {
 public:
     static const char* GetLiteral()
@@ -1040,6 +1058,28 @@ public:
         dsa::vent::tower::dbnf::LengthString data = {index.data, 1};
 
         if((index.length > 0) && ((*(index.data)) == character))
+        {
+            ++(index.data);
+            --(index.length);
+            dsa::vent::tower::dbnf::String* string_node = new dsa::vent::tower::dbnf::String(data);
+            return string_node;
+        }
+        else
+        {
+            return NULL;
+        }
+    }
+};
+
+template<char low_character, char high_character>
+class CharacterRangeParser
+{
+public:
+    static dsa::vent::tower::dbnf::String* Parse(dsa::vent::tower::dbnf::LengthString& index)
+    {
+        dsa::vent::tower::dbnf::LengthString data = {index.data, 1};
+
+        if((index.length > 0) && (low_character <= (*(index.data))) && ((*(index.data))) <= high_character)
         {
             ++(index.data);
             --(index.length);
@@ -1228,7 +1268,7 @@ dsa::vent::tower::dbnf::Rule* Rule::Parse(dsa::vent::tower::dbnf::LengthString& 
     List<dsa::vent::tower::dbnf::Expression>* expressions = NULL;
     dsa::vent::tower::dbnf::Name* name = NULL;
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID29>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, name, dsa::vent::tower::dbnf::Name::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID31>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, expressions, MinimumParser<dsa::vent::tower::dbnf::Expression, 0>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID30>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, name, dsa::vent::tower::dbnf::Name::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID32>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, expressions, MinimumParser<dsa::vent::tower::dbnf::Expression, 0>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Rule* instance = new dsa::vent::tower::dbnf::Rule();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1297,7 +1337,7 @@ dsa::vent::tower::dbnf::Expression* Expression::Parse(dsa::vent::tower::dbnf::Le
     dsa::vent::tower::dbnf::String* expression_discriminator = NULL;
     List<dsa::vent::tower::dbnf::Token>* token_sequence = NULL;
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, expression_discriminator, StringParser<LITERAL_ID27>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, token_sequence, MinimumParser<dsa::vent::tower::dbnf::Token, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, dsa::vent::tower::dbnf::Eol::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, expression_discriminator, StringParser<LITERAL_ID28>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, token_sequence, MinimumParser<dsa::vent::tower::dbnf::Token, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, dsa::vent::tower::dbnf::Eol::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Expression* instance = new dsa::vent::tower::dbnf::Expression();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1373,7 +1413,7 @@ dsa::vent::tower::dbnf::Token* Token::Parse(dsa::vent::tower::dbnf::LengthString
     dsa::vent::tower::dbnf::Name* name = NULL;
     dsa::vent::tower::dbnf::SimpleToken* value = NULL;
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ATTRIBUTE_ID69>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID7>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, name, dsa::vent::tower::dbnf::Name::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, value, dsa::vent::tower::dbnf::SimpleToken::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, modifier, dsa::vent::tower::dbnf::Modifier::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID8>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ATTRIBUTE_ID71>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID7>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, name, dsa::vent::tower::dbnf::Name::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, value, dsa::vent::tower::dbnf::SimpleToken::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, modifier, dsa::vent::tower::dbnf::Modifier::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID8>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Token* instance = new dsa::vent::tower::dbnf::Token();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1391,7 +1431,7 @@ dsa::vent::tower::dbnf::Token* Token::Parse(dsa::vent::tower::dbnf::LengthString
         modifier = NULL;
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ATTRIBUTE_ID69>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID7>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, name, dsa::vent::tower::dbnf::Name::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, value, dsa::vent::tower::dbnf::SimpleToken::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID8>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ATTRIBUTE_ID71>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID7>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, name, dsa::vent::tower::dbnf::Name::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, value, dsa::vent::tower::dbnf::SimpleToken::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID8>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Token* instance = new dsa::vent::tower::dbnf::Token();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1443,8 +1483,12 @@ dsa::vent::tower::dbnf::Token* Token::Parse(dsa::vent::tower::dbnf::LengthString
 
 SimpleToken::SimpleToken() : Node()
     ,high_(NULL)
+    ,high_high_(NULL)
+    ,high_low_(NULL)
     ,literal_(NULL)
     ,low_(NULL)
+    ,low_high_(NULL)
+    ,low_low_(NULL)
     ,token_(NULL)
 {
 }
@@ -1452,6 +1496,16 @@ SimpleToken::SimpleToken() : Node()
 dsa::vent::tower::dbnf::HexDigit* SimpleToken::GetHigh()
 {
     return high_;
+}
+
+dsa::vent::tower::dbnf::HexDigit* SimpleToken::GetHighHigh()
+{
+    return high_high_;
+}
+
+dsa::vent::tower::dbnf::HexDigit* SimpleToken::GetHighLow()
+{
+    return high_low_;
 }
 
 dsa::vent::tower::dbnf::Literal* SimpleToken::GetLiteral()
@@ -1462,6 +1516,16 @@ dsa::vent::tower::dbnf::Literal* SimpleToken::GetLiteral()
 dsa::vent::tower::dbnf::HexDigit* SimpleToken::GetLow()
 {
     return low_;
+}
+
+dsa::vent::tower::dbnf::HexDigit* SimpleToken::GetLowHigh()
+{
+    return low_high_;
+}
+
+dsa::vent::tower::dbnf::HexDigit* SimpleToken::GetLowLow()
+{
+    return low_low_;
 }
 
 dsa::vent::tower::dbnf::Name* SimpleToken::GetToken()
@@ -1488,11 +1552,15 @@ dsa::vent::tower::dbnf::SimpleToken* SimpleToken::Parse(dsa::vent::tower::dbnf::
     dsa::vent::tower::dbnf::LengthString start = index;
     std::list<dsa::vent::tower::dbnf::Node*> children;
     dsa::vent::tower::dbnf::HexDigit* high = NULL;
+    dsa::vent::tower::dbnf::HexDigit* high_high = NULL;
+    dsa::vent::tower::dbnf::HexDigit* high_low = NULL;
     dsa::vent::tower::dbnf::Literal* literal = NULL;
     dsa::vent::tower::dbnf::HexDigit* low = NULL;
+    dsa::vent::tower::dbnf::HexDigit* low_high = NULL;
+    dsa::vent::tower::dbnf::HexDigit* low_low = NULL;
     dsa::vent::tower::dbnf::Name* token = NULL;
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID29>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, token, dsa::vent::tower::dbnf::Name::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID31>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID30>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, token, dsa::vent::tower::dbnf::Name::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID32>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::SimpleToken* instance = new dsa::vent::tower::dbnf::SimpleToken();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1506,7 +1574,7 @@ dsa::vent::tower::dbnf::SimpleToken* SimpleToken::Parse(dsa::vent::tower::dbnf::
         token = NULL;
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_0X_ID16>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, high, dsa::vent::tower::dbnf::HexDigit::Parse(index)) && dsa::vent::tower::dbnf::Match(children, low, dsa::vent::tower::dbnf::HexDigit::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_0X_ID17>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, high, dsa::vent::tower::dbnf::HexDigit::Parse(index)) && dsa::vent::tower::dbnf::Match(children, low, dsa::vent::tower::dbnf::HexDigit::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::SimpleToken* instance = new dsa::vent::tower::dbnf::SimpleToken();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1522,7 +1590,7 @@ dsa::vent::tower::dbnf::SimpleToken* SimpleToken::Parse(dsa::vent::tower::dbnf::
         low = NULL;
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID61>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, literal, dsa::vent::tower::dbnf::Literal::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID61>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID63>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, literal, dsa::vent::tower::dbnf::Literal::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID63>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::SimpleToken* instance = new dsa::vent::tower::dbnf::SimpleToken();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1534,6 +1602,26 @@ dsa::vent::tower::dbnf::SimpleToken* SimpleToken::Parse(dsa::vent::tower::dbnf::
         return instance;
     } else {
         literal = NULL;
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_0X_ID62>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, low_high, dsa::vent::tower::dbnf::HexDigit::Parse(index)) && dsa::vent::tower::dbnf::Match(children, low_low, dsa::vent::tower::dbnf::HexDigit::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_0X_ID13>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, high_high, dsa::vent::tower::dbnf::HexDigit::Parse(index)) && dsa::vent::tower::dbnf::Match(children, high_low, dsa::vent::tower::dbnf::HexDigit::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID66>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::SimpleToken* instance = new dsa::vent::tower::dbnf::SimpleToken();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        instance->low_high_ = low_high;
+        instance->low_low_ = low_low;
+        instance->high_high_ = high_high;
+        instance->high_low_ = high_low;
+        return instance;
+    } else {
+        low_high = NULL;
+        low_low = NULL;
+        high_high = NULL;
+        high_low = NULL;
     }
 
     dsa::vent::tower::dbnf::ClearNodes(children);
@@ -1582,7 +1670,7 @@ dsa::vent::tower::dbnf::Modifier* Modifier::Parse(dsa::vent::tower::dbnf::Length
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID32>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID33>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Modifier* instance = new dsa::vent::tower::dbnf::Modifier();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1606,7 +1694,7 @@ dsa::vent::tower::dbnf::Modifier* Modifier::Parse(dsa::vent::tower::dbnf::Length
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID95>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, cardinality, dsa::vent::tower::dbnf::Cardinality::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID97>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID97>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, cardinality, dsa::vent::tower::dbnf::Cardinality::Parse(index)) && dsa::vent::tower::dbnf::Match(children, MinimumParser<dsa::vent::tower::dbnf::Whitespace, 0>::Parse(index)) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID99>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Modifier* instance = new dsa::vent::tower::dbnf::Modifier();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1778,7 +1866,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     dsa::vent::tower::dbnf::LengthString start = index;
     std::list<dsa::vent::tower::dbnf::Node*> children;
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_0_ID15>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_0_ID16>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1790,7 +1878,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_1_ID17>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_1_ID18>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1802,7 +1890,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_2_ID18>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_2_ID19>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1814,7 +1902,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_3_ID19>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_3_ID20>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1826,7 +1914,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_4_ID20>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_4_ID21>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1838,7 +1926,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_5_ID21>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_5_ID22>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1850,7 +1938,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_6_ID22>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_6_ID23>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1862,7 +1950,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_7_ID23>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_7_ID24>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1874,7 +1962,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_8_ID24>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_8_ID25>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1886,7 +1974,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_9_ID25>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_9_ID26>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1898,7 +1986,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_A_ID34>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_A_ID35>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1910,7 +1998,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_B_ID35>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_B_ID36>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1922,7 +2010,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_C_ID36>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_C_ID37>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1934,7 +2022,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_D_ID37>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_D_ID38>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1946,7 +2034,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_E_ID38>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_E_ID39>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1958,7 +2046,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_F_ID39>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_F_ID40>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1970,7 +2058,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_G_ID40>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_G_ID41>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1982,7 +2070,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_H_ID41>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_H_ID42>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -1994,7 +2082,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_I_ID42>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_I_ID43>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2006,7 +2094,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_J_ID43>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_J_ID44>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2018,7 +2106,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_K_ID44>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_K_ID45>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2030,7 +2118,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_L_ID45>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_L_ID46>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2042,7 +2130,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_M_ID46>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_M_ID47>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2054,7 +2142,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_N_ID47>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_N_ID48>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2066,7 +2154,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_O_ID48>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_O_ID49>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2078,7 +2166,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_P_ID49>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_P_ID50>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2090,7 +2178,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Q_ID50>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Q_ID51>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2102,7 +2190,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_R_ID51>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_R_ID52>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2114,7 +2202,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_S_ID52>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_S_ID53>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2126,7 +2214,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_T_ID53>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_T_ID54>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2138,7 +2226,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_U_ID54>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_U_ID55>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2150,7 +2238,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_V_ID55>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_V_ID56>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2162,7 +2250,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_W_ID56>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_W_ID57>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2174,7 +2262,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_X_ID57>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_X_ID58>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2186,7 +2274,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Y_ID58>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Y_ID59>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2198,7 +2286,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Z_ID59>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Z_ID60>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2210,7 +2298,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL___ID66>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL___ID68>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2222,7 +2310,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_A_ID68>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_A_ID70>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2234,7 +2322,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_B_ID70>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_B_ID72>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2246,7 +2334,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_C_ID71>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_C_ID73>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2258,7 +2346,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_D_ID72>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_D_ID74>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2270,7 +2358,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_E_ID73>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_E_ID75>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2282,7 +2370,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_F_ID74>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_F_ID76>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2294,7 +2382,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_G_ID75>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_G_ID77>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2306,7 +2394,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_H_ID76>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_H_ID78>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2318,7 +2406,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_I_ID77>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_I_ID79>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2330,7 +2418,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_J_ID78>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_J_ID80>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2342,7 +2430,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_K_ID79>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_K_ID81>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2354,7 +2442,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_L_ID80>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_L_ID82>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2366,7 +2454,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_M_ID81>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_M_ID83>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2378,7 +2466,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_N_ID82>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_N_ID84>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2390,7 +2478,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_O_ID83>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_O_ID85>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2402,7 +2490,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_P_ID84>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_P_ID86>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2414,7 +2502,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Q_ID85>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Q_ID87>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2426,7 +2514,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_R_ID86>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_R_ID88>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2438,7 +2526,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_S_ID87>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_S_ID89>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2450,7 +2538,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_T_ID88>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_T_ID90>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2462,7 +2550,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_U_ID89>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_U_ID91>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2474,7 +2562,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_V_ID90>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_V_ID92>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2486,7 +2574,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_W_ID91>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_W_ID93>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2498,7 +2586,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_X_ID92>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_X_ID94>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2510,7 +2598,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Y_ID93>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Y_ID95>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2522,7 +2610,7 @@ dsa::vent::tower::dbnf::NameCharacter* NameCharacter::Parse(dsa::vent::tower::db
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Z_ID94>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Z_ID96>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::NameCharacter* instance = new dsa::vent::tower::dbnf::NameCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2600,7 +2688,7 @@ dsa::vent::tower::dbnf::Digit* Digit::Parse(dsa::vent::tower::dbnf::LengthString
     dsa::vent::tower::dbnf::LengthString start = index;
     std::list<dsa::vent::tower::dbnf::Node*> children;
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_0_ID15>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_0_ID16>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Digit* instance = new dsa::vent::tower::dbnf::Digit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2612,7 +2700,7 @@ dsa::vent::tower::dbnf::Digit* Digit::Parse(dsa::vent::tower::dbnf::LengthString
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_1_ID17>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_1_ID18>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Digit* instance = new dsa::vent::tower::dbnf::Digit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2624,7 +2712,7 @@ dsa::vent::tower::dbnf::Digit* Digit::Parse(dsa::vent::tower::dbnf::LengthString
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_2_ID18>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_2_ID19>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Digit* instance = new dsa::vent::tower::dbnf::Digit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2636,7 +2724,7 @@ dsa::vent::tower::dbnf::Digit* Digit::Parse(dsa::vent::tower::dbnf::LengthString
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_3_ID19>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_3_ID20>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Digit* instance = new dsa::vent::tower::dbnf::Digit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2648,7 +2736,7 @@ dsa::vent::tower::dbnf::Digit* Digit::Parse(dsa::vent::tower::dbnf::LengthString
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_4_ID20>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_4_ID21>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Digit* instance = new dsa::vent::tower::dbnf::Digit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2660,7 +2748,7 @@ dsa::vent::tower::dbnf::Digit* Digit::Parse(dsa::vent::tower::dbnf::LengthString
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_5_ID21>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_5_ID22>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Digit* instance = new dsa::vent::tower::dbnf::Digit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2672,7 +2760,7 @@ dsa::vent::tower::dbnf::Digit* Digit::Parse(dsa::vent::tower::dbnf::LengthString
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_6_ID22>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_6_ID23>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Digit* instance = new dsa::vent::tower::dbnf::Digit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2684,7 +2772,7 @@ dsa::vent::tower::dbnf::Digit* Digit::Parse(dsa::vent::tower::dbnf::LengthString
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_7_ID23>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_7_ID24>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Digit* instance = new dsa::vent::tower::dbnf::Digit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2696,7 +2784,7 @@ dsa::vent::tower::dbnf::Digit* Digit::Parse(dsa::vent::tower::dbnf::LengthString
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_8_ID24>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_8_ID25>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Digit* instance = new dsa::vent::tower::dbnf::Digit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2708,7 +2796,7 @@ dsa::vent::tower::dbnf::Digit* Digit::Parse(dsa::vent::tower::dbnf::LengthString
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_9_ID25>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_9_ID26>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Digit* instance = new dsa::vent::tower::dbnf::Digit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2759,7 +2847,7 @@ dsa::vent::tower::dbnf::Punctuation* Punctuation::Parse(dsa::vent::tower::dbnf::
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID13>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID14>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Punctuation* instance = new dsa::vent::tower::dbnf::Punctuation();
         dsa::vent::tower::dbnf::LengthString data;
@@ -2771,7 +2859,7 @@ dsa::vent::tower::dbnf::Punctuation* Punctuation::Parse(dsa::vent::tower::dbnf::
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID32>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID33>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::Punctuation* instance = new dsa::vent::tower::dbnf::Punctuation();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3383,7 +3471,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID62>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID64>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3527,18 +3615,6 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID13>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
-    {
-        dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
-        dsa::vent::tower::dbnf::LengthString data;
-        data.length = start.length - index.length;
-        data.data = start.data;
-        instance->SetString(data);
-        instance->SetChildren(children);
-        return instance;
-    } else {
-    }
-
     if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID14>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
@@ -3551,7 +3627,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_0_ID15>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID15>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3563,7 +3639,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_1_ID17>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_0_ID16>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3575,7 +3651,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_2_ID18>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_1_ID18>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3587,7 +3663,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_3_ID19>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_2_ID19>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3599,7 +3675,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_4_ID20>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_3_ID20>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3611,7 +3687,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_5_ID21>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_4_ID21>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3623,7 +3699,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_6_ID22>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_5_ID22>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3635,7 +3711,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_7_ID23>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_6_ID23>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3647,7 +3723,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_8_ID24>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_7_ID24>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3659,7 +3735,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_9_ID25>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_8_ID25>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3671,7 +3747,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID26>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_9_ID26>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3683,7 +3759,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID28>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID27>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3755,7 +3831,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_A_ID34>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID34>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3767,7 +3843,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_B_ID35>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_A_ID35>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3779,7 +3855,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_C_ID36>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_B_ID36>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3791,7 +3867,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_D_ID37>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_C_ID37>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3803,7 +3879,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_E_ID38>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_D_ID38>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3815,7 +3891,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_F_ID39>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_E_ID39>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3827,7 +3903,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_G_ID40>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_F_ID40>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3839,7 +3915,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_H_ID41>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_G_ID41>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3851,7 +3927,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_I_ID42>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_H_ID42>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3863,7 +3939,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_J_ID43>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_I_ID43>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3875,7 +3951,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_K_ID44>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_J_ID44>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3887,7 +3963,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_L_ID45>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_K_ID45>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3899,7 +3975,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_M_ID46>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_L_ID46>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3911,7 +3987,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_N_ID47>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_M_ID47>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3923,7 +3999,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_O_ID48>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_N_ID48>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3935,7 +4011,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_P_ID49>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_O_ID49>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3947,7 +4023,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Q_ID50>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_P_ID50>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3959,7 +4035,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_R_ID51>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Q_ID51>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3971,7 +4047,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_S_ID52>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_R_ID52>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3983,7 +4059,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_T_ID53>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_S_ID53>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -3995,7 +4071,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_U_ID54>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_T_ID54>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4007,7 +4083,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_V_ID55>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_U_ID55>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4019,7 +4095,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_W_ID56>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_V_ID56>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4031,7 +4107,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_X_ID57>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_W_ID57>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4043,7 +4119,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Y_ID58>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_X_ID58>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4055,7 +4131,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Z_ID59>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Y_ID59>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4067,7 +4143,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID60>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Z_ID60>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4079,19 +4155,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID63>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
-    {
-        dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
-        dsa::vent::tower::dbnf::LengthString data;
-        data.length = start.length - index.length;
-        data.data = start.data;
-        instance->SetString(data);
-        instance->SetChildren(children);
-        return instance;
-    } else {
-    }
-
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID64>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID61>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4115,7 +4179,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL___ID66>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID66>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4139,7 +4203,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_A_ID68>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL___ID68>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4151,7 +4215,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_B_ID70>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID69>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4163,7 +4227,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_C_ID71>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_A_ID70>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4175,7 +4239,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_D_ID72>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_B_ID72>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4187,7 +4251,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_E_ID73>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_C_ID73>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4199,7 +4263,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_F_ID74>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_D_ID74>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4211,7 +4275,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_G_ID75>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_E_ID75>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4223,7 +4287,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_H_ID76>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_F_ID76>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4235,7 +4299,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_I_ID77>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_G_ID77>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4247,7 +4311,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_J_ID78>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_H_ID78>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4259,7 +4323,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_K_ID79>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_I_ID79>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4271,7 +4335,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_L_ID80>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_J_ID80>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4283,7 +4347,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_M_ID81>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_K_ID81>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4295,7 +4359,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_N_ID82>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_L_ID82>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4307,7 +4371,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_O_ID83>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_M_ID83>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4319,7 +4383,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_P_ID84>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_N_ID84>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4331,7 +4395,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Q_ID85>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_O_ID85>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4343,7 +4407,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_R_ID86>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_P_ID86>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4355,7 +4419,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_S_ID87>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Q_ID87>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4367,7 +4431,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_T_ID88>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_R_ID88>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4379,7 +4443,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_U_ID89>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_S_ID89>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4391,7 +4455,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_V_ID90>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_T_ID90>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4403,7 +4467,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_W_ID91>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_U_ID91>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4415,7 +4479,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_X_ID92>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_V_ID92>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4427,7 +4491,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Y_ID93>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_W_ID93>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4439,7 +4503,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Z_ID94>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_X_ID94>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4451,7 +4515,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID95>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Y_ID95>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4463,7 +4527,7 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID96>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_Z_ID96>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -4488,6 +4552,30 @@ dsa::vent::tower::dbnf::LiteralCharacter* LiteralCharacter::Parse(dsa::vent::tow
     }
 
     if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID98>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    } else {
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID99>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    {
+        dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
+        dsa::vent::tower::dbnf::LengthString data;
+        data.length = start.length - index.length;
+        data.data = start.data;
+        instance->SetString(data);
+        instance->SetChildren(children);
+        return instance;
+    } else {
+    }
+
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_ID100>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::LiteralCharacter* instance = new dsa::vent::tower::dbnf::LiteralCharacter();
         dsa::vent::tower::dbnf::LengthString data;
@@ -6062,7 +6150,7 @@ dsa::vent::tower::dbnf::HexDigit* HexDigit::Parse(dsa::vent::tower::dbnf::Length
     dsa::vent::tower::dbnf::LengthString start = index;
     std::list<dsa::vent::tower::dbnf::Node*> children;
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_0_ID15>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_0_ID16>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::HexDigit* instance = new dsa::vent::tower::dbnf::HexDigit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -6074,7 +6162,7 @@ dsa::vent::tower::dbnf::HexDigit* HexDigit::Parse(dsa::vent::tower::dbnf::Length
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_1_ID17>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_1_ID18>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::HexDigit* instance = new dsa::vent::tower::dbnf::HexDigit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -6086,7 +6174,7 @@ dsa::vent::tower::dbnf::HexDigit* HexDigit::Parse(dsa::vent::tower::dbnf::Length
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_2_ID18>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_2_ID19>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::HexDigit* instance = new dsa::vent::tower::dbnf::HexDigit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -6098,7 +6186,7 @@ dsa::vent::tower::dbnf::HexDigit* HexDigit::Parse(dsa::vent::tower::dbnf::Length
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_3_ID19>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_3_ID20>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::HexDigit* instance = new dsa::vent::tower::dbnf::HexDigit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -6110,7 +6198,7 @@ dsa::vent::tower::dbnf::HexDigit* HexDigit::Parse(dsa::vent::tower::dbnf::Length
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_4_ID20>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_4_ID21>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::HexDigit* instance = new dsa::vent::tower::dbnf::HexDigit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -6122,7 +6210,7 @@ dsa::vent::tower::dbnf::HexDigit* HexDigit::Parse(dsa::vent::tower::dbnf::Length
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_5_ID21>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_5_ID22>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::HexDigit* instance = new dsa::vent::tower::dbnf::HexDigit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -6134,7 +6222,7 @@ dsa::vent::tower::dbnf::HexDigit* HexDigit::Parse(dsa::vent::tower::dbnf::Length
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_6_ID22>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_6_ID23>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::HexDigit* instance = new dsa::vent::tower::dbnf::HexDigit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -6146,7 +6234,7 @@ dsa::vent::tower::dbnf::HexDigit* HexDigit::Parse(dsa::vent::tower::dbnf::Length
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_7_ID23>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_7_ID24>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::HexDigit* instance = new dsa::vent::tower::dbnf::HexDigit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -6158,7 +6246,7 @@ dsa::vent::tower::dbnf::HexDigit* HexDigit::Parse(dsa::vent::tower::dbnf::Length
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_8_ID24>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_8_ID25>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::HexDigit* instance = new dsa::vent::tower::dbnf::HexDigit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -6170,7 +6258,7 @@ dsa::vent::tower::dbnf::HexDigit* HexDigit::Parse(dsa::vent::tower::dbnf::Length
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_9_ID25>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_9_ID26>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::HexDigit* instance = new dsa::vent::tower::dbnf::HexDigit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -6182,7 +6270,7 @@ dsa::vent::tower::dbnf::HexDigit* HexDigit::Parse(dsa::vent::tower::dbnf::Length
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_A_ID34>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_A_ID35>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::HexDigit* instance = new dsa::vent::tower::dbnf::HexDigit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -6194,7 +6282,7 @@ dsa::vent::tower::dbnf::HexDigit* HexDigit::Parse(dsa::vent::tower::dbnf::Length
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_B_ID35>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_B_ID36>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::HexDigit* instance = new dsa::vent::tower::dbnf::HexDigit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -6206,7 +6294,7 @@ dsa::vent::tower::dbnf::HexDigit* HexDigit::Parse(dsa::vent::tower::dbnf::Length
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_C_ID36>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_C_ID37>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::HexDigit* instance = new dsa::vent::tower::dbnf::HexDigit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -6218,7 +6306,7 @@ dsa::vent::tower::dbnf::HexDigit* HexDigit::Parse(dsa::vent::tower::dbnf::Length
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_D_ID37>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_D_ID38>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::HexDigit* instance = new dsa::vent::tower::dbnf::HexDigit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -6230,7 +6318,7 @@ dsa::vent::tower::dbnf::HexDigit* HexDigit::Parse(dsa::vent::tower::dbnf::Length
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_E_ID38>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_E_ID39>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::HexDigit* instance = new dsa::vent::tower::dbnf::HexDigit();
         dsa::vent::tower::dbnf::LengthString data;
@@ -6242,7 +6330,7 @@ dsa::vent::tower::dbnf::HexDigit* HexDigit::Parse(dsa::vent::tower::dbnf::Length
     } else {
     }
 
-    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_F_ID39>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
+    if ((dsa::vent::tower::dbnf::ClearNodes(children) && dsa::vent::tower::dbnf::Match(children, StringParser<LITERAL_F_ID40>::Parse(index))) || dsa::vent::tower::dbnf::Reset(start, index))
     {
         dsa::vent::tower::dbnf::HexDigit* instance = new dsa::vent::tower::dbnf::HexDigit();
         dsa::vent::tower::dbnf::LengthString data;

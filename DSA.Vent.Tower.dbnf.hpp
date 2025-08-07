@@ -181,14 +181,22 @@ public:
     static dsa::vent::tower::dbnf::SimpleToken* Parse(dsa::vent::tower::dbnf::LengthString& index);
 
     dsa::vent::tower::dbnf::HexDigit* GetHigh();
+    dsa::vent::tower::dbnf::HexDigit* GetHighHigh();
+    dsa::vent::tower::dbnf::HexDigit* GetHighLow();
     dsa::vent::tower::dbnf::Literal* GetLiteral();
     dsa::vent::tower::dbnf::HexDigit* GetLow();
+    dsa::vent::tower::dbnf::HexDigit* GetLowHigh();
+    dsa::vent::tower::dbnf::HexDigit* GetLowLow();
     dsa::vent::tower::dbnf::Name* GetToken();
 
 private:
     dsa::vent::tower::dbnf::HexDigit* high_;
+    dsa::vent::tower::dbnf::HexDigit* high_high_;
+    dsa::vent::tower::dbnf::HexDigit* high_low_;
     dsa::vent::tower::dbnf::Literal* literal_;
     dsa::vent::tower::dbnf::HexDigit* low_;
+    dsa::vent::tower::dbnf::HexDigit* low_high_;
+    dsa::vent::tower::dbnf::HexDigit* low_low_;
     dsa::vent::tower::dbnf::Name* token_;
 };
 

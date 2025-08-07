@@ -209,6 +209,65 @@ public:
 		ctcode << "}" << std::endl;
 		ctcode << std::endl;
 
+		ctcode << "class CharacterRangeParser" << std::endl;
+		ctcode << "{" << std::endl;
+		ctcode << "    function bool ParseSingle(LengthString index, int low_value, int high_value)" << std::endl;
+		ctcode << "    {" << std::endl;
+		ctcode << "        if (0 == index.GetLength())" << std::endl;
+		ctcode << "        {" << std::endl;
+		ctcode << "            return false;" << std::endl;
+		ctcode << "        }" << std::endl;
+		ctcode << std::endl;
+		ctcode << "        int current_character = IntAt(index.GetData(), index.GetStart());" << std::endl;
+		ctcode << std::endl;
+		ctcode << "        if (low_value <= current_character && current_character <= high_value)" << std::endl;
+		ctcode << "        {" << std::endl;
+		ctcode << "            index.SetStart(index.GetStart() + 1);" << std::endl;
+		ctcode << "            index.SetLength(index.GetLength() - 1);" << std::endl;
+		ctcode << "            return true;" << std::endl;
+		ctcode << "        }" << std::endl;
+		ctcode << std::endl;
+		ctcode << "        return false;" << std::endl;
+		ctcode << "    }" << std::endl;
+		ctcode << "}" << std::endl;
+		ctcode << std::endl;
+		ctcode << "class CharacterRangeResult" << std::endl;
+		ctcode << "{" << std::endl;
+		ctcode << "    function void SetValue(CharacterRange new_value) { value = new_value; }" << std::endl;
+		ctcode << "    function CharacterRange GetValue() { return value; }" << std::endl;
+		ctcode << "    function void SetResult(bool new_result) { result = new_result; }" << std::endl;
+		ctcode << "    function bool GetResult() { return result; }" << std::endl;
+		ctcode << std::endl;
+		ctcode << "    CharacterRange value;" << std::endl;
+		ctcode << "    bool result;" << std::endl;
+		ctcode << "}" << std::endl;
+		ctcode << std::endl;
+		ctcode << "class CharacterRangeListResult" << std::endl;
+		ctcode << "{" << std::endl;
+		ctcode << "    function void SetValue(CharacterRange[] new_value) { value = new_value; }" << std::endl;
+		ctcode << "    function CharacterRange[] GetValue() { return value; }" << std::endl;
+		ctcode << "    function void SetResult(bool new_result) { result = new_result; }" << std::endl;
+		ctcode << "    function bool GetResult() { return result; }" << std::endl;
+		ctcode << std::endl;
+		ctcode << "    CharacterRange[] value;" << std::endl;
+		ctcode << "    bool result;" << std::endl;
+		ctcode << "}" << std::endl;
+		ctcode << std::endl;
+		ctcode << "class CharacterRange" << std::endl;
+		ctcode << "{" << std::endl;
+		ctcode << "    function void SetLengthString(LengthString new_value)" << std::endl;
+		ctcode << "    {" << std::endl;
+		ctcode << "        length_string = new LengthString;" << std::endl;
+		ctcode << "        length_string.SetData(new_value.GetData());" << std::endl;
+		ctcode << "        length_string.SetStart(new_value.GetStart());" << std::endl;
+		ctcode << "        length_string.SetLength(new_value.GetLength());" << std::endl;
+		ctcode << "    }" << std::endl;
+		ctcode << std::endl;
+		ctcode << "    function string UnParse() { return length_string.GetString(); }" << std::endl;
+		ctcode << std::endl;
+		ctcode << "    LengthString length_string;" << std::endl;
+		ctcode << "}" << std::endl;
+		ctcode << std::endl;
 
 		ctcode << "class ParserNetwork" << std::endl;
 		ctcode << "{" << std::endl;
@@ -229,11 +288,15 @@ public:
 		std::string string_parser_field_name = CamelCaseToSnakeCase(string_parser_class_name) + "_field";
 		std::string character_parser_class_name = "CharacterParser";
 		std::string character_parser_field_name = CamelCaseToSnakeCase(character_parser_class_name) + "_field";
+		std::string character_range_parser_class_name = "CharacterRangeParser";
+		std::string character_range_parser_field_name = CamelCaseToSnakeCase(character_range_parser_class_name) + "_field";
 
 		ctcode << "    " << string_parser_class_name << " " << string_parser_field_name << ";" << std::endl;
 		ctcode << "    function " << string_parser_class_name << " " << GenerateGetterName(string_parser_field_name) << "() { return " << string_parser_field_name << ";}" << std::endl;
 		ctcode << "    " << character_parser_class_name << " " << character_parser_field_name << ";" << std::endl;
 		ctcode << "    function " << character_parser_class_name << " " << GenerateGetterName(character_parser_field_name) << "() { return " << character_parser_field_name << ";}" << std::endl;
+		ctcode << "    " << character_range_parser_class_name << " " << character_range_parser_field_name << ";" << std::endl;
+		ctcode << "    function " << character_range_parser_class_name << " " << GenerateGetterName(character_range_parser_field_name) << "() { return " << character_range_parser_field_name << ";}" << std::endl;
 
 		ctcode << "    function void Initialize() {" << std::endl;
 
@@ -399,6 +462,12 @@ public:
 				parser = "CharacterParser";
 				match_function_parameters += ", " + token->GetValue()->UnParse();
 			}
+			else if ((token->GetValue()->GetHighHigh()) && (token->GetValue()->GetHighLow()) && (token->GetValue()->GetLowHigh()) && (token->GetValue()->GetLowLow()))
+			{
+				parser = "CharacterRangeParser";
+				match_function_parameters += ", 0x" + token->GetValue()->GetLowHigh()->UnParse() + token->GetValue()->GetLowLow()->UnParse();
+				match_function_parameters += ", 0x" + token->GetValue()->GetHighHigh()->UnParse() + token->GetValue()->GetHighLow()->UnParse();
+			}
 
 			if (token->GetName())
 			{
@@ -509,6 +578,11 @@ public:
 		std::string character_parser_field_name = CamelCaseToSnakeCase(character_parser_class_name) + "_field";
 		std::string character_parser_local_name = CamelCaseToSnakeCase(character_parser_class_name) + "_instance";
 		ctcode << "        " << character_parser_class_name << " " << character_parser_local_name << " = parser_network." << GenerateGetterName(character_parser_field_name) << "();" << std::endl;
+
+		std::string character_range_parser_class_name = "CharacterRangeParser";
+		std::string character_range_parser_field_name = CamelCaseToSnakeCase(character_range_parser_class_name) + "_field";
+		std::string character_range_parser_local_name = CamelCaseToSnakeCase(character_range_parser_class_name) + "_instance";
+		ctcode << "        " << character_range_parser_class_name << " " << character_range_parser_local_name << " = parser_network." << GenerateGetterName(character_range_parser_field_name) << "();" << std::endl;
 
 		ctcode << std::endl;
 		std::vector<Expression*> expressions = UnwrapOmniList(rule->GetExpressions());
@@ -801,6 +875,10 @@ public:
 
 						if ((token->GetValue()->GetHigh()) ||
 							(token->GetValue()->GetLow()) ||
+							(token->GetValue()->GetHighHigh()) ||
+							(token->GetValue()->GetHighLow()) ||
+							(token->GetValue()->GetLowHigh()) ||
+							(token->GetValue()->GetLowLow()) ||
 							(token->GetValue()->GetLiteral()))
 						{
 							token_type_name = "String";

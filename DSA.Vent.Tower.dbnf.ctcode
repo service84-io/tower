@@ -141,6 +141,65 @@ class Character
     LengthString length_string;
 }
 
+class CharacterRangeParser
+{
+    function bool ParseSingle(LengthString index, int low_value, int high_value)
+    {
+        if (0 == index.GetLength())
+        {
+            return false;
+        }
+
+        int current_character = IntAt(index.GetData(), index.GetStart());
+
+        if (low_value <= current_character && current_character <= high_value)
+        {
+            index.SetStart(index.GetStart() + 1);
+            index.SetLength(index.GetLength() - 1);
+            return true;
+        }
+
+        return false;
+    }
+}
+
+class CharacterRangeResult
+{
+    function void SetValue(CharacterRange new_value) { value = new_value; }
+    function CharacterRange GetValue() { return value; }
+    function void SetResult(bool new_result) { result = new_result; }
+    function bool GetResult() { return result; }
+
+    CharacterRange value;
+    bool result;
+}
+
+class CharacterRangeListResult
+{
+    function void SetValue(CharacterRange[] new_value) { value = new_value; }
+    function CharacterRange[] GetValue() { return value; }
+    function void SetResult(bool new_result) { result = new_result; }
+    function bool GetResult() { return result; }
+
+    CharacterRange[] value;
+    bool result;
+}
+
+class CharacterRange
+{
+    function void SetLengthString(LengthString new_value)
+    {
+        length_string = new LengthString;
+        length_string.SetData(new_value.GetData());
+        length_string.SetStart(new_value.GetStart());
+        length_string.SetLength(new_value.GetLength());
+    }
+
+    function string UnParse() { return length_string.GetString(); }
+
+    LengthString length_string;
+}
+
 class ParserNetwork
 {
     GrammarParser grammar_parser_field;
@@ -185,6 +244,8 @@ class ParserNetwork
     function StringParser GetStringParser() { return string_parser_field;}
     CharacterParser character_parser_field;
     function CharacterParser GetCharacterParser() { return character_parser_field;}
+    CharacterRangeParser character_range_parser_field;
+    function CharacterRangeParser GetCharacterRangeParser() { return character_range_parser_field;}
     function void Initialize() {
         grammar_parser_field = new GrammarParser;
         grammar_parser_field.SetParserNetwork(myself);
@@ -679,6 +740,7 @@ class GrammarParser
         EolParser eol_parser_instance = parser_network.GetEolParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && rule_parser_instance.ParseManySave(index, rules_field, 0, -1)) {
             instance.SetRules(rules_field.GetValue());
@@ -845,6 +907,7 @@ class RuleParser
         EolParser eol_parser_instance = parser_network.GetEolParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "<") && name_parser_instance.ParseSingleSave(index, name_field) && string_parser_instance.ParseSingle(index, ">") && expression_parser_instance.ParseManySave(index, expressions_field, 0, -1)) {
             instance.SetExpressions(expressions_field.GetValue());
@@ -1031,6 +1094,7 @@ class ExpressionParser
         EolParser eol_parser_instance = parser_network.GetEolParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingleSave(index, "::=", expression_discriminator_field) && token_parser_instance.ParseManySave(index, token_sequence_field, 0, -1) && eol_parser_instance.ParseSingle(index)) {
             instance.SetExpressionDiscriminator(expression_discriminator_field.GetValue());
@@ -1218,6 +1282,7 @@ class TokenParser
         EolParser eol_parser_instance = parser_network.GetEolParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "attribute") && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "(") && whitespace_parser_instance.ParseMany(index, 0, -1) && name_parser_instance.ParseSingleSave(index, name_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && simple_token_parser_instance.ParseSingleSave(index, value_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && modifier_parser_instance.ParseSingleSave(index, modifier_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ")") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
             instance.SetModifier(modifier_field.GetValue());
@@ -1422,8 +1487,12 @@ class SimpleTokenParser
         consumed_string.SetLength(0);
         SimpleToken instance = new SimpleToken;
         HexDigitResult high_field = new HexDigitResult;
+        HexDigitResult high_high_field = new HexDigitResult;
+        HexDigitResult high_low_field = new HexDigitResult;
         LiteralResult literal_field = new LiteralResult;
         HexDigitResult low_field = new HexDigitResult;
+        HexDigitResult low_high_field = new HexDigitResult;
+        HexDigitResult low_low_field = new HexDigitResult;
         NameResult token_field = new NameResult;
 
         GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
@@ -1447,11 +1516,16 @@ class SimpleTokenParser
         EolParser eol_parser_instance = parser_network.GetEolParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, "<") && name_parser_instance.ParseSingleSave(index, token_field) && string_parser_instance.ParseSingle(index, ">")) {
             instance.SetHigh(high_field.GetValue());
+            instance.SetHighHigh(high_high_field.GetValue());
+            instance.SetHighLow(high_low_field.GetValue());
             instance.SetLiteral(literal_field.GetValue());
             instance.SetLow(low_field.GetValue());
+            instance.SetLowHigh(low_high_field.GetValue());
+            instance.SetLowLow(low_low_field.GetValue());
             instance.SetToken(token_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
@@ -1462,15 +1536,23 @@ class SimpleTokenParser
             index.SetStart(index_start);
             index.SetLength(index_length);
             high_field = new HexDigitResult;
+            high_high_field = new HexDigitResult;
+            high_low_field = new HexDigitResult;
             literal_field = new LiteralResult;
             low_field = new HexDigitResult;
+            low_high_field = new HexDigitResult;
+            low_low_field = new HexDigitResult;
             token_field = new NameResult;
         }
 
         if (true && string_parser_instance.ParseSingle(index, "0x") && hex_digit_parser_instance.ParseSingleSave(index, high_field) && hex_digit_parser_instance.ParseSingleSave(index, low_field)) {
             instance.SetHigh(high_field.GetValue());
+            instance.SetHighHigh(high_high_field.GetValue());
+            instance.SetHighLow(high_low_field.GetValue());
             instance.SetLiteral(literal_field.GetValue());
             instance.SetLow(low_field.GetValue());
+            instance.SetLowHigh(low_high_field.GetValue());
+            instance.SetLowLow(low_low_field.GetValue());
             instance.SetToken(token_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
@@ -1481,15 +1563,23 @@ class SimpleTokenParser
             index.SetStart(index_start);
             index.SetLength(index_length);
             high_field = new HexDigitResult;
+            high_high_field = new HexDigitResult;
+            high_low_field = new HexDigitResult;
             literal_field = new LiteralResult;
             low_field = new HexDigitResult;
+            low_high_field = new HexDigitResult;
+            low_low_field = new HexDigitResult;
             token_field = new NameResult;
         }
 
         if (true && string_parser_instance.ParseSingle(index, "\"") && literal_parser_instance.ParseSingleSave(index, literal_field) && string_parser_instance.ParseSingle(index, "\"")) {
             instance.SetHigh(high_field.GetValue());
+            instance.SetHighHigh(high_high_field.GetValue());
+            instance.SetHighLow(high_low_field.GetValue());
             instance.SetLiteral(literal_field.GetValue());
             instance.SetLow(low_field.GetValue());
+            instance.SetLowHigh(low_high_field.GetValue());
+            instance.SetLowLow(low_low_field.GetValue());
             instance.SetToken(token_field.GetValue());
             consumed_string.SetLength(index.GetStart() - index_start);
             instance.SetLengthString(consumed_string);
@@ -1500,8 +1590,39 @@ class SimpleTokenParser
             index.SetStart(index_start);
             index.SetLength(index_length);
             high_field = new HexDigitResult;
+            high_high_field = new HexDigitResult;
+            high_low_field = new HexDigitResult;
             literal_field = new LiteralResult;
             low_field = new HexDigitResult;
+            low_high_field = new HexDigitResult;
+            low_low_field = new HexDigitResult;
+            token_field = new NameResult;
+        }
+
+        if (true && string_parser_instance.ParseSingle(index, "[0x") && hex_digit_parser_instance.ParseSingleSave(index, low_high_field) && hex_digit_parser_instance.ParseSingleSave(index, low_low_field) && string_parser_instance.ParseSingle(index, "-0x") && hex_digit_parser_instance.ParseSingleSave(index, high_high_field) && hex_digit_parser_instance.ParseSingleSave(index, high_low_field) && string_parser_instance.ParseSingle(index, "]")) {
+            instance.SetHigh(high_field.GetValue());
+            instance.SetHighHigh(high_high_field.GetValue());
+            instance.SetHighLow(high_low_field.GetValue());
+            instance.SetLiteral(literal_field.GetValue());
+            instance.SetLow(low_field.GetValue());
+            instance.SetLowHigh(low_high_field.GetValue());
+            instance.SetLowLow(low_low_field.GetValue());
+            instance.SetToken(token_field.GetValue());
+            consumed_string.SetLength(index.GetStart() - index_start);
+            instance.SetLengthString(consumed_string);
+            result.SetValue(instance);
+            result.SetResult(true);
+            return result.GetResult();
+        } else {
+            index.SetStart(index_start);
+            index.SetLength(index_length);
+            high_field = new HexDigitResult;
+            high_high_field = new HexDigitResult;
+            high_low_field = new HexDigitResult;
+            literal_field = new LiteralResult;
+            low_field = new HexDigitResult;
+            low_high_field = new HexDigitResult;
+            low_low_field = new HexDigitResult;
             token_field = new NameResult;
         }
 
@@ -1615,17 +1736,29 @@ class SimpleToken
     function string UnParse() { return length_string.GetString(); }
     function void SetHigh(HexDigit input_value) { high_field = input_value; }
     function HexDigit GetHigh() { return high_field; }
+    function void SetHighHigh(HexDigit input_value) { high_high_field = input_value; }
+    function HexDigit GetHighHigh() { return high_high_field; }
+    function void SetHighLow(HexDigit input_value) { high_low_field = input_value; }
+    function HexDigit GetHighLow() { return high_low_field; }
     function void SetLiteral(Literal input_value) { literal_field = input_value; }
     function Literal GetLiteral() { return literal_field; }
     function void SetLow(HexDigit input_value) { low_field = input_value; }
     function HexDigit GetLow() { return low_field; }
+    function void SetLowHigh(HexDigit input_value) { low_high_field = input_value; }
+    function HexDigit GetLowHigh() { return low_high_field; }
+    function void SetLowLow(HexDigit input_value) { low_low_field = input_value; }
+    function HexDigit GetLowLow() { return low_low_field; }
     function void SetToken(Name input_value) { token_field = input_value; }
     function Name GetToken() { return token_field; }
 
     LengthString length_string;
     HexDigit high_field;
+    HexDigit high_high_field;
+    HexDigit high_low_field;
     Literal literal_field;
     HexDigit low_field;
+    HexDigit low_high_field;
+    HexDigit low_low_field;
     Name token_field;
 }
 
@@ -1665,6 +1798,7 @@ class ModifierParser
         EolParser eol_parser_instance = parser_network.GetEolParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, "*")) {
             instance.SetCardinality(cardinality_field.GetValue());
@@ -1871,6 +2005,7 @@ class CardinalityParser
         EolParser eol_parser_instance = parser_network.GetEolParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && number_parser_instance.ParseSingleSave(index, minimum_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ",") && whitespace_parser_instance.ParseMany(index, 0, -1) && number_parser_instance.ParseSingleSave(index, maximum_field)) {
             instance.SetCount(count_field.GetValue());
@@ -2079,6 +2214,7 @@ class NameParser
         EolParser eol_parser_instance = parser_network.GetEolParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && name_character_parser_instance.ParseMany(index, 1, -1)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -2238,6 +2374,7 @@ class NameCharacterParser
         EolParser eol_parser_instance = parser_network.GetEolParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, "0")) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -3079,6 +3216,7 @@ class NumberParser
         EolParser eol_parser_instance = parser_network.GetEolParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && digit_parser_instance.ParseMany(index, 1, -1)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -3238,6 +3376,7 @@ class DigitParser
         EolParser eol_parser_instance = parser_network.GetEolParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, "0")) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -3496,6 +3635,7 @@ class PunctuationParser
         EolParser eol_parser_instance = parser_network.GetEolParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, ",")) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -3688,6 +3828,7 @@ class CommentCharacterParser
         EolParser eol_parser_instance = parser_network.GetEolParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && name_character_parser_instance.ParseSingle(index)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -3880,6 +4021,7 @@ class CommentParser
         EolParser eol_parser_instance = parser_network.GetEolParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "#") && comment_character_parser_instance.ParseMany(index, 0, -1) && eol_parser_instance.ParseSingle(index)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -4039,6 +4181,7 @@ class LiteralParser
         EolParser eol_parser_instance = parser_network.GetEolParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && literal_character_parser_instance.ParseMany(index, 0, -1)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -4198,6 +4341,7 @@ class LiteralCharacterParser
         EolParser eol_parser_instance = parser_network.GetEolParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && character_parser_instance.ParseSingle(index, 0x00)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -7151,6 +7295,7 @@ class HexDigitParser
         EolParser eol_parser_instance = parser_network.GetEolParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, "0")) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -7475,6 +7620,7 @@ class WhitespaceParser
         EolParser eol_parser_instance = parser_network.GetEolParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && character_parser_instance.ParseSingle(index, 0x00)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -7964,6 +8110,7 @@ class EolParser
         EolParser eol_parser_instance = parser_network.GetEolParser();
         StringParser string_parser_instance = parser_network.GetStringParser();
         CharacterParser character_parser_instance = parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
 
         if (true && character_parser_instance.ParseSingle(index, 0x0A) && character_parser_instance.ParseSingle(index, 0x0D)) {
             consumed_string.SetLength(index.GetStart() - index_start);

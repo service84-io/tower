@@ -178,6 +178,77 @@ namespace ctcode
         return length_string->GetString();
     }
 
+    bool CharacterRangeParser::ParseSingle(OmniPointer<LengthString> index, int low_value, int high_value)
+    {
+        if (0 == index->GetLength())
+        {
+            return false;
+        }
+
+        int current_character = IntAt(index->GetData(), index->GetStart());
+        if (low_value <= current_character && current_character <= high_value)
+        {
+            index->SetStart(index->GetStart() + 1);
+            index->SetLength(index->GetLength() - 1);
+            return true;
+        }
+
+        return false;
+    }
+
+    void CharacterRangeResult::SetValue(OmniPointer<CharacterRange> new_value)
+    {
+        value = new_value;
+    }
+
+    OmniPointer<CharacterRange> CharacterRangeResult::GetValue()
+    {
+        return value;
+    }
+
+    void CharacterRangeResult::SetResult(bool new_result)
+    {
+        result = new_result;
+    }
+
+    bool CharacterRangeResult::GetResult()
+    {
+        return result;
+    }
+
+    void CharacterRangeListResult::SetValue(std::vector<OmniPointer<CharacterRange>> new_value)
+    {
+        value = new_value;
+    }
+
+    std::vector<OmniPointer<CharacterRange>> CharacterRangeListResult::GetValue()
+    {
+        return value;
+    }
+
+    void CharacterRangeListResult::SetResult(bool new_result)
+    {
+        result = new_result;
+    }
+
+    bool CharacterRangeListResult::GetResult()
+    {
+        return result;
+    }
+
+    void CharacterRange::SetLengthString(OmniPointer<LengthString> new_value)
+    {
+        length_string = std::shared_ptr<LengthString>(new LengthString());
+        length_string->SetData(new_value->GetData());
+        length_string->SetStart(new_value->GetStart());
+        length_string->SetLength(new_value->GetLength());
+    }
+
+    std::string CharacterRange::UnParse()
+    {
+        return length_string->GetString();
+    }
+
     OmniPointer<GrammarParser> ParserNetwork::GetGrammarParser()
     {
         return grammar_parser_field;
@@ -281,6 +352,11 @@ namespace ctcode
     OmniPointer<CharacterParser> ParserNetwork::GetCharacterParser()
     {
         return character_parser_field;
+    }
+
+    OmniPointer<CharacterRangeParser> ParserNetwork::GetCharacterRangeParser()
+    {
+        return character_range_parser_field;
     }
 
     void ParserNetwork::Initialize()
@@ -960,6 +1036,7 @@ namespace ctcode
         OmniPointer<EolParser> eol_parser_instance = parser_network->GetEolParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && rule_parser_instance->ParseManySave(index, rules_field, 0, -1))
         {
             instance->SetRules(rules_field->GetValue());
@@ -1150,6 +1227,7 @@ namespace ctcode
         OmniPointer<EolParser> eol_parser_instance = parser_network->GetEolParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("<")) && name_parser_instance->ParseSingleSave(index, name_field) && string_parser_instance->ParseSingle(index, std::string(">")) && expression_parser_instance->ParseManySave(index, expressions_field, 0, -1))
         {
             instance->SetExpressions(expressions_field->GetValue());
@@ -1370,6 +1448,7 @@ namespace ctcode
         OmniPointer<EolParser> eol_parser_instance = parser_network->GetEolParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingleSave(index, std::string("::="), expression_discriminator_field) && token_parser_instance->ParseManySave(index, token_sequence_field, 0, -1) && eol_parser_instance->ParseSingle(index))
         {
             instance->SetExpressionDiscriminator(expression_discriminator_field->GetValue());
@@ -1591,6 +1670,7 @@ namespace ctcode
         OmniPointer<EolParser> eol_parser_instance = parser_network->GetEolParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("attribute")) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("(")) && whitespace_parser_instance->ParseMany(index, 0, -1) && name_parser_instance->ParseSingleSave(index, name_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && simple_token_parser_instance->ParseSingleSave(index, value_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && modifier_parser_instance->ParseSingleSave(index, modifier_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string(")")) && whitespace_parser_instance->ParseMany(index, 0, -1))
         {
             instance->SetModifier(modifier_field->GetValue());
@@ -1843,8 +1923,12 @@ namespace ctcode
         consumed_string->SetLength(0);
         OmniPointer<SimpleToken> instance = std::shared_ptr<SimpleToken>(new SimpleToken());
         OmniPointer<HexDigitResult> high_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+        OmniPointer<HexDigitResult> high_high_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+        OmniPointer<HexDigitResult> high_low_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
         OmniPointer<LiteralResult> literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
         OmniPointer<HexDigitResult> low_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+        OmniPointer<HexDigitResult> low_high_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+        OmniPointer<HexDigitResult> low_low_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
         OmniPointer<NameResult> token_field = std::shared_ptr<NameResult>(new NameResult());
         OmniPointer<GrammarParser> grammar_parser_instance = parser_network->GetGrammarParser();
         OmniPointer<RuleParser> rule_parser_instance = parser_network->GetRuleParser();
@@ -1867,11 +1951,16 @@ namespace ctcode
         OmniPointer<EolParser> eol_parser_instance = parser_network->GetEolParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && string_parser_instance->ParseSingle(index, std::string("<")) && name_parser_instance->ParseSingleSave(index, token_field) && string_parser_instance->ParseSingle(index, std::string(">")))
         {
             instance->SetHigh(high_field->GetValue());
+            instance->SetHighHigh(high_high_field->GetValue());
+            instance->SetHighLow(high_low_field->GetValue());
             instance->SetLiteral(literal_field->GetValue());
             instance->SetLow(low_field->GetValue());
+            instance->SetLowHigh(low_high_field->GetValue());
+            instance->SetLowLow(low_low_field->GetValue());
             instance->SetToken(token_field->GetValue());
             consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
@@ -1884,16 +1973,24 @@ namespace ctcode
             index->SetStart(index_start);
             index->SetLength(index_length);
             high_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+            high_high_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+            high_low_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
             literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
             low_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+            low_high_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+            low_low_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
             token_field = std::shared_ptr<NameResult>(new NameResult());
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("0x")) && hex_digit_parser_instance->ParseSingleSave(index, high_field) && hex_digit_parser_instance->ParseSingleSave(index, low_field))
         {
             instance->SetHigh(high_field->GetValue());
+            instance->SetHighHigh(high_high_field->GetValue());
+            instance->SetHighLow(high_low_field->GetValue());
             instance->SetLiteral(literal_field->GetValue());
             instance->SetLow(low_field->GetValue());
+            instance->SetLowHigh(low_high_field->GetValue());
+            instance->SetLowLow(low_low_field->GetValue());
             instance->SetToken(token_field->GetValue());
             consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
@@ -1906,16 +2003,24 @@ namespace ctcode
             index->SetStart(index_start);
             index->SetLength(index_length);
             high_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+            high_high_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+            high_low_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
             literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
             low_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+            low_high_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+            low_low_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
             token_field = std::shared_ptr<NameResult>(new NameResult());
         }
 
         if (true && string_parser_instance->ParseSingle(index, std::string("\"")) && literal_parser_instance->ParseSingleSave(index, literal_field) && string_parser_instance->ParseSingle(index, std::string("\"")))
         {
             instance->SetHigh(high_field->GetValue());
+            instance->SetHighHigh(high_high_field->GetValue());
+            instance->SetHighLow(high_low_field->GetValue());
             instance->SetLiteral(literal_field->GetValue());
             instance->SetLow(low_field->GetValue());
+            instance->SetLowHigh(low_high_field->GetValue());
+            instance->SetLowLow(low_low_field->GetValue());
             instance->SetToken(token_field->GetValue());
             consumed_string->SetLength(index->GetStart() - index_start);
             instance->SetLengthString(consumed_string);
@@ -1928,8 +2033,42 @@ namespace ctcode
             index->SetStart(index_start);
             index->SetLength(index_length);
             high_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+            high_high_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+            high_low_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
             literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
             low_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+            low_high_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+            low_low_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+            token_field = std::shared_ptr<NameResult>(new NameResult());
+        }
+
+        if (true && string_parser_instance->ParseSingle(index, std::string("[0x")) && hex_digit_parser_instance->ParseSingleSave(index, low_high_field) && hex_digit_parser_instance->ParseSingleSave(index, low_low_field) && string_parser_instance->ParseSingle(index, std::string("-0x")) && hex_digit_parser_instance->ParseSingleSave(index, high_high_field) && hex_digit_parser_instance->ParseSingleSave(index, high_low_field) && string_parser_instance->ParseSingle(index, std::string("]")))
+        {
+            instance->SetHigh(high_field->GetValue());
+            instance->SetHighHigh(high_high_field->GetValue());
+            instance->SetHighLow(high_low_field->GetValue());
+            instance->SetLiteral(literal_field->GetValue());
+            instance->SetLow(low_field->GetValue());
+            instance->SetLowHigh(low_high_field->GetValue());
+            instance->SetLowLow(low_low_field->GetValue());
+            instance->SetToken(token_field->GetValue());
+            consumed_string->SetLength(index->GetStart() - index_start);
+            instance->SetLengthString(consumed_string);
+            result->SetValue(instance);
+            result->SetResult(true);
+            return result->GetResult();
+        }
+        else
+        {
+            index->SetStart(index_start);
+            index->SetLength(index_length);
+            high_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+            high_high_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+            high_low_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+            literal_field = std::shared_ptr<LiteralResult>(new LiteralResult());
+            low_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+            low_high_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
+            low_low_field = std::shared_ptr<HexDigitResult>(new HexDigitResult());
             token_field = std::shared_ptr<NameResult>(new NameResult());
         }
 
@@ -2070,6 +2209,26 @@ namespace ctcode
         return high_field;
     }
 
+    void SimpleToken::SetHighHigh(OmniPointer<HexDigit> input_value)
+    {
+        high_high_field = input_value;
+    }
+
+    OmniPointer<HexDigit> SimpleToken::GetHighHigh()
+    {
+        return high_high_field;
+    }
+
+    void SimpleToken::SetHighLow(OmniPointer<HexDigit> input_value)
+    {
+        high_low_field = input_value;
+    }
+
+    OmniPointer<HexDigit> SimpleToken::GetHighLow()
+    {
+        return high_low_field;
+    }
+
     void SimpleToken::SetLiteral(OmniPointer<Literal> input_value)
     {
         literal_field = input_value;
@@ -2088,6 +2247,26 @@ namespace ctcode
     OmniPointer<HexDigit> SimpleToken::GetLow()
     {
         return low_field;
+    }
+
+    void SimpleToken::SetLowHigh(OmniPointer<HexDigit> input_value)
+    {
+        low_high_field = input_value;
+    }
+
+    OmniPointer<HexDigit> SimpleToken::GetLowHigh()
+    {
+        return low_high_field;
+    }
+
+    void SimpleToken::SetLowLow(OmniPointer<HexDigit> input_value)
+    {
+        low_low_field = input_value;
+    }
+
+    OmniPointer<HexDigit> SimpleToken::GetLowLow()
+    {
+        return low_low_field;
     }
 
     void SimpleToken::SetToken(OmniPointer<Name> input_value)
@@ -2136,6 +2315,7 @@ namespace ctcode
         OmniPointer<EolParser> eol_parser_instance = parser_network->GetEolParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && string_parser_instance->ParseSingle(index, std::string("*")))
         {
             instance->SetCardinality(cardinality_field->GetValue());
@@ -2375,6 +2555,7 @@ namespace ctcode
         OmniPointer<EolParser> eol_parser_instance = parser_network->GetEolParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && number_parser_instance->ParseSingleSave(index, minimum_field) && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string(",")) && whitespace_parser_instance->ParseMany(index, 0, -1) && number_parser_instance->ParseSingleSave(index, maximum_field))
         {
             instance->SetCount(count_field->GetValue());
@@ -2627,6 +2808,7 @@ namespace ctcode
         OmniPointer<EolParser> eol_parser_instance = parser_network->GetEolParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && name_character_parser_instance->ParseMany(index, 1, -1))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -2803,6 +2985,7 @@ namespace ctcode
         OmniPointer<EolParser> eol_parser_instance = parser_network->GetEolParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && string_parser_instance->ParseSingle(index, std::string("0")))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -3847,6 +4030,7 @@ namespace ctcode
         OmniPointer<EolParser> eol_parser_instance = parser_network->GetEolParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && digit_parser_instance->ParseMany(index, 1, -1))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -4023,6 +4207,7 @@ namespace ctcode
         OmniPointer<EolParser> eol_parser_instance = parser_network->GetEolParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && string_parser_instance->ParseSingle(index, std::string("0")))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -4325,6 +4510,7 @@ namespace ctcode
         OmniPointer<EolParser> eol_parser_instance = parser_network->GetEolParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && string_parser_instance->ParseSingle(index, std::string(",")))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -4543,6 +4729,7 @@ namespace ctcode
         OmniPointer<EolParser> eol_parser_instance = parser_network->GetEolParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && name_character_parser_instance->ParseSingle(index))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -4761,6 +4948,7 @@ namespace ctcode
         OmniPointer<EolParser> eol_parser_instance = parser_network->GetEolParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && whitespace_parser_instance->ParseMany(index, 0, -1) && string_parser_instance->ParseSingle(index, std::string("#")) && comment_character_parser_instance->ParseMany(index, 0, -1) && eol_parser_instance->ParseSingle(index))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -4937,6 +5125,7 @@ namespace ctcode
         OmniPointer<EolParser> eol_parser_instance = parser_network->GetEolParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && literal_character_parser_instance->ParseMany(index, 0, -1))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -5113,6 +5302,7 @@ namespace ctcode
         OmniPointer<EolParser> eol_parser_instance = parser_network->GetEolParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && character_parser_instance->ParseSingle(index, 0x00))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -8845,6 +9035,7 @@ namespace ctcode
         OmniPointer<EolParser> eol_parser_instance = parser_network->GetEolParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && string_parser_instance->ParseSingle(index, std::string("0")))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -9231,6 +9422,7 @@ namespace ctcode
         OmniPointer<EolParser> eol_parser_instance = parser_network->GetEolParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && character_parser_instance->ParseSingle(index, 0x00))
         {
             consumed_string->SetLength(index->GetStart() - index_start);
@@ -9827,6 +10019,7 @@ namespace ctcode
         OmniPointer<EolParser> eol_parser_instance = parser_network->GetEolParser();
         OmniPointer<StringParser> string_parser_instance = parser_network->GetStringParser();
         OmniPointer<CharacterParser> character_parser_instance = parser_network->GetCharacterParser();
+        OmniPointer<CharacterRangeParser> character_range_parser_instance = parser_network->GetCharacterRangeParser();
         if (true && character_parser_instance->ParseSingle(index, 0x0A) && character_parser_instance->ParseSingle(index, 0x0D))
         {
             consumed_string->SetLength(index->GetStart() - index_start);

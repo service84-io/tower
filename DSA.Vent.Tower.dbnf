@@ -13,6 +13,7 @@
 <simple_token>      ::= "<" attribute(token <name>) ">"
                     ::= "0x" attribute(high <hex_digit>) attribute(low <hex_digit>)
                     ::= "\"" attribute(literal <literal>) "\""
+                    ::= "[0x" attribute(low_high <hex_digit>) attribute(low_low <hex_digit>) "-0x" attribute(high_high <hex_digit>) attribute(high_low <hex_digit>) "]"
 <modifier>          ::= "*"
                     ::= "?"
                     ::= "+"

@@ -390,15 +390,39 @@ public:
 		implementation << "    }" << std::endl;
 		implementation << "};" << std::endl;
 		implementation << std::endl;
-		implementation << "template<char character>" << std::endl;
+		implementation << "template<int character>" << std::endl;
 		implementation << "class CharacterParser" << std::endl;
 		implementation << "{" << std::endl;
 		implementation << "public:" << std::endl;
 		implementation << "    static " << full_namespace << "String* Parse(" << full_namespace << "LengthString& index)" << std::endl;
 		implementation << "    {" << std::endl;
+		implementation << "        int current_character = ((*(index.data)) + 256) % 256;" << std::endl;
 		implementation << "        " << full_namespace << "LengthString data = {index.data, 1};" << std::endl;
 		implementation << std::endl;
-		implementation << "        if((index.length > 0) && ((*(index.data)) == character))" << std::endl;
+		implementation << "        if((index.length > 0) && (current_character == character))" << std::endl;
+		implementation << "        {" << std::endl;
+		implementation << "            ++(index.data);" << std::endl;
+		implementation << "            --(index.length);" << std::endl;
+		implementation << "            " << full_namespace << "String* string_node = new " << full_namespace << "String(data);" << std::endl;
+		implementation << "            return string_node;" << std::endl;
+		implementation << "        }" << std::endl;
+		implementation << "        else" << std::endl;
+		implementation << "        {" << std::endl;
+		implementation << "            return NULL;" << std::endl;
+		implementation << "        }" << std::endl;
+		implementation << "    }" << std::endl;
+		implementation << "};" << std::endl;
+		implementation << std::endl;
+		implementation << "template<int low_character, int high_character>" << std::endl;
+		implementation << "class CharacterRangeParser" << std::endl;
+		implementation << "{" << std::endl;
+		implementation << "public:" << std::endl;
+		implementation << "    static " << full_namespace << "String* Parse(" << full_namespace << "LengthString& index)" << std::endl;
+		implementation << "    {" << std::endl;
+		implementation << "        int current_character = ((*(index.data)) + 256) % 256;" << std::endl;
+		implementation << "        " << full_namespace << "LengthString data = {index.data, 1};" << std::endl;
+		implementation << std::endl;
+		implementation << "        if((index.length > 0) && (low_character <= current_character) && (current_character <= high_character))" << std::endl;
 		implementation << "        {" << std::endl;
 		implementation << "            ++(index.data);" << std::endl;
 		implementation << "            --(index.length);" << std::endl;
@@ -594,7 +618,18 @@ public:
 			}
 			else if ((token->GetValue()->GetHigh() != NULL) && (token->GetValue()->GetLow() != NULL))
 			{
-				parser = "CharacterParser<'\\" + token->GetValue()->UnParse().substr(1) + "'>";
+				parser = "CharacterParser<" + token->GetValue()->UnParse() + ">";
+			}
+			else if ((token->GetValue()->GetLowHigh() != NULL) && (token->GetValue()->GetLowLow() != NULL) &&
+				(token->GetValue()->GetHighHigh() != NULL) && (token->GetValue()->GetHighLow() != NULL))
+			{
+				parser = "CharacterRangeParser<0x" +
+						token->GetValue()->GetLowHigh()->UnParse() +
+						token->GetValue()->GetLowLow()->UnParse() +
+						", 0x" +
+						token->GetValue()->GetHighHigh()->UnParse() +
+						token->GetValue()->GetHighLow()->UnParse() +
+						">";
 			}
 
 			if (token->GetName() != NULL)
