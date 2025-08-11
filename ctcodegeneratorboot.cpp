@@ -37,11 +37,13 @@ CTCodeGeneratorBoot()
 
 	virtual int GenerateParser(const char* buffer, std::string base_name)
 	{
+		std::string buffer_string(buffer);
+		LargeString data;
+		data.SetData(buffer_string);
 		LengthString index;
-		std::string data(buffer);
-		index.SetData(data);
+		index.SetData(&data);
 		index.SetStart(0);
-		index.SetLength(data.length());
+		index.SetLength(buffer_string.length());
 		ParserNetwork parser_network;
 		parser_network.Initialize();
 		GrammarResult grammar_result;
@@ -74,6 +76,7 @@ CTCodeGeneratorBoot()
 		ctcode << "    {" << std::endl;
         ctcode << "        int index_start = index.GetStart();" << std::endl;
 		ctcode << "        int index_length = index.GetLength();" << std::endl;
+		ctcode << "        LargeString index_data = index.GetData();" << std::endl;
         ctcode << "        LengthString consumed_string = new LengthString;" << std::endl;
         ctcode << "        consumed_string.SetData(index.GetData());" << std::endl;
         ctcode << "        consumed_string.SetStart(index.GetStart());" << std::endl;
@@ -91,7 +94,7 @@ CTCodeGeneratorBoot()
 		ctcode << std::endl;
 		ctcode << "        while (offset_index < value_length)" << std::endl;
 		ctcode << "        {" << std::endl;
-		ctcode << "            if (At(index.GetData(), index.GetStart() + offset_index) != At(value, offset_index))" << std::endl;
+		ctcode << "            if (At(index_data.GetData(), index.GetStart() + offset_index) != At(value, offset_index))" << std::endl;
 		ctcode << "            {" << std::endl;
 		ctcode << "                result.SetResult(false);" << std::endl;
 		ctcode << "                return false;" << std::endl;
@@ -162,7 +165,8 @@ CTCodeGeneratorBoot()
 		ctcode << "            return false;" << std::endl;
 		ctcode << "        }" << std::endl;
 		ctcode << std::endl;
-		ctcode << "        int current_character = IntAt(index.GetData(), index.GetStart());" << std::endl;
+		ctcode << "        LargeString index_data = index.GetData();" << std::endl;
+		ctcode << "        int current_character = IntAt(index_data.GetData(), index.GetStart());" << std::endl;
 		ctcode << std::endl;
 		ctcode << "        if (current_character == value)" << std::endl;
 		ctcode << "        {" << std::endl;
@@ -222,7 +226,8 @@ CTCodeGeneratorBoot()
 		ctcode << "            return false;" << std::endl;
 		ctcode << "        }" << std::endl;
 		ctcode << std::endl;
-		ctcode << "        int current_character = IntAt(index.GetData(), index.GetStart());" << std::endl;
+		ctcode << "        LargeString index_data = index.GetData();" << std::endl;
+		ctcode << "        int current_character = IntAt(index_data.GetData(), index.GetStart());" << std::endl;
 		ctcode << std::endl;
 		ctcode << "        if (low_value <= current_character && current_character <= high_value)" << std::endl;
 		ctcode << "        {" << std::endl;
@@ -399,30 +404,39 @@ CTCodeGeneratorBoot()
 		ctcode << "    bool result;" << std::endl;
 		ctcode << "}" << std::endl;
 		ctcode << std::endl;
-		ctcode << "class LengthString" << std::endl;
+		ctcode << "class LargeString" << std::endl;
 		ctcode << "{" << std::endl;
 		ctcode << "    function void SetData(string new_data) { data = new_data; }" << std::endl;
 		ctcode << "    function string GetData() { return data; }" << std::endl;
+		ctcode << std::endl;
+		ctcode << "    string data;" << std::endl;
+		ctcode << "}" << std::endl;
+		ctcode << std::endl;
+		ctcode << "class LengthString" << std::endl;
+		ctcode << "{" << std::endl;
+		ctcode << "    function void SetData(LargeString new_data) { data = new_data; }" << std::endl;
+		ctcode << "    function LargeString GetData() { return data; }" << std::endl;
 		ctcode << "    function void SetStart(int new_start) { start = new_start; }" << std::endl;
 		ctcode << "    function int GetStart() { return start; }" << std::endl;
 		ctcode << "    function void SetLength(int new_length) { length = new_length; }" << std::endl;
 		ctcode << "    function int GetLength() { return length; }" << std::endl;
 		ctcode << "    function string GetString()" << std::endl;
 		ctcode << "    {" << std::endl;
+		ctcode << "        string deep_data = data.GetData();" << std::endl;
 		ctcode << "        string result;" << std::endl;
 		ctcode << "        int index = start;" << std::endl;
 		ctcode << "        int end = start + length;" << std::endl;
 		ctcode <<  std::endl;
 		ctcode << "        while (index < end)" << std::endl;
 		ctcode << "        {" << std::endl;
-		ctcode << "            result = Concat(result, At(data, index));" << std::endl;
+		ctcode << "            result = Concat(result, At(deep_data, index));" << std::endl;
 		ctcode << "            index = index + 1;" << std::endl;
 		ctcode << "        }" << std::endl;
 		ctcode <<  std::endl;
 		ctcode << "        return result;" << std::endl;
 		ctcode << "    }" << std::endl;
 		ctcode << std::endl;
-		ctcode << "    string data;" << std::endl;
+		ctcode << "    LargeString data;" << std::endl;
 		ctcode << "    int start;" << std::endl;
 		ctcode << "    int length;" << std::endl;
 		ctcode << "}" << std::endl;

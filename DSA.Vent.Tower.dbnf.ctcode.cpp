@@ -15,6 +15,7 @@ namespace ctcode
     {
         int index_start = index->GetStart();
         int index_length = index->GetLength();
+        OmniPointer<LargeString> index_data = index->GetData();
         OmniPointer<LengthString> consumed_string = std::shared_ptr<LengthString>(new LengthString());
         consumed_string->SetData(index->GetData());
         consumed_string->SetStart(index->GetStart());
@@ -30,7 +31,7 @@ namespace ctcode
         int offset_index = 0;
         while (offset_index < value_length)
         {
-            if (At(index->GetData(), index->GetStart() + offset_index) != At(value, offset_index))
+            if (At(index_data->GetData(), index->GetStart() + offset_index) != At(value, offset_index))
             {
                 result->SetResult(false);
                 return false;
@@ -114,7 +115,8 @@ namespace ctcode
             return false;
         }
 
-        int current_character = IntAt(index->GetData(), index->GetStart());
+        OmniPointer<LargeString> index_data = index->GetData();
+        int current_character = IntAt(index_data->GetData(), index->GetStart());
         if (current_character == value)
         {
             index->SetStart(index->GetStart() + 1);
@@ -185,7 +187,8 @@ namespace ctcode
             return false;
         }
 
-        int current_character = IntAt(index->GetData(), index->GetStart());
+        OmniPointer<LargeString> index_data = index->GetData();
+        int current_character = IntAt(index_data->GetData(), index->GetStart());
         if (low_value <= current_character && current_character <= high_value)
         {
             index->SetStart(index->GetStart() + 1);
@@ -956,12 +959,22 @@ namespace ctcode
         }
     }
 
-    void LengthString::SetData(std::string new_data)
+    void LargeString::SetData(std::string new_data)
     {
         data = new_data;
     }
 
-    std::string LengthString::GetData()
+    std::string LargeString::GetData()
+    {
+        return data;
+    }
+
+    void LengthString::SetData(OmniPointer<LargeString> new_data)
+    {
+        data = new_data;
+    }
+
+    OmniPointer<LargeString> LengthString::GetData()
     {
         return data;
     }
@@ -988,12 +1001,13 @@ namespace ctcode
 
     std::string LengthString::GetString()
     {
+        std::string deep_data = data->GetData();
         std::string result;
         int index = start;
         int end = start + length;
         while (index < end)
         {
-            result = Concat(result, At(data, index));
+            result = Concat(result, At(deep_data, index));
             index = index + 1;
         }
 
