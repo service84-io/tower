@@ -94,7 +94,7 @@ CTCodeGeneratorBoot()
 		ctcode << std::endl;
 		ctcode << "        while (offset_index < value_length)" << std::endl;
 		ctcode << "        {" << std::endl;
-		ctcode << "            if (At(index_data.GetData(), index.GetStart() + offset_index) != At(value, offset_index))" << std::endl;
+		ctcode << "            if (index_data.GetAt(index.GetStart() + offset_index) != At(value, offset_index))" << std::endl;
 		ctcode << "            {" << std::endl;
 		ctcode << "                result.SetResult(false);" << std::endl;
 		ctcode << "                return false;" << std::endl;
@@ -166,7 +166,7 @@ CTCodeGeneratorBoot()
 		ctcode << "        }" << std::endl;
 		ctcode << std::endl;
 		ctcode << "        LargeString index_data = index.GetData();" << std::endl;
-		ctcode << "        int current_character = IntAt(index_data.GetData(), index.GetStart());" << std::endl;
+		ctcode << "        int current_character = index_data.GetIntAt(index.GetStart());" << std::endl;
 		ctcode << std::endl;
 		ctcode << "        if (current_character == value)" << std::endl;
 		ctcode << "        {" << std::endl;
@@ -227,7 +227,7 @@ CTCodeGeneratorBoot()
 		ctcode << "        }" << std::endl;
 		ctcode << std::endl;
 		ctcode << "        LargeString index_data = index.GetData();" << std::endl;
-		ctcode << "        int current_character = IntAt(index_data.GetData(), index.GetStart());" << std::endl;
+		ctcode << "        int current_character = index_data.GetIntAt(index.GetStart());" << std::endl;
 		ctcode << std::endl;
 		ctcode << "        if (low_value <= current_character && current_character <= high_value)" << std::endl;
 		ctcode << "        {" << std::endl;
@@ -408,6 +408,8 @@ CTCodeGeneratorBoot()
 		ctcode << "{" << std::endl;
 		ctcode << "    function void SetData(string new_data) { data = new_data; }" << std::endl;
 		ctcode << "    function string GetData() { return data; }" << std::endl;
+		ctcode << "    function int GetIntAt(int offset) { return IntAt(data, offset); }" << std::endl;
+		ctcode << "    function string GetAt(int offset) { return At(data, offset); }" << std::endl;
 		ctcode << std::endl;
 		ctcode << "    string data;" << std::endl;
 		ctcode << "}" << std::endl;
