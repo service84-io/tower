@@ -30,19 +30,24 @@ public:
 	virtual int GenerateParser(const char* buffer, std::string base_name)
 	{
 		const char* index = buffer;
+		std::cout << "Parsing Grammar..." << std::endl;
 		dsa::vent::tower::dbnf::Grammar* grammar = dsa::vent::tower::dbnf::Grammar::Parse(index);
 
 		if(grammar)
 		{
+			std::cout << "Grammar parsed!" << std::endl;
+			std::cout << "Generating cpp files..." << std::endl;
 			std::ofstream header(base_name + ".hpp", std::ofstream::trunc | std::ofstream::out);
 			std::ofstream implementation(base_name + ".cpp", std::ofstream::trunc | std::ofstream::out);
 			std::list<std::string> base_name_tokens = TokenizeBaseName(base_name);
 			GenerateHeader(grammar, header, base_name_tokens);
 			GenerateImplementation(grammar, implementation, base_name, base_name_tokens);
+			std::cout << "Done!" << std::endl;
 			return 0;
 		}
 		else
 		{
+			std::cout << "Failed to parse Grammar" << std::endl;
 			return 1;
 		}
 	}

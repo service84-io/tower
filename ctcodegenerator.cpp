@@ -8,20 +8,16 @@
 #include <sstream>
 #include <string>
 
-#include "DSA.Vent.Tower.dbnf.hpp"
+#include "DSA.Vent.Tower.dbnf.ctcode.hpp"
 #include "generator.hpp"
 
-using namespace dsa::vent::tower::dbnf;
+using namespace dsa::vent::tower::dbnf::ctcode;
 
 template<typename T>
-T raw(T value) { return value;}
-
-std::vector<Rule*> UnwrapOmniList(RuleList* value) { return value->GetVector();}
-std::vector<Token*> UnwrapOmniList(TokenList* value) { return value->GetVector();}
-std::vector<Expression*> UnwrapOmniList(ExpressionList* value) { return value->GetVector();}
+T* raw(OmniPointer<T> value) { return value.raw();}
 
 template<typename T>
-T sequence(T value) { return value;}
+size_t sequence(std::vector<T> value) { return value.size();}
 
 namespace dsa
 {
@@ -32,7 +28,7 @@ namespace tower
 class CTCodeGenerator : public dsa::vent::tower::Generator
 {
 public:
-	CTCodeGenerator()
+CTCodeGenerator()
 	{
 	}
 	virtual ~CTCodeGenerator()
@@ -41,9 +37,19 @@ public:
 
 	virtual int GenerateParser(const char* buffer, std::string base_name)
 	{
-		const char* index = buffer;
+		std::string buffer_string(buffer);
+		LargeString data;
+		data.SetData(buffer_string);
+		LengthString index;
+		index.SetData(&data);
+		index.SetStart(0);
+		index.SetLength(buffer_string.length());
+		ParserNetwork parser_network;
+		parser_network.Initialize();
+		GrammarResult grammar_result;
 		std::cout << "Parsing Grammar..." << std::endl;
-		Grammar* grammar = Grammar::Parse(index);
+		parser_network.GetGrammarParser()->ParseSingleSave(&index, &grammar_result);
+		Grammar* grammar = raw(grammar_result.GetValue());
 
 		if(grammar)
 		{
