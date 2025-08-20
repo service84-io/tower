@@ -26,8 +26,12 @@ class Main
 
         SetKV(generators, "CPPGenerator", GetCPPGenerator());
         SetKV(generators, "DSA::Vent::Tower::CPPGenerator", GetCPPGenerator());
+        SetKV(generators, "S84::Tower::CPPGenerator", GetCPPGenerator());
+        SetKV(generators, "s84::tower::CPPGenerator", GetCPPGenerator());
         SetKV(generators, "CTCodeGenerator", GetCTCodeGenerator());
         SetKV(generators, "DSA::Vent::Tower::CTCodeGenerator", GetCTCodeGenerator());
+        SetKV(generators, "S84::Tower::CTCodeGenerator", GetCTCodeGenerator());
+        SetKV(generators, "s84::tower::CTCodeGenerator", GetCTCodeGenerator());
         SetKV(generators, "LogToConsole", GetLogToConsole());
 
         if (dbnf_file_name == "" || !HasKV(generators, generator)) {

@@ -1,6 +1,16 @@
 #!/bin/bash
 
-tower S84.Tower.dbnf DSA::Vent::Tower::CTCodeGenerator
+echo Processing DBNF files...
+echo
+
+for DBNFFile in *.dbnf; do
+  echo Processing ${DBNFFile}...
+  tower ${DBNFFile} S84::Tower::CTCodeGenerator
+  echo Done processing ${DBNFFile}!
+  echo
+done
+
+echo Done processing DBNF files!
 echo
 
 echo Processing CTCode files...
