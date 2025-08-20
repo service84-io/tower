@@ -1,0 +1,55 @@
+# A grammar is a set of rules
+<grammar>           ::= attribute(rules <rule>*)
+# A rule is a name and a set of expressions, but for implimentation purposes it can also be a comment
+<rule>              ::= <whitespace>* "<" attribute(name <name>) ">" attribute(expressions <expression>*)
+                    ::= <comment>
+# An expression is a token sequence, but for implimentation purposes it can also be a comment
+<expression>        ::= <whitespace>* attribute(expression_discriminator "::=") attribute(token_sequence <token>*) <eol>
+                    ::= <comment>
+<token>             ::= <whitespace>* "attribute" <whitespace>* "(" <whitespace>* attribute(name <name>) <whitespace>* attribute(value <simple_token>) <whitespace>* attribute(modifier <modifier>) <whitespace>* ")" <whitespace>*
+                    ::= <whitespace>* "attribute" <whitespace>* "(" <whitespace>* attribute(name <name>) <whitespace>* attribute(value <simple_token>) <whitespace>* ")" <whitespace>*
+                    ::= <whitespace>* attribute(value <simple_token>) <whitespace>* attribute(modifier <modifier>) <whitespace>*
+                    ::= <whitespace>* attribute(value <simple_token>) <whitespace>*
+<simple_token>      ::= "<" attribute(token <name>) ">"
+                    ::= "0x" attribute(high <hex_digit>) attribute(low <hex_digit>)
+                    ::= "\"" attribute(literal <literal>) "\""
+                    ::= "[0x" attribute(low_high <hex_digit>) attribute(low_low <hex_digit>) "-0x" attribute(high_high <hex_digit>) attribute(high_low <hex_digit>) "]"
+<modifier>          ::= "*"
+                    ::= "?"
+                    ::= "+"
+                    ::= "{" <whitespace>* attribute(cardinality <cardinality>) <whitespace>* "}"
+<cardinality>       ::= attribute(minimum <number>) <whitespace>* "," <whitespace>* attribute(maximum <number>)
+                    ::= attribute(minimum <number>) <whitespace>* ","
+                    ::= attribute(count <number>)
+<name>              ::= <name_character>+
+<name_character>    ::= [0x30-0x39]
+                    ::= [0x41-0x5A]
+                    ::= "_"
+                    ::= [0x61-0x7A]
+<number>            ::= <digit>+
+<digit>             ::= [0x30-0x39]
+<punctuation>       ::= ","
+                    ::= "."
+                    ::= "?"
+                    ::= "!"
+<comment_character> ::= <name_character>
+                    ::= <punctuation>
+                    ::= " "
+                    ::= "#"
+<comment>           ::= <whitespace>* "#" <comment_character>* <eol>
+<literal>           ::= <literal_character>*
+<literal_character> ::= [0x00-0x21]
+                    ::= "\\\""
+                    ::= [0x23-0x5B]
+                    ::= "\\\\"
+                    ::= [0x5D-0xFF]
+<hex_digit>         ::= [0x30-0x39]
+                    ::= [0x41-0x46]
+<whitespace>        ::= [0x00-0x09]
+                    ::= [0x0B-0x0C]
+                    ::= [0x0E-0x20]
+<eol>               ::= 0x0A 0x0D
+                    ::= 0x0D 0x0A
+                    ::= 0x0A
+                    ::= 0x0D
+                    ::=

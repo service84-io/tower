@@ -1,0 +1,1339 @@
+exdef S84.Tower.System.ctcode;
+exdef S84.Tower.Generator.ctcode;
+exdef S84.Tower.dbnf.ctcode;
+
+class MemberType
+{
+    function void SetBaseType(string input) { base_type = input; }
+    function string GetBaseType() { return base_type; }
+    function void SetIsList(bool input) { is_list = input; }
+    function bool GetIsList() { return is_list; }
+
+    string base_type;
+    bool is_list;
+}
+
+class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
+{
+    S84.Tower.System.ctcode.OutputStream logger;
+    S84.Tower.System.ctcode.OutputStream ctcode_file;
+
+    function int GenerateParser(S84.Tower.System.ctcode.System system, S84.Tower.dbnf.ctcode.Grammar grammar, string base_name) {
+        logger = system.GetLoggerDestination();
+        ctcode_file = system.OpenFileWriter(Concat(base_name, ".ctcode"));
+        logger.WriteLine("Generating CTCode file...");
+        WriteClasses(grammar, base_name);
+        logger.WriteLine("Done!");
+        return 0;
+    }
+
+    function void WriteClasses(S84.Tower.dbnf.ctcode.Grammar grammar, string base_name) {
+        S84.Tower.dbnf.ctcode.Rule[] rules = grammar.GetRules();
+        ctcode_file.WriteLine("class StringParser");
+        ctcode_file.WriteLine("{");
+        ctcode_file.WriteLine("    function bool ParseSingleSave(LengthString index, string value, StringResult result)");
+        ctcode_file.WriteLine("    {");
+        ctcode_file.WriteLine("        int index_start = index.GetStart();");
+        ctcode_file.WriteLine("        int index_length = index.GetLength();");
+        ctcode_file.WriteLine("        LargeString index_data = index.GetData();");
+        ctcode_file.WriteLine("        LengthString consumed_string = new LengthString;");
+        ctcode_file.WriteLine("        consumed_string.SetData(index.GetData());");
+        ctcode_file.WriteLine("        consumed_string.SetStart(index.GetStart());");
+        ctcode_file.WriteLine("        consumed_string.SetLength(0);");
+        ctcode_file.WriteLine("        String instance = new String;");
+        ctcode_file.WriteLine("        int value_length = Length(value);");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("        if (value_length > index.GetLength())");
+        ctcode_file.WriteLine("        {");
+        ctcode_file.WriteLine("            result.SetResult(false);");
+        ctcode_file.WriteLine("            return false;");
+        ctcode_file.WriteLine("        }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("        int offset_index = 0;");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("        while (offset_index < value_length)");
+        ctcode_file.WriteLine("        {");
+        ctcode_file.WriteLine("            if (index_data.GetAt(index.GetStart() + offset_index) != At(value, offset_index))");
+        ctcode_file.WriteLine("            {");
+        ctcode_file.WriteLine("                result.SetResult(false);");
+        ctcode_file.WriteLine("                return false;");
+        ctcode_file.WriteLine("            }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("            offset_index = offset_index + 1;");
+        ctcode_file.WriteLine("        }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("        index.SetStart(index.GetStart() + value_length);");
+        ctcode_file.WriteLine("        index.SetLength(index.GetLength() - value_length);");
+        ctcode_file.WriteLine("        consumed_string.SetLength(index.GetStart() - index_start);");
+        ctcode_file.WriteLine("        instance.SetLengthString(consumed_string);");
+        ctcode_file.WriteLine("        result.SetValue(instance);");
+        ctcode_file.WriteLine("        result.SetResult(true);");
+        ctcode_file.WriteLine("        return true;");
+        ctcode_file.WriteLine("    }");
+        ctcode_file.WriteLine("    function bool ParseSingle(LengthString index, string value)");
+        ctcode_file.WriteLine("    {");
+        ctcode_file.WriteLine("        StringResult result = new StringResult;");
+        ctcode_file.WriteLine("        return ParseSingleSave(index, value, result);");
+        ctcode_file.WriteLine("    }");
+        ctcode_file.WriteLine("}");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("class StringResult");
+        ctcode_file.WriteLine("{");
+        ctcode_file.WriteLine("    function void SetValue(String new_value) { value = new_value; }");
+        ctcode_file.WriteLine("    function String GetValue() { return value; }");
+        ctcode_file.WriteLine("    function void SetResult(bool new_result) { result = new_result; }");
+        ctcode_file.WriteLine("    function bool GetResult() { return result; }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("    String value;");
+        ctcode_file.WriteLine("    bool result;");
+        ctcode_file.WriteLine("}");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("class StringListResult");
+        ctcode_file.WriteLine("{");
+        ctcode_file.WriteLine("    function void SetValue(String[] new_value) { value = new_value; }");
+        ctcode_file.WriteLine("    function String[] GetValue() { return value; }");
+        ctcode_file.WriteLine("    function void SetResult(bool new_result) { result = new_result; }");
+        ctcode_file.WriteLine("    function bool GetResult() { return result; }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("    String[] value;");
+        ctcode_file.WriteLine("    bool result;");
+        ctcode_file.WriteLine("}");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("class String");
+        ctcode_file.WriteLine("{");
+        ctcode_file.WriteLine("    function void SetLengthString(LengthString new_value)");
+        ctcode_file.WriteLine("    {");
+        ctcode_file.WriteLine("        length_string = new LengthString;");
+        ctcode_file.WriteLine("        length_string.SetData(new_value.GetData());");
+        ctcode_file.WriteLine("        length_string.SetStart(new_value.GetStart());");
+        ctcode_file.WriteLine("        length_string.SetLength(new_value.GetLength());");
+        ctcode_file.WriteLine("    }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("    function string UnParse() { return length_string.GetString(); }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("    LengthString length_string;");
+        ctcode_file.WriteLine("}");
+        ctcode_file.WriteLine("");
+
+        ctcode_file.WriteLine("class CharacterParser");
+        ctcode_file.WriteLine("{");
+        ctcode_file.WriteLine("    function bool ParseSingle(LengthString index, int value)");
+        ctcode_file.WriteLine("    {");
+        ctcode_file.WriteLine("        if (0 == index.GetLength())");
+        ctcode_file.WriteLine("        {");
+        ctcode_file.WriteLine("            return false;");
+        ctcode_file.WriteLine("        }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("        LargeString index_data = index.GetData();");
+        ctcode_file.WriteLine("        int current_character = index_data.GetIntAt(index.GetStart());");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("        if (current_character == value)");
+        ctcode_file.WriteLine("        {");
+        ctcode_file.WriteLine("            index.SetStart(index.GetStart() + 1);");
+        ctcode_file.WriteLine("            index.SetLength(index.GetLength() - 1);");
+        ctcode_file.WriteLine("            return true;");
+        ctcode_file.WriteLine("        }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("        return false;");
+        ctcode_file.WriteLine("    }");
+        ctcode_file.WriteLine("}");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("class CharacterResult");
+        ctcode_file.WriteLine("{");
+        ctcode_file.WriteLine("    function void SetValue(Character new_value) { value = new_value; }");
+        ctcode_file.WriteLine("    function Character GetValue() { return value; }");
+        ctcode_file.WriteLine("    function void SetResult(bool new_result) { result = new_result; }");
+        ctcode_file.WriteLine("    function bool GetResult() { return result; }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("    Character value;");
+        ctcode_file.WriteLine("    bool result;");
+        ctcode_file.WriteLine("}");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("class CharacterListResult");
+        ctcode_file.WriteLine("{");
+        ctcode_file.WriteLine("    function void SetValue(Character[] new_value) { value = new_value; }");
+        ctcode_file.WriteLine("    function Character[] GetValue() { return value; }");
+        ctcode_file.WriteLine("    function void SetResult(bool new_result) { result = new_result; }");
+        ctcode_file.WriteLine("    function bool GetResult() { return result; }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("    Character[] value;");
+        ctcode_file.WriteLine("    bool result;");
+        ctcode_file.WriteLine("}");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("class Character");
+        ctcode_file.WriteLine("{");
+        ctcode_file.WriteLine("    function void SetLengthString(LengthString new_value)");
+        ctcode_file.WriteLine("    {");
+        ctcode_file.WriteLine("        length_string = new LengthString;");
+        ctcode_file.WriteLine("        length_string.SetData(new_value.GetData());");
+        ctcode_file.WriteLine("        length_string.SetStart(new_value.GetStart());");
+        ctcode_file.WriteLine("        length_string.SetLength(new_value.GetLength());");
+        ctcode_file.WriteLine("    }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("    function string UnParse() { return length_string.GetString(); }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("    LengthString length_string;");
+        ctcode_file.WriteLine("}");
+        ctcode_file.WriteLine("");
+
+        ctcode_file.WriteLine("class CharacterRangeParser");
+        ctcode_file.WriteLine("{");
+        ctcode_file.WriteLine("    function bool ParseSingle(LengthString index, int low_value, int high_value)");
+        ctcode_file.WriteLine("    {");
+        ctcode_file.WriteLine("        if (0 == index.GetLength())");
+        ctcode_file.WriteLine("        {");
+        ctcode_file.WriteLine("            return false;");
+        ctcode_file.WriteLine("        }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("        LargeString index_data = index.GetData();");
+        ctcode_file.WriteLine("        int current_character = index_data.GetIntAt(index.GetStart());");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("        if (low_value <= current_character && current_character <= high_value)");
+        ctcode_file.WriteLine("        {");
+        ctcode_file.WriteLine("            index.SetStart(index.GetStart() + 1);");
+        ctcode_file.WriteLine("            index.SetLength(index.GetLength() - 1);");
+        ctcode_file.WriteLine("            return true;");
+        ctcode_file.WriteLine("        }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("        return false;");
+        ctcode_file.WriteLine("    }");
+        ctcode_file.WriteLine("}");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("class CharacterRangeResult");
+        ctcode_file.WriteLine("{");
+        ctcode_file.WriteLine("    function void SetValue(CharacterRange new_value) { value = new_value; }");
+        ctcode_file.WriteLine("    function CharacterRange GetValue() { return value; }");
+        ctcode_file.WriteLine("    function void SetResult(bool new_result) { result = new_result; }");
+        ctcode_file.WriteLine("    function bool GetResult() { return result; }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("    CharacterRange value;");
+        ctcode_file.WriteLine("    bool result;");
+        ctcode_file.WriteLine("}");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("class CharacterRangeListResult");
+        ctcode_file.WriteLine("{");
+        ctcode_file.WriteLine("    function void SetValue(CharacterRange[] new_value) { value = new_value; }");
+        ctcode_file.WriteLine("    function CharacterRange[] GetValue() { return value; }");
+        ctcode_file.WriteLine("    function void SetResult(bool new_result) { result = new_result; }");
+        ctcode_file.WriteLine("    function bool GetResult() { return result; }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("    CharacterRange[] value;");
+        ctcode_file.WriteLine("    bool result;");
+        ctcode_file.WriteLine("}");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("class CharacterRange");
+        ctcode_file.WriteLine("{");
+        ctcode_file.WriteLine("    function void SetLengthString(LengthString new_value)");
+        ctcode_file.WriteLine("    {");
+        ctcode_file.WriteLine("        length_string = new LengthString;");
+        ctcode_file.WriteLine("        length_string.SetData(new_value.GetData());");
+        ctcode_file.WriteLine("        length_string.SetStart(new_value.GetStart());");
+        ctcode_file.WriteLine("        length_string.SetLength(new_value.GetLength());");
+        ctcode_file.WriteLine("    }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("    function string UnParse() { return length_string.GetString(); }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("    LengthString length_string;");
+        ctcode_file.WriteLine("}");
+        ctcode_file.WriteLine("");
+
+        ctcode_file.WriteLine("class ParserNetwork");
+        ctcode_file.WriteLine("{");
+
+        int rule_index = 0;
+
+        while (rule_index < Size(rules)) {
+            S84.Tower.dbnf.ctcode.Rule rule = Element(rules, rule_index);
+
+            if (rule.GetName()) {
+                string class_name = Concat(GenerateClassName(rule.GetName()), "Parser");
+                string field_name = Concat(CamelCaseToSnakeCase(class_name), "_field");
+                ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    ", class_name), " "), field_name), ";"));
+                ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("    function ", class_name), " "), GenerateGetterName(field_name)), "() { return "), field_name), "; }"));
+            }
+
+            rule_index = rule_index + 1;
+        }
+
+        string string_parser_class_name = "StringParser";
+        string string_parser_field_name = Concat(CamelCaseToSnakeCase(string_parser_class_name), "_field");
+        string character_parser_class_name = "CharacterParser";
+        string character_parser_field_name = Concat(CamelCaseToSnakeCase(character_parser_class_name), "_field");
+        string character_range_parser_class_name = "CharacterRangeParser";
+        string character_range_parser_field_name = Concat(CamelCaseToSnakeCase(character_range_parser_class_name), "_field");
+
+        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    ", string_parser_class_name), " "), string_parser_field_name), ";"));
+        ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("    function ", string_parser_class_name), " "), GenerateGetterName(string_parser_field_name)), "() { return "), string_parser_field_name), ";}"));
+        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    ", character_parser_class_name), " "), character_parser_field_name), ";"));
+        ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("    function ", character_parser_class_name), " "), GenerateGetterName(character_parser_field_name)), "() { return "), character_parser_field_name), ";}"));
+        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    ", character_range_parser_class_name), " "), character_range_parser_field_name), ";"));
+        ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("    function ", character_range_parser_class_name), " "), GenerateGetterName(character_range_parser_field_name)), "() { return "), character_range_parser_field_name), ";}"));
+
+        ctcode_file.WriteLine("    function void Initialize() {");
+
+        rule_index = 0;
+
+        while (rule_index < Size(rules)) {
+            S84.Tower.dbnf.ctcode.Rule rule = Element(rules, rule_index);
+
+            if (rule.GetName()) {
+                string class_name = Concat(GenerateClassName(rule.GetName()), "Parser");
+                string field_name = Concat(CamelCaseToSnakeCase(class_name), "_field");
+                ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        ", field_name), " = new "), class_name), ";"));
+                ctcode_file.WriteLine(Concat(Concat("        ", field_name), ".SetParserNetwork(myself);"));
+            }
+
+            rule_index = rule_index + 1;
+        }
+
+        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        ", string_parser_field_name), " = new "), string_parser_class_name), ";"));
+        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        ", character_parser_field_name), " = new "), character_parser_class_name), ";"));
+
+        ctcode_file.WriteLine("    }");
+        ctcode_file.WriteLine("}");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("class DBNFOmniType");
+        ctcode_file.WriteLine("{");
+
+        rule_index = 0;
+
+        while (rule_index < Size(rules)) {
+            S84.Tower.dbnf.ctcode.Rule rule = Element(rules, rule_index);
+
+            if (rule.GetName()) {
+                string class_name = GenerateClassName(rule.GetName());
+                string field_name = Concat(CamelCaseToSnakeCase(class_name), "_field");
+                ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    ", class_name), " "), field_name), ";"));
+                ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("    function void ", GenerateSetterName(field_name)), "("), class_name), " input_value) { "), field_name), " = input_value; }"));
+                ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("    function ", class_name), " "), GenerateGetterName(field_name)), "() { return "), field_name), "; }"));
+            }
+
+            rule_index = rule_index + 1;
+        }
+
+        ctcode_file.WriteLine("}");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("class DBNFOmniTypeResult");
+        ctcode_file.WriteLine("{");
+        ctcode_file.WriteLine("    function void SetValue(DBNFOmniType new_value) { value = new_value; }");
+        ctcode_file.WriteLine("    function DBNFOmniType GetValue() { return value; }");
+        ctcode_file.WriteLine("    function void SetResult(bool new_result) { result = new_result; }");
+        ctcode_file.WriteLine("    function bool GetResult() { return result; }");
+
+        rule_index = 0;
+
+        while (rule_index < Size(rules)) {
+            S84.Tower.dbnf.ctcode.Rule rule = Element(rules, rule_index);
+
+            if (rule.GetName()) {
+                string class_name = GenerateClassName(rule.GetName());
+                string field_name = Concat(CamelCaseToSnakeCase(class_name), "_field");
+                ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    function void ", GenerateSetterName(field_name)), "("), class_name), " input_value)"));
+                ctcode_file.WriteLine("    {");
+                ctcode_file.WriteLine("        value = new DBNFOmniType;");
+                ctcode_file.WriteLine(Concat(Concat("        value.", GenerateSetterName(field_name)), "(input_value);"));
+                ctcode_file.WriteLine("    }");
+            }
+
+            rule_index = rule_index + 1;
+        }
+
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("    DBNFOmniType value;");
+        ctcode_file.WriteLine("    bool result;");
+        ctcode_file.WriteLine("}");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("class DBNFOmniTypeListResult");
+        ctcode_file.WriteLine("{");
+        ctcode_file.WriteLine("    function void SetValue(DBNFOmniType[] new_value) { value = new_value; }");
+        ctcode_file.WriteLine("    function DBNFOmniType[] GetValue() { return value; }");
+        ctcode_file.WriteLine("    function void SetResult(bool new_result) { result = new_result; }");
+        ctcode_file.WriteLine("    function bool GetResult() { return result; }");
+
+        rule_index = 0;
+
+        while (rule_index < Size(rules)) {
+            S84.Tower.dbnf.ctcode.Rule rule = Element(rules, rule_index);
+
+            if (rule.GetName()) {
+                string class_name = GenerateClassName(rule.GetName());
+                string field_name = Concat(CamelCaseToSnakeCase(class_name), "_field");
+                ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    function void ", GenerateSetterName(field_name)), "("), class_name), "[] input_value)"));
+                ctcode_file.WriteLine("    {");
+                ctcode_file.WriteLine("        int index = 0;");
+                ctcode_file.WriteLine("        while (index < Size(input_value))");
+                ctcode_file.WriteLine("        {");
+                ctcode_file.WriteLine("            DBNFOmniType value = new DBNFOmniType;");
+                ctcode_file.WriteLine(Concat(Concat("            value.", GenerateSetterName(field_name)), "(Element(input_value, index));"));
+                ctcode_file.WriteLine("            index = index + 1;");
+                ctcode_file.WriteLine("        }");
+                ctcode_file.WriteLine("    }");
+                ctcode_file.WriteLine("");
+            }
+
+            rule_index = rule_index + 1;
+        }
+
+        ctcode_file.WriteLine("    DBNFOmniType[] value;");
+        ctcode_file.WriteLine("    bool result;");
+        ctcode_file.WriteLine("}");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("class LargeString");
+        ctcode_file.WriteLine("{");
+        ctcode_file.WriteLine("    function void SetData(string new_data) { data = new_data; }");
+        ctcode_file.WriteLine("    function string GetData() { return data; }");
+        ctcode_file.WriteLine("    function int GetIntAt(int offset) { return IntAt(data, offset); }");
+        ctcode_file.WriteLine("    function string GetAt(int offset) { return At(data, offset); }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("    string data;");
+        ctcode_file.WriteLine("}");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("class LengthString");
+        ctcode_file.WriteLine("{");
+        ctcode_file.WriteLine("    function void SetData(LargeString new_data) { data = new_data; }");
+        ctcode_file.WriteLine("    function LargeString GetData() { return data; }");
+        ctcode_file.WriteLine("    function void SetStart(int new_start) { start = new_start; }");
+        ctcode_file.WriteLine("    function int GetStart() { return start; }");
+        ctcode_file.WriteLine("    function void SetLength(int new_length) { length = new_length; }");
+        ctcode_file.WriteLine("    function int GetLength() { return length; }");
+        ctcode_file.WriteLine("    function string GetString()");
+        ctcode_file.WriteLine("    {");
+        ctcode_file.WriteLine("        string deep_data = data.GetData();");
+        ctcode_file.WriteLine("        string result;");
+        ctcode_file.WriteLine("        int index = start;");
+        ctcode_file.WriteLine("        int end = start + length;");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("        while (index < end)");
+        ctcode_file.WriteLine("        {");
+        ctcode_file.WriteLine("            result = Concat(result, At(deep_data, index));");
+        ctcode_file.WriteLine("            index = index + 1;");
+        ctcode_file.WriteLine("        }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("        return result;");
+        ctcode_file.WriteLine("    }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("    LargeString data;");
+        ctcode_file.WriteLine("    int start;");
+        ctcode_file.WriteLine("    int length;");
+        ctcode_file.WriteLine("}");
+
+        rule_index = 0;
+
+        while (rule_index < Size(rules)) {
+            S84.Tower.dbnf.ctcode.Rule rule = Element(rules, rule_index);
+
+            if (rule.GetName()) {
+                WriteClass(grammar, rule);
+            }
+
+            rule_index = rule_index + 1;
+        }
+    }
+    function void WriteClass(S84.Tower.dbnf.ctcode.Grammar grammar, S84.Tower.dbnf.ctcode.Rule rule) {
+        string class_name = GenerateClassName(rule.GetName());
+        MemberType{} members = GetMembers(rule);
+        string[] member_names = Keys(members);
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine(Concat(Concat("class ", class_name), "Parser"));
+        ctcode_file.WriteLine("{");
+        ctcode_file.WriteLine("    ParserNetwork parser_network;");
+        ctcode_file.WriteLine("    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }");
+        ctcode_file.WriteLine(Concat(Concat("    function bool ParseSingleSave(LengthString index, ", class_name), "Result result)"));
+        ctcode_file.WriteLine("    {");
+        ctcode_file.WriteLine("        int index_start = index.GetStart();");
+        ctcode_file.WriteLine("        int index_length = index.GetLength();");
+        ctcode_file.WriteLine("        LengthString consumed_string = new LengthString;");
+        ctcode_file.WriteLine("        consumed_string.SetData(index.GetData());");
+        ctcode_file.WriteLine("        consumed_string.SetStart(index.GetStart());");
+        ctcode_file.WriteLine("        consumed_string.SetLength(0);");
+        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        ", class_name), " instance = new "), class_name), ";"));
+
+        int member_name_index = 0;
+
+        while (member_name_index < Size(member_names))
+        {
+            string member_name = Element(member_names, member_name_index);
+            MemberType member_type = GetKV(members, member_name);
+
+            if (member_type.GetIsList()) {
+                ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ", member_type.GetBaseType()), "ListResult "), member_name), " = new "), member_type.GetBaseType()), "ListResult;"));
+            } else {
+                ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ", member_type.GetBaseType()), "Result "), member_name), " = new "), member_type.GetBaseType()), "Result;"));
+            }
+
+            member_name_index = member_name_index + 1;
+        }
+
+        ctcode_file.WriteLine("");
+        S84.Tower.dbnf.ctcode.Rule[] rules = grammar.GetRules();
+        int rule_index = 0;
+
+        while (rule_index < Size(rules))
+        {
+            S84.Tower.dbnf.ctcode.Rule rule = Element(rules, rule_index);
+
+            if (rule.GetName()) {
+                string class_name = Concat(GenerateClassName(rule.GetName()), "Parser");
+                string field_name = Concat(CamelCaseToSnakeCase(class_name), "_field");
+                string local_name = Concat(CamelCaseToSnakeCase(class_name), "_instance");
+                ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ", class_name), " "), local_name), " = parser_network."), GenerateGetterName(field_name)), "();"));
+            }
+
+            rule_index = rule_index + 1;
+        }
+
+        string string_parser_class_name = "StringParser";
+        string string_parser_field_name = Concat(CamelCaseToSnakeCase(string_parser_class_name), "_field");
+        string string_parser_local_name = Concat(CamelCaseToSnakeCase(string_parser_class_name), "_instance");
+        ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ", string_parser_class_name), " "), string_parser_local_name), " = parser_network."), GenerateGetterName(string_parser_field_name)), "();"));
+
+        string character_parser_class_name = "CharacterParser";
+        string character_parser_field_name = Concat(CamelCaseToSnakeCase(character_parser_class_name), "_field");
+        string character_parser_local_name = Concat(CamelCaseToSnakeCase(character_parser_class_name), "_instance");
+        ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ", character_parser_class_name), " "), character_parser_local_name), " = parser_network."), GenerateGetterName(character_parser_field_name)), "();"));
+
+        string character_range_parser_class_name = "CharacterRangeParser";
+        string character_range_parser_field_name = Concat(CamelCaseToSnakeCase(character_range_parser_class_name), "_field");
+        string character_range_parser_local_name = Concat(CamelCaseToSnakeCase(character_range_parser_class_name), "_instance");
+        ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ", character_range_parser_class_name), " "), character_range_parser_local_name), " = parser_network."), GenerateGetterName(character_range_parser_field_name)), "();"));
+
+        ctcode_file.WriteLine("");
+        S84.Tower.dbnf.ctcode.Expression[] expressions = rule.GetExpressions();
+
+        int expression_index = 0;
+
+        while(expression_index < Size(expressions))
+        {
+            S84.Tower.dbnf.ctcode.Expression expression = Element(expressions, expression_index);
+            if (expression.GetExpressionDiscriminator()) {
+                WriteExpression(expression);
+
+                member_name_index = 0;
+
+                while (member_name_index < Size(member_names))
+                {
+                    string member_name = Element(member_names, member_name_index);
+                    MemberType member_type = GetKV(members, member_name);
+                    ctcode_file.WriteLine(Concat(Concat(Concat(Concat("            instance.", GenerateSetterName(member_name)), "("), member_name), ".GetValue());"));
+                    member_name_index = member_name_index + 1;
+                }
+
+                ctcode_file.WriteLine("            consumed_string.SetLength(index.GetStart() - index_start);");
+                ctcode_file.WriteLine("            instance.SetLengthString(consumed_string);");
+                ctcode_file.WriteLine("            result.SetValue(instance);");
+                ctcode_file.WriteLine("            result.SetResult(true);");
+                ctcode_file.WriteLine("            return result.GetResult();");
+                ctcode_file.WriteLine("        } else {");
+                ctcode_file.WriteLine("            index.SetStart(index_start);");
+                ctcode_file.WriteLine("            index.SetLength(index_length);");
+
+                member_name_index = 0;
+
+                while (member_name_index < Size(member_names))
+                {
+                    string member_name = Element(member_names, member_name_index);
+                    MemberType member_type = GetKV(members, member_name);
+
+                    if (member_type.GetIsList()) {
+                        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("            ", member_name), " = new "), member_type.GetBaseType()), "ListResult;"));
+                    } else {
+                        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("            ", member_name), " = new "), member_type.GetBaseType()), "Result;"));
+                    }
+
+                    member_name_index = member_name_index + 1;
+                }
+
+                ctcode_file.WriteLine("        }");
+                ctcode_file.WriteLine("");
+            }
+
+            expression_index = expression_index + 1;
+        }
+
+        ctcode_file.WriteLine("        result.SetResult(false);");
+        ctcode_file.WriteLine("        return result.GetResult();");
+        ctcode_file.WriteLine("    }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("    function bool ParseSingle(LengthString index)");
+        ctcode_file.WriteLine("    {");
+        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        ", class_name), "Result result = new "), class_name), "Result;"));
+        ctcode_file.WriteLine("        return ParseSingleSave(index, result);");
+        ctcode_file.WriteLine("    }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine(Concat(Concat("    function bool ParseOptionalSave(LengthString index, ", class_name), "Result result)"));
+        ctcode_file.WriteLine("    {");
+        ctcode_file.WriteLine("        ParseSingleSave(index, result);");
+        ctcode_file.WriteLine("        result.SetResult(true);");
+        ctcode_file.WriteLine("        return true;");
+        ctcode_file.WriteLine("    }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("    function bool ParseOptional(LengthString index)");
+        ctcode_file.WriteLine("    {");
+        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        ", class_name), "Result result = new "), class_name), "Result;"));
+        ctcode_file.WriteLine("        return ParseOptionalSave(index, result);");
+        ctcode_file.WriteLine("    }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine(Concat(Concat("    function bool ParseManySave(LengthString index, ", class_name), "ListResult list_result, int minimum, int maximum)"));
+        ctcode_file.WriteLine("    {");
+        ctcode_file.WriteLine("        int index_start = index.GetStart();");
+        ctcode_file.WriteLine("        int index_length = index.GetLength();");
+        ctcode_file.WriteLine(Concat(Concat("        ", class_name), "[] results;"));
+        ctcode_file.WriteLine("        int count = 0;");
+        ctcode_file.WriteLine("        int max_check = maximum;");
+        ctcode_file.WriteLine("        bool check_next = true;");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("        if (maximum < 0)");
+        ctcode_file.WriteLine("        {");
+        ctcode_file.WriteLine("            max_check = count + 1;");
+        ctcode_file.WriteLine("        }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("        while (check_next && count < max_check)");
+        ctcode_file.WriteLine("        {");
+        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("            ", class_name), "Result result = new "), class_name), "Result;"));
+        ctcode_file.WriteLine("            ParseSingleSave(index, result);");
+        ctcode_file.WriteLine("            check_next = result.GetResult();");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("            if (result.GetResult())");
+        ctcode_file.WriteLine("            {");
+        ctcode_file.WriteLine("                count = count + 1;");
+        ctcode_file.WriteLine("                Append(results, result.GetValue());");
+        ctcode_file.WriteLine("            }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("            if (maximum < 0)");
+        ctcode_file.WriteLine("            {");
+        ctcode_file.WriteLine("                max_check = count + 1;");
+        ctcode_file.WriteLine("            }");
+        ctcode_file.WriteLine("        }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("        if (count >= minimum && count <= max_check)");
+        ctcode_file.WriteLine("        {");
+        ctcode_file.WriteLine("            list_result.SetValue(results);");
+        ctcode_file.WriteLine("            list_result.SetResult(true);");
+        ctcode_file.WriteLine("        } else {");
+        ctcode_file.WriteLine("            index.SetStart(index_start);");
+        ctcode_file.WriteLine("            index.SetLength(index_length);");
+        ctcode_file.WriteLine("            list_result.SetResult(false);");
+        ctcode_file.WriteLine("        }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("        return list_result.GetResult();");
+        ctcode_file.WriteLine("    }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("    function bool ParseMany(LengthString index, int minimum, int maximum)");
+        ctcode_file.WriteLine("    {");
+        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        ", class_name), "ListResult result = new "), class_name), "ListResult;"));
+        ctcode_file.WriteLine("        return ParseManySave(index, result, minimum, maximum);");
+        ctcode_file.WriteLine("    }");
+        ctcode_file.WriteLine("}");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine(Concat(Concat("class ", class_name), "Result"));
+        ctcode_file.WriteLine("{");
+        ctcode_file.WriteLine(Concat(Concat("    function void SetValue(", class_name), " new_value) { value = new_value; }"));
+        ctcode_file.WriteLine(Concat(Concat("    function ", class_name), " GetValue() { return value; }"));
+        ctcode_file.WriteLine("    function void SetResult(bool new_result) { result = new_result; }");
+        ctcode_file.WriteLine("    function bool GetResult() { return result; }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine(Concat(Concat("    ", class_name), " value;"));
+        ctcode_file.WriteLine("    bool result;");
+        ctcode_file.WriteLine("}");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine(Concat(Concat("class ", class_name), "ListResult"));
+        ctcode_file.WriteLine("{");
+        ctcode_file.WriteLine(Concat(Concat("    function void SetValue(", class_name), "[] new_value) { value = new_value; }"));
+        ctcode_file.WriteLine(Concat(Concat("    function ", class_name), "[] GetValue() { return value; }"));
+        ctcode_file.WriteLine("    function void SetResult(bool new_result) { result = new_result; }");
+        ctcode_file.WriteLine("    function bool GetResult() { return result; }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine(Concat(Concat("    ", class_name), "[] value;"));
+        ctcode_file.WriteLine("    bool result;");
+        ctcode_file.WriteLine("}");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine(Concat("class ", class_name));
+        ctcode_file.WriteLine("{");
+        ctcode_file.WriteLine("    function void SetLengthString(LengthString new_value)");
+        ctcode_file.WriteLine("    {");
+        ctcode_file.WriteLine("        length_string = new LengthString;");
+        ctcode_file.WriteLine("        length_string.SetData(new_value.GetData());");
+        ctcode_file.WriteLine("        length_string.SetStart(new_value.GetStart());");
+        ctcode_file.WriteLine("        length_string.SetLength(new_value.GetLength());");
+        ctcode_file.WriteLine("    }");
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("    function string UnParse() { return length_string.GetString(); }");
+
+        member_name_index = 0;
+
+        while (member_name_index < Size(member_names))
+        {
+            string member_name = Element(member_names, member_name_index);
+            MemberType member_type = GetKV(members, member_name);
+
+            string list_suffix = "";
+
+            if (member_type.GetIsList()) {
+                list_suffix = "[]";
+            }
+
+            ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(Concat("    function void ", GenerateSetterName(member_name)), "("), member_type.GetBaseType()), list_suffix), " input_value) { "), member_name), " = input_value; }"));
+            ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(Concat("    function ", member_type.GetBaseType()), list_suffix), " "), GenerateGetterName(member_name)), "() { return "), member_name), "; }"));
+
+            member_name_index = member_name_index + 1;
+        }
+
+        ctcode_file.WriteLine("");
+        ctcode_file.WriteLine("    LengthString length_string;");
+
+        member_name_index = 0;
+
+        while (member_name_index < Size(member_names))
+        {
+            string member_name = Element(member_names, member_name_index);
+            MemberType member_type = GetKV(members, member_name);
+
+            string list_suffix = "";
+
+            if (member_type.GetIsList()) {
+                list_suffix = "[]";
+            }
+
+            ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat("    ", member_type.GetBaseType()), list_suffix), " "), member_name), ";"));
+
+            member_name_index = member_name_index + 1;
+        }
+
+        ctcode_file.WriteLine("}");
+    }
+
+    function void WriteExpression(S84.Tower.dbnf.ctcode.Expression expression)
+    {
+        string line = "";
+        line = Concat(line, "        if (true");
+
+        S84.Tower.dbnf.ctcode.Token[] token_sequence = expression.GetTokenSequence();
+        int token_sequence_index = 0;
+
+        while (token_sequence_index < Size(token_sequence))
+        {
+            S84.Tower.dbnf.ctcode.Token token = Element(token_sequence, token_sequence_index);
+            S84.Tower.dbnf.ctcode.SimpleToken simple_token = token.GetValue();
+            S84.Tower.dbnf.ctcode.Modifier modifier_node = token.GetModifier();
+            string member = GenerateMemberName(token.GetName());
+            line = Concat(line, " && ");
+            string match_function = "ParseSingle";
+            string match_function_parameters = "index";
+            string parser = "";
+
+            if (simple_token.GetToken())
+            {
+                parser = Concat(GenerateClassName(simple_token.GetToken()), "Parser");
+            }
+            else 
+            {
+                if (simple_token.GetLiteral())
+                {
+                    parser = "StringParser";
+                    match_function_parameters = Concat(Concat(match_function_parameters, ", "), simple_token.UnParse());
+                }
+                else 
+                {
+                    if (simple_token.GetHigh() && simple_token.GetLow())
+                    {
+                        parser = "CharacterParser";
+                        match_function_parameters = Concat(Concat(match_function_parameters, ", "), simple_token.UnParse());
+                    }
+                    else 
+                    {
+                        if (simple_token.GetHighHigh() && simple_token.GetHighLow() && simple_token.GetLowHigh() && simple_token.GetLowLow())
+                        {
+                            S84.Tower.dbnf.ctcode.HexDigit high_high = simple_token.GetHighHigh();
+                            S84.Tower.dbnf.ctcode.HexDigit high_low = simple_token.GetHighLow();
+                            S84.Tower.dbnf.ctcode.HexDigit low_high = simple_token.GetLowHigh();
+                            S84.Tower.dbnf.ctcode.HexDigit low_low = simple_token.GetLowLow();
+                            parser = "CharacterRangeParser";
+                            match_function_parameters = Concat(Concat(Concat(match_function_parameters, ", 0x"), low_high.UnParse()), low_low.UnParse());
+                            match_function_parameters = Concat(Concat(Concat(match_function_parameters, ", 0x"), high_high.UnParse()), high_low.UnParse());
+                        }
+                    }
+                }
+            }
+
+            if (token.GetName())
+            {
+                match_function_parameters = Concat(Concat(match_function_parameters, ", "), member);
+            }
+
+            if (modifier_node)
+            {
+                string modifier = modifier_node.UnParse();
+                S84.Tower.dbnf.ctcode.Cardinality cardinality = modifier_node.GetCardinality();
+
+                if (modifier == "*")
+                {
+                    match_function = "ParseMany";
+                    match_function_parameters = Concat(match_function_parameters, ", 0, -1");
+                }
+                else
+                {
+                    if (modifier == "?")
+                    {
+                        match_function = "ParseOptional";
+                    }
+                    else
+                    {
+                        if (modifier == "+")
+                        {
+                            match_function = "ParseMany";
+                            match_function_parameters = Concat(match_function_parameters, ", 1, -1");
+                        }
+                        else
+                        {
+                            if (cardinality)
+                            {
+                                S84.Tower.dbnf.ctcode.Number maximum = cardinality.GetMaximum();
+                                S84.Tower.dbnf.ctcode.Number minimum = cardinality.GetMinimum();
+                                S84.Tower.dbnf.ctcode.Number count = cardinality.GetCount();
+                                match_function = "ParseMany";
+
+                                if(maximum)
+                                {
+                                    match_function_parameters = Concat(Concat(Concat(Concat(match_function_parameters, ", "), minimum.UnParse()), ", "), maximum.UnParse());
+                                }
+                                else
+                                {
+                                    if(minimum)
+                                    {
+                                        match_function_parameters = Concat(Concat(Concat(match_function_parameters, ", "), minimum.UnParse()), ", -1");
+                                    }
+                                    else
+                                    {
+                                        if(count)
+                                        {
+                                            match_function_parameters = Concat(Concat(Concat(Concat(match_function_parameters, ", "), count.UnParse()), ", "), count.UnParse());
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (token.GetName())
+            {
+                match_function = Concat(match_function, "Save");
+            }
+
+            string parser_instance_name = Concat(CamelCaseToSnakeCase(parser), "_instance");
+            line = Concat(Concat(Concat(Concat(Concat(Concat(line, parser_instance_name), "."), match_function), "("), match_function_parameters), ")");
+            token_sequence_index = token_sequence_index + 1;
+        }
+
+        line = Concat(line, ") {");
+        ctcode_file.WriteLine(line);
+    }
+
+    function MemberType{} GetMembers(S84.Tower.dbnf.ctcode.Rule rule)
+    {
+        MemberType{} members;
+        S84.Tower.dbnf.ctcode.Expression[] expressions = rule.GetExpressions();
+        int expression_index = 0;
+
+        while (expression_index < Size(expressions))
+        {
+            S84.Tower.dbnf.ctcode.Expression expression = Element(expressions, expression_index);
+            S84.Tower.dbnf.ctcode.Token[] token_sequence = expression.GetTokenSequence();
+            int token_sequence_index = 0;
+
+            while (token_sequence_index < Size(token_sequence))
+            {
+                S84.Tower.dbnf.ctcode.Token token = Element(token_sequence, token_sequence_index);
+                S84.Tower.dbnf.ctcode.Modifier modifier_node = token.GetModifier();
+                string token_member_name = GenerateMemberName(token.GetName());
+
+                if(token_member_name != "")
+                {
+                    S84.Tower.dbnf.ctcode.SimpleToken simple_token = token.GetValue();
+                    string token_type_name = GenerateClassName(simple_token.GetToken());
+                    bool is_list = false;
+
+                    if (!HasKV(members, token_member_name)) {
+                        MemberType new_member_type = new MemberType;
+                        SetKV(members, token_member_name, new_member_type);
+                    }
+
+                    MemberType member_type = GetKV(members, token_member_name);
+                    string previous_type = member_type.GetBaseType();
+                    string modifier = "";
+
+                    if (modifier_node)
+                    {
+                        modifier = modifier_node.UnParse();
+                    }
+
+                    if (simple_token.GetHigh() ||
+                        simple_token.GetLow() ||
+                        simple_token.GetHighHigh() ||
+                        simple_token.GetHighLow() ||
+                        simple_token.GetLowHigh() ||
+                        simple_token.GetLowLow() ||
+                        simple_token.GetLiteral())
+                    {
+                        token_type_name = "String";
+                    }
+
+                    if (modifier == "*" ||
+                        modifier == "+" ||
+                        At(modifier, 0) == "{")
+                    {
+                        is_list = true;
+                    }
+
+                    if (previous_type != "" && previous_type != token_type_name)
+                    {
+                        if (modifier == "*" ||
+                            modifier == "+" ||
+                            At(modifier, 0) == "{")
+                        {
+                            is_list = true;
+                            token_type_name = "DBNFOmniType";
+                        }
+                        else
+                        {
+                            token_type_name = "DBNFOmniType";
+                        }
+                    }
+
+                    member_type.SetBaseType(token_type_name);
+                    member_type.SetIsList(is_list);
+                }
+
+                token_sequence_index = token_sequence_index + 1;
+            }
+
+            expression_index = expression_index + 1;
+        }
+
+        return members;
+    }
+
+    function string GenerateClassName(S84.Tower.dbnf.ctcode.Name name_node)
+    {
+        if (name_node)
+        {
+            return SnakeCaseToCamelCase(name_node.UnParse());
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    function string GenerateMemberName(S84.Tower.dbnf.ctcode.Name name_node)
+    {
+        if(name_node)
+        {
+            return Concat(name_node.UnParse(), "_field");
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    function string GenerateMimicName(string member)
+    {
+        string result = "";
+        int member_index = 0;
+
+        while (member_index < Length(member) - 6)
+        {
+            result = Concat(result, At(member, member_index));
+            member_index = member_index + 1;
+        }
+
+        return result;
+    }
+
+    function string GenerateGetterName(string member)
+    {
+        return Concat("Get", SnakeCaseToCamelCase(GenerateMimicName(member)));
+    }
+
+    function string GenerateSetterName(string member)
+    {
+        return Concat("Set", SnakeCaseToCamelCase(GenerateMimicName(member)));
+    }
+    function string SnakeCaseToCamelCase(string snake_case)
+    {
+        bool capitalize_this_letter;
+        capitalize_this_letter = true;
+        string camel_case;
+        camel_case = "";
+        int index;
+        index = 0;
+
+        while (index < Length(snake_case)) {
+            string source_character;
+            source_character = At(snake_case, index);
+
+            if (source_character == "_") {
+                capitalize_this_letter = true;
+            } else {
+                if (capitalize_this_letter == true)
+                {
+                    string upper_character;
+                    upper_character = CharacterToUpper(source_character);
+                    capitalize_this_letter = false;
+                    camel_case = Concat(camel_case, upper_character);
+                } else {
+                    capitalize_this_letter = false;
+                    camel_case = Concat(camel_case, source_character);
+                }
+            }
+
+            index = index + 1;
+        }
+
+        return camel_case;
+    }
+
+    function string CamelCaseToSnakeCase(string camel_case) {
+        string delimiter;
+        delimiter = "_";
+        bool in_abbreviation;
+        in_abbreviation = true;
+        string snake_case;
+        snake_case = "";
+        int index;
+        index = 0;
+
+        while (index < Length(camel_case)) {
+            string source_character;
+            source_character = At(camel_case, index);
+            string lower_character;
+            lower_character = CharacterToLower(source_character);
+
+            if (IsUpper(source_character) || IsDigit(source_character)) {
+                bool is_first_character;
+                is_first_character = Length(snake_case) == 0;
+
+                if (!in_abbreviation && !is_first_character) {
+                    snake_case = Concat(snake_case, delimiter);
+                }
+
+                snake_case = Concat(snake_case, lower_character);
+                in_abbreviation = true;
+            } else {
+                if (source_character == delimiter) {
+                    snake_case = Concat(snake_case, delimiter);
+                    in_abbreviation = true;
+                } else {
+                    snake_case = Concat(snake_case, lower_character);
+                    in_abbreviation = false;
+                }
+            }
+
+            index = index + 1;
+        }
+
+        return snake_case;
+    }
+
+    function bool IsUpper(string character) {
+        bool result;
+        result = false;
+        result = result || character == "A";
+        result = result || character == "B";
+        result = result || character == "C";
+        result = result || character == "D";
+        result = result || character == "E";
+        result = result || character == "F";
+        result = result || character == "G";
+        result = result || character == "H";
+        result = result || character == "I";
+        result = result || character == "J";
+        result = result || character == "K";
+        result = result || character == "L";
+        result = result || character == "M";
+        result = result || character == "N";
+        result = result || character == "O";
+        result = result || character == "P";
+        result = result || character == "Q";
+        result = result || character == "R";
+        result = result || character == "S";
+        result = result || character == "T";
+        result = result || character == "U";
+        result = result || character == "V";
+        result = result || character == "W";
+        result = result || character == "X";
+        result = result || character == "Y";
+        result = result || character == "Z";
+        return result;
+    }
+
+    function bool IsDigit(string character) {
+        bool result;
+        result = false;
+        result = result || character == "0";
+        result = result || character == "1";
+        result = result || character == "2";
+        result = result || character == "3";
+        result = result || character == "4";
+        result = result || character == "5";
+        result = result || character == "6";
+        result = result || character == "7";
+        result = result || character == "8";
+        result = result || character == "9";
+        return result;
+    }
+
+    function string ToLower(string input) {
+        int index;
+        index = 0;
+        string result;
+        result = "";
+
+        while (index < Length(input)) {
+            string character;
+            character = At(input, index);
+            string lowerCharacter;
+            lowerCharacter = CharacterToLower(character);
+            result = Concat(result, lowerCharacter);
+            index = index + 1;
+        }
+
+        return result;
+    }
+
+    function string CharacterToLower(string input) {
+        if (input == "A") {
+            return "a";
+        }
+
+        if (input == "B") {
+            return "b";
+        }
+
+        if (input == "C") {
+            return "c";
+        }
+
+        if (input == "D") {
+            return "d";
+        }
+
+        if (input == "E") {
+            return "e";
+        }
+
+        if (input == "F") {
+            return "f";
+        }
+
+        if (input == "G") {
+            return "g";
+        }
+
+        if (input == "H") {
+            return "h";
+        }
+
+        if (input == "I") {
+            return "i";
+        }
+
+        if (input == "J") {
+            return "j";
+        }
+
+        if (input == "K") {
+            return "k";
+        }
+
+        if (input == "L") {
+            return "l";
+        }
+
+        if (input == "M") {
+            return "m";
+        }
+
+        if (input == "N") {
+            return "n";
+        }
+
+        if (input == "O") {
+            return "o";
+        }
+
+        if (input == "P") {
+            return "p";
+        }
+
+        if (input == "Q") {
+            return "q";
+        }
+
+        if (input == "R") {
+            return "r";
+        }
+
+        if (input == "S") {
+            return "s";
+        }
+
+        if (input == "T") {
+            return "t";
+        }
+
+        if (input == "U") {
+            return "u";
+        }
+
+        if (input == "V") {
+            return "v";
+        }
+
+        if (input == "W") {
+            return "w";
+        }
+
+        if (input == "X") {
+            return "x";
+        }
+
+        if (input == "Y") {
+            return "y";
+        }
+
+        if (input == "Z") {
+            return "z";
+        }
+
+        return input;
+    }
+
+    function string ToUpper(string input) {
+        int index;
+        index = 0;
+        string result;
+        result = "";
+
+        while (index < Length(input)) {
+            string character;
+            character = At(input, index);
+            string upperCharacter;
+            upperCharacter = CharacterToUpper(character);
+            result = Concat(result, upperCharacter);
+            index = index + 1;
+        }
+
+        return result;
+    }
+
+    function string CharacterToUpper(string input) {
+        if (input == "a") {
+            return "A";
+        }
+
+        if (input == "b") {
+            return "B";
+        }
+
+        if (input == "c") {
+            return "C";
+        }
+
+        if (input == "d") {
+            return "D";
+        }
+
+        if (input == "e") {
+            return "E";
+        }
+
+        if (input == "f") {
+            return "F";
+        }
+
+        if (input == "g") {
+            return "G";
+        }
+
+        if (input == "h") {
+            return "H";
+        }
+
+        if (input == "i") {
+            return "I";
+        }
+
+        if (input == "j") {
+            return "J";
+        }
+
+        if (input == "k") {
+            return "K";
+        }
+
+        if (input == "l") {
+            return "L";
+        }
+
+        if (input == "m") {
+            return "M";
+        }
+
+        if (input == "n") {
+            return "N";
+        }
+
+        if (input == "o") {
+            return "O";
+        }
+
+        if (input == "p") {
+            return "P";
+        }
+
+        if (input == "q") {
+            return "Q";
+        }
+
+        if (input == "r") {
+            return "R";
+        }
+
+        if (input == "s") {
+            return "S";
+        }
+
+        if (input == "t") {
+            return "T";
+        }
+
+        if (input == "u") {
+            return "U";
+        }
+
+        if (input == "v") {
+            return "V";
+        }
+
+        if (input == "w") {
+            return "W";
+        }
+
+        if (input == "x") {
+            return "X";
+        }
+
+        if (input == "y") {
+            return "Y";
+        }
+
+        if (input == "z") {
+            return "Z";
+        }
+
+        return input;
+    }
+}

@@ -1,0 +1,12 @@
+exdef S84.Tower.System.ctcode;
+exdef S84.Tower.Generator.ctcode;
+exdef S84.Tower.dbnf.ctcode;
+
+class CPPGenerator implements S84.Tower.Generator.ctcode.Generator
+{
+    function int GenerateParser(S84.Tower.System.ctcode.System system, S84.Tower.dbnf.ctcode.Grammar grammar, string base_name) {
+        S84.Tower.System.ctcode.OutputStream logger = system.GetLoggerDestination();
+        logger.WriteLine("CPPGenerator not implemented.");
+        return 0;
+    }
+}

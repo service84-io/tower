@@ -1,0 +1,12 @@
+exdef S84.Tower.System.ctcode;
+exdef S84.Tower.dbnf.ctcode;
+
+interface OutputStream
+{
+    function void WriteLine(string line);
+}
+
+interface Generator
+{
+    function int GenerateParser(S84.Tower.System.ctcode.System system, S84.Tower.dbnf.ctcode.Grammar grammar, string base_name);
+}
