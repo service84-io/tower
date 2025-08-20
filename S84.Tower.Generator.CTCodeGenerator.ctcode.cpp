@@ -977,8 +977,6 @@ namespace ctcode
     {
         std::string delimiter;
         delimiter = std::string("_");
-        bool in_abbreviation;
-        in_abbreviation = true;
         std::string snake_case;
         snake_case = std::string("");
         int index;
@@ -993,25 +991,22 @@ namespace ctcode
             {
                 bool is_first_character;
                 is_first_character = Length(snake_case) == 0;
-                if (!in_abbreviation && !is_first_character)
+                if (!is_first_character)
                 {
                     snake_case = Concat(snake_case, delimiter);
                 }
 
                 snake_case = Concat(snake_case, lower_character);
-                in_abbreviation = true;
             }
             else
             {
                 if (source_character == delimiter)
                 {
                     snake_case = Concat(snake_case, delimiter);
-                    in_abbreviation = true;
                 }
                 else
                 {
                     snake_case = Concat(snake_case, lower_character);
-                    in_abbreviation = false;
                 }
             }
 
