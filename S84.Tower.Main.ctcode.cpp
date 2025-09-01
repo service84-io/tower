@@ -34,15 +34,15 @@ namespace ctcode
     {
         OmniPointer<s84::tower::system::ctcode::OutputStream> logger = system->GetLoggerDestination();
         std::unordered_map<std::string, OmniPointer<s84::tower::generator::ctcode::Generator>> generators;
-        SetKV(generators, std::string("CPPGenerator"), GetCPPGenerator());
-        SetKV(generators, std::string("DSA::Vent::Tower::CPPGenerator"), GetCPPGenerator());
-        SetKV(generators, std::string("S84::Tower::CPPGenerator"), GetCPPGenerator());
-        SetKV(generators, std::string("s84::tower::CPPGenerator"), GetCPPGenerator());
-        SetKV(generators, std::string("CTCodeGenerator"), GetCTCodeGenerator());
-        SetKV(generators, std::string("DSA::Vent::Tower::CTCodeGenerator"), GetCTCodeGenerator());
-        SetKV(generators, std::string("S84::Tower::CTCodeGenerator"), GetCTCodeGenerator());
-        SetKV(generators, std::string("s84::tower::CTCodeGenerator"), GetCTCodeGenerator());
-        SetKV(generators, std::string("LogToConsole"), GetLogToConsole());
+        SetKV(generators, std::string("CPPGenerator"), this->GetCPPGenerator());
+        SetKV(generators, std::string("DSA::Vent::Tower::CPPGenerator"), this->GetCPPGenerator());
+        SetKV(generators, std::string("S84::Tower::CPPGenerator"), this->GetCPPGenerator());
+        SetKV(generators, std::string("s84::tower::CPPGenerator"), this->GetCPPGenerator());
+        SetKV(generators, std::string("CTCodeGenerator"), this->GetCTCodeGenerator());
+        SetKV(generators, std::string("DSA::Vent::Tower::CTCodeGenerator"), this->GetCTCodeGenerator());
+        SetKV(generators, std::string("S84::Tower::CTCodeGenerator"), this->GetCTCodeGenerator());
+        SetKV(generators, std::string("s84::tower::CTCodeGenerator"), this->GetCTCodeGenerator());
+        SetKV(generators, std::string("LogToConsole"), this->GetLogToConsole());
         if (dbnf_file_name == std::string("") || !HasKV(generators, generator))
         {
             logger->WriteLine(std::string("tower <DBNF_File> <Generator>"));

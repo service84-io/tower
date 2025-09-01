@@ -4,10 +4,10 @@ exdef S84.Tower.dbnf.ctcode;
 
 class MemberType
 {
-    function void SetBaseType(string input) { base_type = input; }
-    function string GetBaseType() { return base_type; }
-    function void SetIsList(bool input) { is_list = input; }
-    function bool GetIsList() { return is_list; }
+    function void SetBaseType(string input) { myself.base_type = input; }
+    function string GetBaseType() { return myself.base_type; }
+    function void SetIsList(bool input) { myself.is_list = input; }
+    function bool GetIsList() { return myself.is_list; }
 
     string base_type;
     bool is_list;
@@ -19,226 +19,226 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
     S84.Tower.System.ctcode.OutputStream ctcode_file;
 
     function int GenerateParser(S84.Tower.System.ctcode.System system, S84.Tower.dbnf.ctcode.Grammar grammar, string base_name) {
-        logger = system.GetLoggerDestination();
-        ctcode_file = system.OpenFileWriter(Concat(base_name, ".ctcode"));
-        logger.WriteLine("Generating CTCode file...");
-        WriteClasses(grammar, base_name);
-        logger.WriteLine("Done!");
+        myself.logger = system.GetLoggerDestination();
+        myself.ctcode_file = system.OpenFileWriter(Concat(base_name, ".ctcode"));
+        myself.logger.WriteLine("Generating CTCode file...");
+        myself.WriteClasses(grammar, base_name);
+        myself.logger.WriteLine("Done!");
         return 0;
     }
 
     function void WriteClasses(S84.Tower.dbnf.ctcode.Grammar grammar, string base_name) {
         S84.Tower.dbnf.ctcode.Rule[] rules = grammar.GetRules();
-        ctcode_file.WriteLine("class StringParser");
-        ctcode_file.WriteLine("{");
-        ctcode_file.WriteLine("    function bool ParseSingleSave(LengthString index, string value, StringResult result)");
-        ctcode_file.WriteLine("    {");
-        ctcode_file.WriteLine("        int index_start = index.GetStart();");
-        ctcode_file.WriteLine("        int index_length = index.GetLength();");
-        ctcode_file.WriteLine("        LargeString index_data = index.GetData();");
-        ctcode_file.WriteLine("        LengthString consumed_string = new LengthString;");
-        ctcode_file.WriteLine("        consumed_string.SetData(index.GetData());");
-        ctcode_file.WriteLine("        consumed_string.SetStart(index.GetStart());");
-        ctcode_file.WriteLine("        consumed_string.SetLength(0);");
-        ctcode_file.WriteLine("        String instance = new String;");
-        ctcode_file.WriteLine("        int value_length = Length(value);");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("        if (value_length > index.GetLength())");
-        ctcode_file.WriteLine("        {");
-        ctcode_file.WriteLine("            result.SetResult(false);");
-        ctcode_file.WriteLine("            return false;");
-        ctcode_file.WriteLine("        }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("        int offset_index = 0;");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("        while (offset_index < value_length)");
-        ctcode_file.WriteLine("        {");
-        ctcode_file.WriteLine("            if (index_data.GetAt(index.GetStart() + offset_index) != At(value, offset_index))");
-        ctcode_file.WriteLine("            {");
-        ctcode_file.WriteLine("                result.SetResult(false);");
-        ctcode_file.WriteLine("                return false;");
-        ctcode_file.WriteLine("            }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("            offset_index = offset_index + 1;");
-        ctcode_file.WriteLine("        }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("        index.SetStart(index.GetStart() + value_length);");
-        ctcode_file.WriteLine("        index.SetLength(index.GetLength() - value_length);");
-        ctcode_file.WriteLine("        consumed_string.SetLength(index.GetStart() - index_start);");
-        ctcode_file.WriteLine("        instance.SetLengthString(consumed_string);");
-        ctcode_file.WriteLine("        result.SetValue(instance);");
-        ctcode_file.WriteLine("        result.SetResult(true);");
-        ctcode_file.WriteLine("        return true;");
-        ctcode_file.WriteLine("    }");
-        ctcode_file.WriteLine("    function bool ParseSingle(LengthString index, string value)");
-        ctcode_file.WriteLine("    {");
-        ctcode_file.WriteLine("        StringResult result = new StringResult;");
-        ctcode_file.WriteLine("        return myself.ParseSingleSave(index, value, result);");
-        ctcode_file.WriteLine("    }");
-        ctcode_file.WriteLine("}");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("class StringResult");
-        ctcode_file.WriteLine("{");
-        ctcode_file.WriteLine("    function void SetValue(String new_value) { myself.value = new_value; }");
-        ctcode_file.WriteLine("    function String GetValue() { return myself.value; }");
-        ctcode_file.WriteLine("    function void SetResult(bool new_result) { myself.result = new_result; }");
-        ctcode_file.WriteLine("    function bool GetResult() { return myself.result; }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("    String value;");
-        ctcode_file.WriteLine("    bool result;");
-        ctcode_file.WriteLine("}");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("class StringListResult");
-        ctcode_file.WriteLine("{");
-        ctcode_file.WriteLine("    function void SetValue(String[] new_value) { myself.value = new_value; }");
-        ctcode_file.WriteLine("    function String[] GetValue() { return myself.value; }");
-        ctcode_file.WriteLine("    function void SetResult(bool new_result) { myself.result = new_result; }");
-        ctcode_file.WriteLine("    function bool GetResult() { return myself.result; }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("    String[] value;");
-        ctcode_file.WriteLine("    bool result;");
-        ctcode_file.WriteLine("}");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("class String");
-        ctcode_file.WriteLine("{");
-        ctcode_file.WriteLine("    function void SetLengthString(LengthString new_value)");
-        ctcode_file.WriteLine("    {");
-        ctcode_file.WriteLine("        myself.length_string = new LengthString;");
-        ctcode_file.WriteLine("        myself.length_string.SetData(new_value.GetData());");
-        ctcode_file.WriteLine("        myself.length_string.SetStart(new_value.GetStart());");
-        ctcode_file.WriteLine("        myself.length_string.SetLength(new_value.GetLength());");
-        ctcode_file.WriteLine("    }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("    function string UnParse() { return myself.length_string.GetString(); }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("    LengthString length_string;");
-        ctcode_file.WriteLine("}");
-        ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("class StringParser");
+        myself.ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine("    function bool ParseSingleSave(LengthString index, string value, StringResult result)");
+        myself.ctcode_file.WriteLine("    {");
+        myself.ctcode_file.WriteLine("        int index_start = index.GetStart();");
+        myself.ctcode_file.WriteLine("        int index_length = index.GetLength();");
+        myself.ctcode_file.WriteLine("        LargeString index_data = index.GetData();");
+        myself.ctcode_file.WriteLine("        LengthString consumed_string = new LengthString;");
+        myself.ctcode_file.WriteLine("        consumed_string.SetData(index.GetData());");
+        myself.ctcode_file.WriteLine("        consumed_string.SetStart(index.GetStart());");
+        myself.ctcode_file.WriteLine("        consumed_string.SetLength(0);");
+        myself.ctcode_file.WriteLine("        String instance = new String;");
+        myself.ctcode_file.WriteLine("        int value_length = Length(value);");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("        if (value_length > index.GetLength())");
+        myself.ctcode_file.WriteLine("        {");
+        myself.ctcode_file.WriteLine("            result.SetResult(false);");
+        myself.ctcode_file.WriteLine("            return false;");
+        myself.ctcode_file.WriteLine("        }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("        int offset_index = 0;");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("        while (offset_index < value_length)");
+        myself.ctcode_file.WriteLine("        {");
+        myself.ctcode_file.WriteLine("            if (index_data.GetAt(index.GetStart() + offset_index) != At(value, offset_index))");
+        myself.ctcode_file.WriteLine("            {");
+        myself.ctcode_file.WriteLine("                result.SetResult(false);");
+        myself.ctcode_file.WriteLine("                return false;");
+        myself.ctcode_file.WriteLine("            }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("            offset_index = offset_index + 1;");
+        myself.ctcode_file.WriteLine("        }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("        index.SetStart(index.GetStart() + value_length);");
+        myself.ctcode_file.WriteLine("        index.SetLength(index.GetLength() - value_length);");
+        myself.ctcode_file.WriteLine("        consumed_string.SetLength(index.GetStart() - index_start);");
+        myself.ctcode_file.WriteLine("        instance.SetLengthString(consumed_string);");
+        myself.ctcode_file.WriteLine("        result.SetValue(instance);");
+        myself.ctcode_file.WriteLine("        result.SetResult(true);");
+        myself.ctcode_file.WriteLine("        return true;");
+        myself.ctcode_file.WriteLine("    }");
+        myself.ctcode_file.WriteLine("    function bool ParseSingle(LengthString index, string value)");
+        myself.ctcode_file.WriteLine("    {");
+        myself.ctcode_file.WriteLine("        StringResult result = new StringResult;");
+        myself.ctcode_file.WriteLine("        return myself.ParseSingleSave(index, value, result);");
+        myself.ctcode_file.WriteLine("    }");
+        myself.ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("class StringResult");
+        myself.ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine("    function void SetValue(String new_value) { myself.value = new_value; }");
+        myself.ctcode_file.WriteLine("    function String GetValue() { return myself.value; }");
+        myself.ctcode_file.WriteLine("    function void SetResult(bool new_result) { myself.result = new_result; }");
+        myself.ctcode_file.WriteLine("    function bool GetResult() { return myself.result; }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("    String value;");
+        myself.ctcode_file.WriteLine("    bool result;");
+        myself.ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("class StringListResult");
+        myself.ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine("    function void SetValue(String[] new_value) { myself.value = new_value; }");
+        myself.ctcode_file.WriteLine("    function String[] GetValue() { return myself.value; }");
+        myself.ctcode_file.WriteLine("    function void SetResult(bool new_result) { myself.result = new_result; }");
+        myself.ctcode_file.WriteLine("    function bool GetResult() { return myself.result; }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("    String[] value;");
+        myself.ctcode_file.WriteLine("    bool result;");
+        myself.ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("class String");
+        myself.ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine("    function void SetLengthString(LengthString new_value)");
+        myself.ctcode_file.WriteLine("    {");
+        myself.ctcode_file.WriteLine("        myself.length_string = new LengthString;");
+        myself.ctcode_file.WriteLine("        myself.length_string.SetData(new_value.GetData());");
+        myself.ctcode_file.WriteLine("        myself.length_string.SetStart(new_value.GetStart());");
+        myself.ctcode_file.WriteLine("        myself.length_string.SetLength(new_value.GetLength());");
+        myself.ctcode_file.WriteLine("    }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("    function string UnParse() { return myself.length_string.GetString(); }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("    LengthString length_string;");
+        myself.ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("");
 
-        ctcode_file.WriteLine("class CharacterParser");
-        ctcode_file.WriteLine("{");
-        ctcode_file.WriteLine("    function bool ParseSingle(LengthString index, int value)");
-        ctcode_file.WriteLine("    {");
-        ctcode_file.WriteLine("        if (0 == index.GetLength())");
-        ctcode_file.WriteLine("        {");
-        ctcode_file.WriteLine("            return false;");
-        ctcode_file.WriteLine("        }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("        LargeString index_data = index.GetData();");
-        ctcode_file.WriteLine("        int current_character = index_data.GetIntAt(index.GetStart());");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("        if (current_character == value)");
-        ctcode_file.WriteLine("        {");
-        ctcode_file.WriteLine("            index.SetStart(index.GetStart() + 1);");
-        ctcode_file.WriteLine("            index.SetLength(index.GetLength() - 1);");
-        ctcode_file.WriteLine("            return true;");
-        ctcode_file.WriteLine("        }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("        return false;");
-        ctcode_file.WriteLine("    }");
-        ctcode_file.WriteLine("}");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("class CharacterResult");
-        ctcode_file.WriteLine("{");
-        ctcode_file.WriteLine("    function void SetValue(Character new_value) { myself.value = new_value; }");
-        ctcode_file.WriteLine("    function Character GetValue() { return myself.value; }");
-        ctcode_file.WriteLine("    function void SetResult(bool new_result) { myself.result = new_result; }");
-        ctcode_file.WriteLine("    function bool GetResult() { return myself.result; }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("    Character value;");
-        ctcode_file.WriteLine("    bool result;");
-        ctcode_file.WriteLine("}");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("class CharacterListResult");
-        ctcode_file.WriteLine("{");
-        ctcode_file.WriteLine("    function void SetValue(Character[] new_value) { myself.value = new_value; }");
-        ctcode_file.WriteLine("    function Character[] GetValue() { return myself.value; }");
-        ctcode_file.WriteLine("    function void SetResult(bool new_result) { myself.result = new_result; }");
-        ctcode_file.WriteLine("    function bool GetResult() { return myself.result; }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("    Character[] value;");
-        ctcode_file.WriteLine("    bool result;");
-        ctcode_file.WriteLine("}");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("class Character");
-        ctcode_file.WriteLine("{");
-        ctcode_file.WriteLine("    function void SetLengthString(LengthString new_value)");
-        ctcode_file.WriteLine("    {");
-        ctcode_file.WriteLine("        myself.length_string = new LengthString;");
-        ctcode_file.WriteLine("        myself.length_string.SetData(new_value.GetData());");
-        ctcode_file.WriteLine("        myself.length_string.SetStart(new_value.GetStart());");
-        ctcode_file.WriteLine("        myself.length_string.SetLength(new_value.GetLength());");
-        ctcode_file.WriteLine("    }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("    function string UnParse() { return myself.length_string.GetString(); }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("    LengthString length_string;");
-        ctcode_file.WriteLine("}");
-        ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("class CharacterParser");
+        myself.ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine("    function bool ParseSingle(LengthString index, int value)");
+        myself.ctcode_file.WriteLine("    {");
+        myself.ctcode_file.WriteLine("        if (0 == index.GetLength())");
+        myself.ctcode_file.WriteLine("        {");
+        myself.ctcode_file.WriteLine("            return false;");
+        myself.ctcode_file.WriteLine("        }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("        LargeString index_data = index.GetData();");
+        myself.ctcode_file.WriteLine("        int current_character = index_data.GetIntAt(index.GetStart());");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("        if (current_character == value)");
+        myself.ctcode_file.WriteLine("        {");
+        myself.ctcode_file.WriteLine("            index.SetStart(index.GetStart() + 1);");
+        myself.ctcode_file.WriteLine("            index.SetLength(index.GetLength() - 1);");
+        myself.ctcode_file.WriteLine("            return true;");
+        myself.ctcode_file.WriteLine("        }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("        return false;");
+        myself.ctcode_file.WriteLine("    }");
+        myself.ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("class CharacterResult");
+        myself.ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine("    function void SetValue(Character new_value) { myself.value = new_value; }");
+        myself.ctcode_file.WriteLine("    function Character GetValue() { return myself.value; }");
+        myself.ctcode_file.WriteLine("    function void SetResult(bool new_result) { myself.result = new_result; }");
+        myself.ctcode_file.WriteLine("    function bool GetResult() { return myself.result; }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("    Character value;");
+        myself.ctcode_file.WriteLine("    bool result;");
+        myself.ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("class CharacterListResult");
+        myself.ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine("    function void SetValue(Character[] new_value) { myself.value = new_value; }");
+        myself.ctcode_file.WriteLine("    function Character[] GetValue() { return myself.value; }");
+        myself.ctcode_file.WriteLine("    function void SetResult(bool new_result) { myself.result = new_result; }");
+        myself.ctcode_file.WriteLine("    function bool GetResult() { return myself.result; }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("    Character[] value;");
+        myself.ctcode_file.WriteLine("    bool result;");
+        myself.ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("class Character");
+        myself.ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine("    function void SetLengthString(LengthString new_value)");
+        myself.ctcode_file.WriteLine("    {");
+        myself.ctcode_file.WriteLine("        myself.length_string = new LengthString;");
+        myself.ctcode_file.WriteLine("        myself.length_string.SetData(new_value.GetData());");
+        myself.ctcode_file.WriteLine("        myself.length_string.SetStart(new_value.GetStart());");
+        myself.ctcode_file.WriteLine("        myself.length_string.SetLength(new_value.GetLength());");
+        myself.ctcode_file.WriteLine("    }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("    function string UnParse() { return myself.length_string.GetString(); }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("    LengthString length_string;");
+        myself.ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("");
 
-        ctcode_file.WriteLine("class CharacterRangeParser");
-        ctcode_file.WriteLine("{");
-        ctcode_file.WriteLine("    function bool ParseSingle(LengthString index, int low_value, int high_value)");
-        ctcode_file.WriteLine("    {");
-        ctcode_file.WriteLine("        if (0 == index.GetLength())");
-        ctcode_file.WriteLine("        {");
-        ctcode_file.WriteLine("            return false;");
-        ctcode_file.WriteLine("        }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("        LargeString index_data = index.GetData();");
-        ctcode_file.WriteLine("        int current_character = index_data.GetIntAt(index.GetStart());");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("        if (low_value <= current_character && current_character <= high_value)");
-        ctcode_file.WriteLine("        {");
-        ctcode_file.WriteLine("            index.SetStart(index.GetStart() + 1);");
-        ctcode_file.WriteLine("            index.SetLength(index.GetLength() - 1);");
-        ctcode_file.WriteLine("            return true;");
-        ctcode_file.WriteLine("        }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("        return false;");
-        ctcode_file.WriteLine("    }");
-        ctcode_file.WriteLine("}");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("class CharacterRangeResult");
-        ctcode_file.WriteLine("{");
-        ctcode_file.WriteLine("    function void SetValue(CharacterRange new_value) { myself.value = new_value; }");
-        ctcode_file.WriteLine("    function CharacterRange GetValue() { return myself.value; }");
-        ctcode_file.WriteLine("    function void SetResult(bool new_result) { myself.result = new_result; }");
-        ctcode_file.WriteLine("    function bool GetResult() { return myself.result; }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("    CharacterRange value;");
-        ctcode_file.WriteLine("    bool result;");
-        ctcode_file.WriteLine("}");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("class CharacterRangeListResult");
-        ctcode_file.WriteLine("{");
-        ctcode_file.WriteLine("    function void SetValue(CharacterRange[] new_value) { myself.value = new_value; }");
-        ctcode_file.WriteLine("    function CharacterRange[] GetValue() { return myself.value; }");
-        ctcode_file.WriteLine("    function void SetResult(bool new_result) { myself.result = new_result; }");
-        ctcode_file.WriteLine("    function bool GetResult() { return myself.result; }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("    CharacterRange[] value;");
-        ctcode_file.WriteLine("    bool result;");
-        ctcode_file.WriteLine("}");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("class CharacterRange");
-        ctcode_file.WriteLine("{");
-        ctcode_file.WriteLine("    function void SetLengthString(LengthString new_value)");
-        ctcode_file.WriteLine("    {");
-        ctcode_file.WriteLine("        myself.length_string = new LengthString;");
-        ctcode_file.WriteLine("        myself.length_string.SetData(new_value.GetData());");
-        ctcode_file.WriteLine("        myself.length_string.SetStart(new_value.GetStart());");
-        ctcode_file.WriteLine("        myself.length_string.SetLength(new_value.GetLength());");
-        ctcode_file.WriteLine("    }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("    function string UnParse() { return myself.length_string.GetString(); }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("    LengthString length_string;");
-        ctcode_file.WriteLine("}");
-        ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("class CharacterRangeParser");
+        myself.ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine("    function bool ParseSingle(LengthString index, int low_value, int high_value)");
+        myself.ctcode_file.WriteLine("    {");
+        myself.ctcode_file.WriteLine("        if (0 == index.GetLength())");
+        myself.ctcode_file.WriteLine("        {");
+        myself.ctcode_file.WriteLine("            return false;");
+        myself.ctcode_file.WriteLine("        }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("        LargeString index_data = index.GetData();");
+        myself.ctcode_file.WriteLine("        int current_character = index_data.GetIntAt(index.GetStart());");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("        if (low_value <= current_character && current_character <= high_value)");
+        myself.ctcode_file.WriteLine("        {");
+        myself.ctcode_file.WriteLine("            index.SetStart(index.GetStart() + 1);");
+        myself.ctcode_file.WriteLine("            index.SetLength(index.GetLength() - 1);");
+        myself.ctcode_file.WriteLine("            return true;");
+        myself.ctcode_file.WriteLine("        }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("        return false;");
+        myself.ctcode_file.WriteLine("    }");
+        myself.ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("class CharacterRangeResult");
+        myself.ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine("    function void SetValue(CharacterRange new_value) { myself.value = new_value; }");
+        myself.ctcode_file.WriteLine("    function CharacterRange GetValue() { return myself.value; }");
+        myself.ctcode_file.WriteLine("    function void SetResult(bool new_result) { myself.result = new_result; }");
+        myself.ctcode_file.WriteLine("    function bool GetResult() { return myself.result; }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("    CharacterRange value;");
+        myself.ctcode_file.WriteLine("    bool result;");
+        myself.ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("class CharacterRangeListResult");
+        myself.ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine("    function void SetValue(CharacterRange[] new_value) { myself.value = new_value; }");
+        myself.ctcode_file.WriteLine("    function CharacterRange[] GetValue() { return myself.value; }");
+        myself.ctcode_file.WriteLine("    function void SetResult(bool new_result) { myself.result = new_result; }");
+        myself.ctcode_file.WriteLine("    function bool GetResult() { return myself.result; }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("    CharacterRange[] value;");
+        myself.ctcode_file.WriteLine("    bool result;");
+        myself.ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("class CharacterRange");
+        myself.ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine("    function void SetLengthString(LengthString new_value)");
+        myself.ctcode_file.WriteLine("    {");
+        myself.ctcode_file.WriteLine("        myself.length_string = new LengthString;");
+        myself.ctcode_file.WriteLine("        myself.length_string.SetData(new_value.GetData());");
+        myself.ctcode_file.WriteLine("        myself.length_string.SetStart(new_value.GetStart());");
+        myself.ctcode_file.WriteLine("        myself.length_string.SetLength(new_value.GetLength());");
+        myself.ctcode_file.WriteLine("    }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("    function string UnParse() { return myself.length_string.GetString(); }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("    LengthString length_string;");
+        myself.ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("");
 
-        ctcode_file.WriteLine("class ParserNetwork");
-        ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine("class ParserNetwork");
+        myself.ctcode_file.WriteLine("{");
 
         int rule_index = 0;
 
@@ -246,55 +246,30 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
             S84.Tower.dbnf.ctcode.Rule rule = Element(rules, rule_index);
 
             if (rule.GetName()) {
-                string class_name = Concat(GenerateClassName(rule.GetName()), "Parser");
-                string field_name = Concat(CamelCaseToSnakeCase(class_name), "_field");
-                ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    ", class_name), " "), field_name), ";"));
-                ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("    function ", class_name), " "), GenerateGetterName(field_name)), "() { return myself."), field_name), "; }"));
+                string class_name = Concat(myself.GenerateClassName(rule.GetName()), "Parser");
+                string field_name = Concat(myself.CamelCaseToSnakeCase(class_name), "_field");
+                myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    ", class_name), " "), field_name), ";"));
+                myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("    function ", class_name), " "), myself.GenerateGetterName(field_name)), "() { return myself."), field_name), "; }"));
             }
 
             rule_index = rule_index + 1;
         }
 
         string string_parser_class_name = "StringParser";
-        string string_parser_field_name = Concat(CamelCaseToSnakeCase(string_parser_class_name), "_field");
+        string string_parser_field_name = Concat(myself.CamelCaseToSnakeCase(string_parser_class_name), "_field");
         string character_parser_class_name = "CharacterParser";
-        string character_parser_field_name = Concat(CamelCaseToSnakeCase(character_parser_class_name), "_field");
+        string character_parser_field_name = Concat(myself.CamelCaseToSnakeCase(character_parser_class_name), "_field");
         string character_range_parser_class_name = "CharacterRangeParser";
-        string character_range_parser_field_name = Concat(CamelCaseToSnakeCase(character_range_parser_class_name), "_field");
+        string character_range_parser_field_name = Concat(myself.CamelCaseToSnakeCase(character_range_parser_class_name), "_field");
 
-        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    ", string_parser_class_name), " "), string_parser_field_name), ";"));
-        ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("    function ", string_parser_class_name), " "), GenerateGetterName(string_parser_field_name)), "() { return myself."), string_parser_field_name), ";}"));
-        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    ", character_parser_class_name), " "), character_parser_field_name), ";"));
-        ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("    function ", character_parser_class_name), " "), GenerateGetterName(character_parser_field_name)), "() { return myself."), character_parser_field_name), ";}"));
-        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    ", character_range_parser_class_name), " "), character_range_parser_field_name), ";"));
-        ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("    function ", character_range_parser_class_name), " "), GenerateGetterName(character_range_parser_field_name)), "() { return myself."), character_range_parser_field_name), ";}"));
+        myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    ", string_parser_class_name), " "), string_parser_field_name), ";"));
+        myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("    function ", string_parser_class_name), " "), myself.GenerateGetterName(string_parser_field_name)), "() { return myself."), string_parser_field_name), ";}"));
+        myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    ", character_parser_class_name), " "), character_parser_field_name), ";"));
+        myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("    function ", character_parser_class_name), " "), myself.GenerateGetterName(character_parser_field_name)), "() { return myself."), character_parser_field_name), ";}"));
+        myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    ", character_range_parser_class_name), " "), character_range_parser_field_name), ";"));
+        myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("    function ", character_range_parser_class_name), " "), myself.GenerateGetterName(character_range_parser_field_name)), "() { return myself."), character_range_parser_field_name), ";}"));
 
-        ctcode_file.WriteLine("    function void Initialize() {");
-
-        rule_index = 0;
-
-        while (rule_index < Size(rules)) {
-            S84.Tower.dbnf.ctcode.Rule rule = Element(rules, rule_index);
-
-            if (rule.GetName()) {
-                string class_name = Concat(GenerateClassName(rule.GetName()), "Parser");
-                string field_name = Concat(CamelCaseToSnakeCase(class_name), "_field");
-                ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        myself.", field_name), " = new "), class_name), ";"));
-                ctcode_file.WriteLine(Concat(Concat("        myself.", field_name), ".SetParserNetwork(myself);"));
-            }
-
-            rule_index = rule_index + 1;
-        }
-
-        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        myself.", string_parser_field_name), " = new "), string_parser_class_name), ";"));
-        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        myself.", character_parser_field_name), " = new "), character_parser_class_name), ";"));
-        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        myself.", character_range_parser_field_name), " = new "), character_range_parser_class_name), ";"));
-
-        ctcode_file.WriteLine("    }");
-        ctcode_file.WriteLine("}");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("class DBNFOmniType");
-        ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine("    function void Initialize() {");
 
         rule_index = 0;
 
@@ -302,54 +277,24 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
             S84.Tower.dbnf.ctcode.Rule rule = Element(rules, rule_index);
 
             if (rule.GetName()) {
-                string class_name = GenerateClassName(rule.GetName());
-                string field_name = Concat(CamelCaseToSnakeCase(class_name), "_field");
-                ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    ", class_name), " "), field_name), ";"));
-                ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("    function void ", GenerateSetterName(field_name)), "("), class_name), " input_value) { myself."), field_name), " = input_value; }"));
-                ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("    function ", class_name), " "), GenerateGetterName(field_name)), "() { return myself."), field_name), "; }"));
+                string class_name = Concat(myself.GenerateClassName(rule.GetName()), "Parser");
+                string field_name = Concat(myself.CamelCaseToSnakeCase(class_name), "_field");
+                myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        myself.", field_name), " = new "), class_name), ";"));
+                myself.ctcode_file.WriteLine(Concat(Concat("        myself.", field_name), ".SetParserNetwork(myself);"));
             }
 
             rule_index = rule_index + 1;
         }
 
-        ctcode_file.WriteLine("}");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("class DBNFOmniTypeResult");
-        ctcode_file.WriteLine("{");
-        ctcode_file.WriteLine("    function void SetValue(DBNFOmniType new_value) { myself.value = new_value; }");
-        ctcode_file.WriteLine("    function DBNFOmniType GetValue() { return myself.value; }");
-        ctcode_file.WriteLine("    function void SetResult(bool new_result) { myself.result = new_result; }");
-        ctcode_file.WriteLine("    function bool GetResult() { return myself.result; }");
+        myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        myself.", string_parser_field_name), " = new "), string_parser_class_name), ";"));
+        myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        myself.", character_parser_field_name), " = new "), character_parser_class_name), ";"));
+        myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        myself.", character_range_parser_field_name), " = new "), character_range_parser_class_name), ";"));
 
-        rule_index = 0;
-
-        while (rule_index < Size(rules)) {
-            S84.Tower.dbnf.ctcode.Rule rule = Element(rules, rule_index);
-
-            if (rule.GetName()) {
-                string class_name = myself.GenerateClassName(rule.GetName());
-                string field_name = Concat(CamelCaseToSnakeCase(class_name), "_field");
-                ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    function void ", myself.GenerateSetterName(field_name)), "("), class_name), " input_value)"));
-                ctcode_file.WriteLine("    {");
-                ctcode_file.WriteLine("        myself.value = new DBNFOmniType;");
-                ctcode_file.WriteLine(Concat(Concat("        myself.value.", GenerateSetterName(field_name)), "(input_value);"));
-                ctcode_file.WriteLine("    }");
-            }
-
-            rule_index = rule_index + 1;
-        }
-
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("    DBNFOmniType value;");
-        ctcode_file.WriteLine("    bool result;");
-        ctcode_file.WriteLine("}");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("class DBNFOmniTypeListResult");
-        ctcode_file.WriteLine("{");
-        ctcode_file.WriteLine("    function void SetValue(DBNFOmniType[] new_value) { myself.value = new_value; }");
-        ctcode_file.WriteLine("    function DBNFOmniType[] GetValue() { return myself.value; }");
-        ctcode_file.WriteLine("    function void SetResult(bool new_result) { myself.result = new_result; }");
-        ctcode_file.WriteLine("    function bool GetResult() { return myself.result; }");
+        myself.ctcode_file.WriteLine("    }");
+        myself.ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("class DBNFOmniType");
+        myself.ctcode_file.WriteLine("{");
 
         rule_index = 0;
 
@@ -359,64 +304,22 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
             if (rule.GetName()) {
                 string class_name = myself.GenerateClassName(rule.GetName());
                 string field_name = Concat(myself.CamelCaseToSnakeCase(class_name), "_field");
-                ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    function void ", myself.GenerateSetterName(field_name)), "("), class_name), "[] input_value)"));
-                ctcode_file.WriteLine("    {");
-                ctcode_file.WriteLine("        int index = 0;");
-                ctcode_file.WriteLine("        while (index < Size(input_value))");
-                ctcode_file.WriteLine("        {");
-                ctcode_file.WriteLine("            DBNFOmniType value = new DBNFOmniType;");
-                ctcode_file.WriteLine(Concat(Concat("            value.", GenerateSetterName(field_name)), "(Element(input_value, index));"));
-                ctcode_file.WriteLine("            index = index + 1;");
-                ctcode_file.WriteLine("        }");
-                ctcode_file.WriteLine("    }");
-                ctcode_file.WriteLine("");
+                myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    ", class_name), " "), field_name), ";"));
+                myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("    function void ", myself.GenerateSetterName(field_name)), "("), class_name), " input_value) { myself."), field_name), " = input_value; }"));
+                myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("    function ", class_name), " "), myself.GenerateGetterName(field_name)), "() { return myself."), field_name), "; }"));
             }
 
             rule_index = rule_index + 1;
         }
 
-        ctcode_file.WriteLine("    DBNFOmniType[] value;");
-        ctcode_file.WriteLine("    bool result;");
-        ctcode_file.WriteLine("}");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("class LargeString");
-        ctcode_file.WriteLine("{");
-        ctcode_file.WriteLine("    function void SetData(string new_data) { myself.data = new_data; }");
-        ctcode_file.WriteLine("    function string GetData() { return myself.data; }");
-        ctcode_file.WriteLine("    function int GetIntAt(int offset) { return IntAt(myself.data, offset); }");
-        ctcode_file.WriteLine("    function string GetAt(int offset) { return At(myself.data, offset); }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("    string data;");
-        ctcode_file.WriteLine("}");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("class LengthString");
-        ctcode_file.WriteLine("{");
-        ctcode_file.WriteLine("    function void SetData(LargeString new_data) { myself.data = new_data; }");
-        ctcode_file.WriteLine("    function LargeString GetData() { return myself.data; }");
-        ctcode_file.WriteLine("    function void SetStart(int new_start) { myself.start = new_start; }");
-        ctcode_file.WriteLine("    function int GetStart() { return myself.start; }");
-        ctcode_file.WriteLine("    function void SetLength(int new_length) { myself.length = new_length; }");
-        ctcode_file.WriteLine("    function int GetLength() { return myself.length; }");
-        ctcode_file.WriteLine("    function string GetString()");
-        ctcode_file.WriteLine("    {");
-        ctcode_file.WriteLine("        string deep_data = myself.data.GetData();");
-        ctcode_file.WriteLine("        string result;");
-        ctcode_file.WriteLine("        int index = myself.start;");
-        ctcode_file.WriteLine("        int end = myself.start + myself.length;");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("        while (index < end)");
-        ctcode_file.WriteLine("        {");
-        ctcode_file.WriteLine("            result = Concat(result, At(deep_data, index));");
-        ctcode_file.WriteLine("            index = index + 1;");
-        ctcode_file.WriteLine("        }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("        return result;");
-        ctcode_file.WriteLine("    }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("    LargeString data;");
-        ctcode_file.WriteLine("    int start;");
-        ctcode_file.WriteLine("    int length;");
-        ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("class DBNFOmniTypeResult");
+        myself.ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine("    function void SetValue(DBNFOmniType new_value) { myself.value = new_value; }");
+        myself.ctcode_file.WriteLine("    function DBNFOmniType GetValue() { return myself.value; }");
+        myself.ctcode_file.WriteLine("    function void SetResult(bool new_result) { myself.result = new_result; }");
+        myself.ctcode_file.WriteLine("    function bool GetResult() { return myself.result; }");
 
         rule_index = 0;
 
@@ -424,30 +327,127 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
             S84.Tower.dbnf.ctcode.Rule rule = Element(rules, rule_index);
 
             if (rule.GetName()) {
-                WriteClass(grammar, rule);
+                string class_name = myself.GenerateClassName(rule.GetName());
+                string field_name = Concat(myself.CamelCaseToSnakeCase(class_name), "_field");
+                myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    function void ", myself.GenerateSetterName(field_name)), "("), class_name), " input_value)"));
+                myself.ctcode_file.WriteLine("    {");
+                myself.ctcode_file.WriteLine("        myself.value = new DBNFOmniType;");
+                myself.ctcode_file.WriteLine(Concat(Concat("        myself.value.", myself.GenerateSetterName(field_name)), "(input_value);"));
+                myself.ctcode_file.WriteLine("    }");
+            }
+
+            rule_index = rule_index + 1;
+        }
+
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("    DBNFOmniType value;");
+        myself.ctcode_file.WriteLine("    bool result;");
+        myself.ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("class DBNFOmniTypeListResult");
+        myself.ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine("    function void SetValue(DBNFOmniType[] new_value) { myself.value = new_value; }");
+        myself.ctcode_file.WriteLine("    function DBNFOmniType[] GetValue() { return myself.value; }");
+        myself.ctcode_file.WriteLine("    function void SetResult(bool new_result) { myself.result = new_result; }");
+        myself.ctcode_file.WriteLine("    function bool GetResult() { return myself.result; }");
+
+        rule_index = 0;
+
+        while (rule_index < Size(rules)) {
+            S84.Tower.dbnf.ctcode.Rule rule = Element(rules, rule_index);
+
+            if (rule.GetName()) {
+                string class_name = myself.GenerateClassName(rule.GetName());
+                string field_name = Concat(myself.CamelCaseToSnakeCase(class_name), "_field");
+                myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat("    function void ", myself.GenerateSetterName(field_name)), "("), class_name), "[] input_value)"));
+                myself.ctcode_file.WriteLine("    {");
+                myself.ctcode_file.WriteLine("        int index = 0;");
+                myself.ctcode_file.WriteLine("        while (index < Size(input_value))");
+                myself.ctcode_file.WriteLine("        {");
+                myself.ctcode_file.WriteLine("            DBNFOmniType value = new DBNFOmniType;");
+                myself.ctcode_file.WriteLine(Concat(Concat("            value.", myself.GenerateSetterName(field_name)), "(Element(input_value, index));"));
+                myself.ctcode_file.WriteLine("            index = index + 1;");
+                myself.ctcode_file.WriteLine("        }");
+                myself.ctcode_file.WriteLine("    }");
+                myself.ctcode_file.WriteLine("");
+            }
+
+            rule_index = rule_index + 1;
+        }
+
+        myself.ctcode_file.WriteLine("    DBNFOmniType[] value;");
+        myself.ctcode_file.WriteLine("    bool result;");
+        myself.ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("class LargeString");
+        myself.ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine("    function void SetData(string new_data) { myself.data = new_data; }");
+        myself.ctcode_file.WriteLine("    function string GetData() { return myself.data; }");
+        myself.ctcode_file.WriteLine("    function int GetIntAt(int offset) { return IntAt(myself.data, offset); }");
+        myself.ctcode_file.WriteLine("    function string GetAt(int offset) { return At(myself.data, offset); }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("    string data;");
+        myself.ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("class LengthString");
+        myself.ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine("    function void SetData(LargeString new_data) { myself.data = new_data; }");
+        myself.ctcode_file.WriteLine("    function LargeString GetData() { return myself.data; }");
+        myself.ctcode_file.WriteLine("    function void SetStart(int new_start) { myself.start = new_start; }");
+        myself.ctcode_file.WriteLine("    function int GetStart() { return myself.start; }");
+        myself.ctcode_file.WriteLine("    function void SetLength(int new_length) { myself.length = new_length; }");
+        myself.ctcode_file.WriteLine("    function int GetLength() { return myself.length; }");
+        myself.ctcode_file.WriteLine("    function string GetString()");
+        myself.ctcode_file.WriteLine("    {");
+        myself.ctcode_file.WriteLine("        string deep_data = myself.data.GetData();");
+        myself.ctcode_file.WriteLine("        string result;");
+        myself.ctcode_file.WriteLine("        int index = myself.start;");
+        myself.ctcode_file.WriteLine("        int end = myself.start + myself.length;");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("        while (index < end)");
+        myself.ctcode_file.WriteLine("        {");
+        myself.ctcode_file.WriteLine("            result = Concat(result, At(deep_data, index));");
+        myself.ctcode_file.WriteLine("            index = index + 1;");
+        myself.ctcode_file.WriteLine("        }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("        return result;");
+        myself.ctcode_file.WriteLine("    }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("    LargeString data;");
+        myself.ctcode_file.WriteLine("    int start;");
+        myself.ctcode_file.WriteLine("    int length;");
+        myself.ctcode_file.WriteLine("}");
+
+        rule_index = 0;
+
+        while (rule_index < Size(rules)) {
+            S84.Tower.dbnf.ctcode.Rule rule = Element(rules, rule_index);
+
+            if (rule.GetName()) {
+                myself.WriteClass(grammar, rule);
             }
 
             rule_index = rule_index + 1;
         }
     }
     function void WriteClass(S84.Tower.dbnf.ctcode.Grammar grammar, S84.Tower.dbnf.ctcode.Rule rule) {
-        string class_name = GenerateClassName(rule.GetName());
-        MemberType{} members = GetMembers(rule);
+        string class_name = myself.GenerateClassName(rule.GetName());
+        MemberType{} members = myself.GetMembers(rule);
         string[] member_names = Keys(members);
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine(Concat(Concat("class ", class_name), "Parser"));
-        ctcode_file.WriteLine("{");
-        ctcode_file.WriteLine("    ParserNetwork parser_network;");
-        ctcode_file.WriteLine("    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }");
-        ctcode_file.WriteLine(Concat(Concat("    function bool ParseSingleSave(LengthString index, ", class_name), "Result result)"));
-        ctcode_file.WriteLine("    {");
-        ctcode_file.WriteLine("        int index_start = index.GetStart();");
-        ctcode_file.WriteLine("        int index_length = index.GetLength();");
-        ctcode_file.WriteLine("        LengthString consumed_string = new LengthString;");
-        ctcode_file.WriteLine("        consumed_string.SetData(index.GetData());");
-        ctcode_file.WriteLine("        consumed_string.SetStart(index.GetStart());");
-        ctcode_file.WriteLine("        consumed_string.SetLength(0);");
-        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        ", class_name), " instance = new "), class_name), ";"));
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine(Concat(Concat("class ", class_name), "Parser"));
+        myself.ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine("    ParserNetwork parser_network;");
+        myself.ctcode_file.WriteLine("    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }");
+        myself.ctcode_file.WriteLine(Concat(Concat("    function bool ParseSingleSave(LengthString index, ", class_name), "Result result)"));
+        myself.ctcode_file.WriteLine("    {");
+        myself.ctcode_file.WriteLine("        int index_start = index.GetStart();");
+        myself.ctcode_file.WriteLine("        int index_length = index.GetLength();");
+        myself.ctcode_file.WriteLine("        LengthString consumed_string = new LengthString;");
+        myself.ctcode_file.WriteLine("        consumed_string.SetData(index.GetData());");
+        myself.ctcode_file.WriteLine("        consumed_string.SetStart(index.GetStart());");
+        myself.ctcode_file.WriteLine("        consumed_string.SetLength(0);");
+        myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        ", class_name), " instance = new "), class_name), ";"));
 
         int member_name_index = 0;
 
@@ -457,15 +457,15 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
             MemberType member_type = GetKV(members, member_name);
 
             if (member_type.GetIsList()) {
-                ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ", member_type.GetBaseType()), "ListResult "), member_name), " = new "), member_type.GetBaseType()), "ListResult;"));
+                myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ", member_type.GetBaseType()), "ListResult "), member_name), " = new "), member_type.GetBaseType()), "ListResult;"));
             } else {
-                ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ", member_type.GetBaseType()), "Result "), member_name), " = new "), member_type.GetBaseType()), "Result;"));
+                myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ", member_type.GetBaseType()), "Result "), member_name), " = new "), member_type.GetBaseType()), "Result;"));
             }
 
             member_name_index = member_name_index + 1;
         }
 
-        ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("");
         S84.Tower.dbnf.ctcode.Rule[] rules = grammar.GetRules();
         int rule_index = 0;
 
@@ -474,31 +474,31 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
             S84.Tower.dbnf.ctcode.Rule rule = Element(rules, rule_index);
 
             if (rule.GetName()) {
-                string class_name = Concat(GenerateClassName(rule.GetName()), "Parser");
-                string field_name = Concat(CamelCaseToSnakeCase(class_name), "_field");
-                string local_name = Concat(CamelCaseToSnakeCase(class_name), "_instance");
-                ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ", class_name), " "), local_name), " = myself.parser_network."), GenerateGetterName(field_name)), "();"));
+                string class_name = Concat(myself.GenerateClassName(rule.GetName()), "Parser");
+                string field_name = Concat(myself.CamelCaseToSnakeCase(class_name), "_field");
+                string local_name = Concat(myself.CamelCaseToSnakeCase(class_name), "_instance");
+                myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ", class_name), " "), local_name), " = myself.parser_network."), myself.GenerateGetterName(field_name)), "();"));
             }
 
             rule_index = rule_index + 1;
         }
 
         string string_parser_class_name = "StringParser";
-        string string_parser_field_name = Concat(CamelCaseToSnakeCase(string_parser_class_name), "_field");
-        string string_parser_local_name = Concat(CamelCaseToSnakeCase(string_parser_class_name), "_instance");
-        ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ", string_parser_class_name), " "), string_parser_local_name), " = myself.parser_network."), GenerateGetterName(string_parser_field_name)), "();"));
+        string string_parser_field_name = Concat(myself.CamelCaseToSnakeCase(string_parser_class_name), "_field");
+        string string_parser_local_name = Concat(myself.CamelCaseToSnakeCase(string_parser_class_name), "_instance");
+        myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ", string_parser_class_name), " "), string_parser_local_name), " = myself.parser_network."), myself.GenerateGetterName(string_parser_field_name)), "();"));
 
         string character_parser_class_name = "CharacterParser";
-        string character_parser_field_name = Concat(CamelCaseToSnakeCase(character_parser_class_name), "_field");
-        string character_parser_local_name = Concat(CamelCaseToSnakeCase(character_parser_class_name), "_instance");
-        ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ", character_parser_class_name), " "), character_parser_local_name), " = myself.parser_network."), GenerateGetterName(character_parser_field_name)), "();"));
+        string character_parser_field_name = Concat(myself.CamelCaseToSnakeCase(character_parser_class_name), "_field");
+        string character_parser_local_name = Concat(myself.CamelCaseToSnakeCase(character_parser_class_name), "_instance");
+        myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ", character_parser_class_name), " "), character_parser_local_name), " = myself.parser_network."), myself.GenerateGetterName(character_parser_field_name)), "();"));
 
         string character_range_parser_class_name = "CharacterRangeParser";
-        string character_range_parser_field_name = Concat(CamelCaseToSnakeCase(character_range_parser_class_name), "_field");
-        string character_range_parser_local_name = Concat(CamelCaseToSnakeCase(character_range_parser_class_name), "_instance");
-        ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ", character_range_parser_class_name), " "), character_range_parser_local_name), " = myself.parser_network."), GenerateGetterName(character_range_parser_field_name)), "();"));
+        string character_range_parser_field_name = Concat(myself.CamelCaseToSnakeCase(character_range_parser_class_name), "_field");
+        string character_range_parser_local_name = Concat(myself.CamelCaseToSnakeCase(character_range_parser_class_name), "_instance");
+        myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ", character_range_parser_class_name), " "), character_range_parser_local_name), " = myself.parser_network."), myself.GenerateGetterName(character_range_parser_field_name)), "();"));
 
-        ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("");
         S84.Tower.dbnf.ctcode.Expression[] expressions = rule.GetExpressions();
 
         int expression_index = 0;
@@ -507,7 +507,7 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
         {
             S84.Tower.dbnf.ctcode.Expression expression = Element(expressions, expression_index);
             if (expression.GetExpressionDiscriminator()) {
-                WriteExpression(expression);
+                myself.WriteExpression(expression);
 
                 member_name_index = 0;
 
@@ -515,18 +515,18 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
                 {
                     string member_name = Element(member_names, member_name_index);
                     MemberType member_type = GetKV(members, member_name);
-                    ctcode_file.WriteLine(Concat(Concat(Concat(Concat("            instance.", GenerateSetterName(member_name)), "("), member_name), ".GetValue());"));
+                    myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat("            instance.", myself.GenerateSetterName(member_name)), "("), member_name), ".GetValue());"));
                     member_name_index = member_name_index + 1;
                 }
 
-                ctcode_file.WriteLine("            consumed_string.SetLength(index.GetStart() - index_start);");
-                ctcode_file.WriteLine("            instance.SetLengthString(consumed_string);");
-                ctcode_file.WriteLine("            result.SetValue(instance);");
-                ctcode_file.WriteLine("            result.SetResult(true);");
-                ctcode_file.WriteLine("            return result.GetResult();");
-                ctcode_file.WriteLine("        } else {");
-                ctcode_file.WriteLine("            index.SetStart(index_start);");
-                ctcode_file.WriteLine("            index.SetLength(index_length);");
+                myself.ctcode_file.WriteLine("            consumed_string.SetLength(index.GetStart() - index_start);");
+                myself.ctcode_file.WriteLine("            instance.SetLengthString(consumed_string);");
+                myself.ctcode_file.WriteLine("            result.SetValue(instance);");
+                myself.ctcode_file.WriteLine("            result.SetResult(true);");
+                myself.ctcode_file.WriteLine("            return result.GetResult();");
+                myself.ctcode_file.WriteLine("        } else {");
+                myself.ctcode_file.WriteLine("            index.SetStart(index_start);");
+                myself.ctcode_file.WriteLine("            index.SetLength(index_length);");
 
                 member_name_index = 0;
 
@@ -536,129 +536,129 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
                     MemberType member_type = GetKV(members, member_name);
 
                     if (member_type.GetIsList()) {
-                        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("            ", member_name), " = new "), member_type.GetBaseType()), "ListResult;"));
+                        myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat("            ", member_name), " = new "), member_type.GetBaseType()), "ListResult;"));
                     } else {
-                        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("            ", member_name), " = new "), member_type.GetBaseType()), "Result;"));
+                        myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat("            ", member_name), " = new "), member_type.GetBaseType()), "Result;"));
                     }
 
                     member_name_index = member_name_index + 1;
                 }
 
-                ctcode_file.WriteLine("        }");
-                ctcode_file.WriteLine("");
+                myself.ctcode_file.WriteLine("        }");
+                myself.ctcode_file.WriteLine("");
             }
 
             expression_index = expression_index + 1;
         }
 
-        ctcode_file.WriteLine("        result.SetResult(false);");
-        ctcode_file.WriteLine("        return result.GetResult();");
-        ctcode_file.WriteLine("    }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("    function bool ParseSingle(LengthString index)");
-        ctcode_file.WriteLine("    {");
-        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        ", class_name), "Result result = new "), class_name), "Result;"));
-        ctcode_file.WriteLine("        return myself.ParseSingleSave(index, result);");
-        ctcode_file.WriteLine("    }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine(Concat(Concat("    function bool ParseOptionalSave(LengthString index, ", class_name), "Result result)"));
-        ctcode_file.WriteLine("    {");
-        ctcode_file.WriteLine("        myself.ParseSingleSave(index, result);");
-        ctcode_file.WriteLine("        result.SetResult(true);");
-        ctcode_file.WriteLine("        return true;");
-        ctcode_file.WriteLine("    }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("    function bool ParseOptional(LengthString index)");
-        ctcode_file.WriteLine("    {");
-        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        ", class_name), "Result result = new "), class_name), "Result;"));
-        ctcode_file.WriteLine("        return myself.ParseOptionalSave(index, result);");
-        ctcode_file.WriteLine("    }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine(Concat(Concat("    function bool ParseManySave(LengthString index, ", class_name), "ListResult list_result, int minimum, int maximum)"));
-        ctcode_file.WriteLine("    {");
-        ctcode_file.WriteLine("        int index_start = index.GetStart();");
-        ctcode_file.WriteLine("        int index_length = index.GetLength();");
-        ctcode_file.WriteLine(Concat(Concat("        ", class_name), "[] results;"));
-        ctcode_file.WriteLine("        int count = 0;");
-        ctcode_file.WriteLine("        int max_check = maximum;");
-        ctcode_file.WriteLine("        bool check_next = true;");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("        if (maximum < 0)");
-        ctcode_file.WriteLine("        {");
-        ctcode_file.WriteLine("            max_check = count + 1;");
-        ctcode_file.WriteLine("        }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("        while (check_next && count < max_check)");
-        ctcode_file.WriteLine("        {");
-        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("            ", class_name), "Result result = new "), class_name), "Result;"));
-        ctcode_file.WriteLine("            myself.ParseSingleSave(index, result);");
-        ctcode_file.WriteLine("            check_next = result.GetResult();");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("            if (result.GetResult())");
-        ctcode_file.WriteLine("            {");
-        ctcode_file.WriteLine("                count = count + 1;");
-        ctcode_file.WriteLine("                Append(results, result.GetValue());");
-        ctcode_file.WriteLine("            }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("            if (maximum < 0)");
-        ctcode_file.WriteLine("            {");
-        ctcode_file.WriteLine("                max_check = count + 1;");
-        ctcode_file.WriteLine("            }");
-        ctcode_file.WriteLine("        }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("        if (count >= minimum && count <= max_check)");
-        ctcode_file.WriteLine("        {");
-        ctcode_file.WriteLine("            list_result.SetValue(results);");
-        ctcode_file.WriteLine("            list_result.SetResult(true);");
-        ctcode_file.WriteLine("        } else {");
-        ctcode_file.WriteLine("            index.SetStart(index_start);");
-        ctcode_file.WriteLine("            index.SetLength(index_length);");
-        ctcode_file.WriteLine("            list_result.SetResult(false);");
-        ctcode_file.WriteLine("        }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("        return list_result.GetResult();");
-        ctcode_file.WriteLine("    }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("    function bool ParseMany(LengthString index, int minimum, int maximum)");
-        ctcode_file.WriteLine("    {");
-        ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        ", class_name), "ListResult result = new "), class_name), "ListResult;"));
-        ctcode_file.WriteLine("        return myself.ParseManySave(index, result, minimum, maximum);");
-        ctcode_file.WriteLine("    }");
-        ctcode_file.WriteLine("}");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine(Concat(Concat("class ", class_name), "Result"));
-        ctcode_file.WriteLine("{");
-        ctcode_file.WriteLine(Concat(Concat("    function void SetValue(", class_name), " new_value) { myself.value = new_value; }"));
-        ctcode_file.WriteLine(Concat(Concat("    function ", class_name), " GetValue() { return myself.value; }"));
-        ctcode_file.WriteLine("    function void SetResult(bool new_result) { myself.result = new_result; }");
-        ctcode_file.WriteLine("    function bool GetResult() { return myself.result; }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine(Concat(Concat("    ", class_name), " value;"));
-        ctcode_file.WriteLine("    bool result;");
-        ctcode_file.WriteLine("}");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine(Concat(Concat("class ", class_name), "ListResult"));
-        ctcode_file.WriteLine("{");
-        ctcode_file.WriteLine(Concat(Concat("    function void SetValue(", class_name), "[] new_value) { myself.value = new_value; }"));
-        ctcode_file.WriteLine(Concat(Concat("    function ", class_name), "[] GetValue() { return myself.value; }"));
-        ctcode_file.WriteLine("    function void SetResult(bool new_result) { myself.result = new_result; }");
-        ctcode_file.WriteLine("    function bool GetResult() { return myself.result; }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine(Concat(Concat("    ", class_name), "[] value;"));
-        ctcode_file.WriteLine("    bool result;");
-        ctcode_file.WriteLine("}");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine(Concat("class ", class_name));
-        ctcode_file.WriteLine("{");
-        ctcode_file.WriteLine("    function void SetLengthString(LengthString new_value)");
-        ctcode_file.WriteLine("    {");
-        ctcode_file.WriteLine("        myself.length_string = new LengthString;");
-        ctcode_file.WriteLine("        myself.length_string.SetData(new_value.GetData());");
-        ctcode_file.WriteLine("        myself.length_string.SetStart(new_value.GetStart());");
-        ctcode_file.WriteLine("        myself.length_string.SetLength(new_value.GetLength());");
-        ctcode_file.WriteLine("    }");
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("    function string UnParse() { return myself.length_string.GetString(); }");
+        myself.ctcode_file.WriteLine("        result.SetResult(false);");
+        myself.ctcode_file.WriteLine("        return result.GetResult();");
+        myself.ctcode_file.WriteLine("    }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("    function bool ParseSingle(LengthString index)");
+        myself.ctcode_file.WriteLine("    {");
+        myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        ", class_name), "Result result = new "), class_name), "Result;"));
+        myself.ctcode_file.WriteLine("        return myself.ParseSingleSave(index, result);");
+        myself.ctcode_file.WriteLine("    }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine(Concat(Concat("    function bool ParseOptionalSave(LengthString index, ", class_name), "Result result)"));
+        myself.ctcode_file.WriteLine("    {");
+        myself.ctcode_file.WriteLine("        myself.ParseSingleSave(index, result);");
+        myself.ctcode_file.WriteLine("        result.SetResult(true);");
+        myself.ctcode_file.WriteLine("        return true;");
+        myself.ctcode_file.WriteLine("    }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("    function bool ParseOptional(LengthString index)");
+        myself.ctcode_file.WriteLine("    {");
+        myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        ", class_name), "Result result = new "), class_name), "Result;"));
+        myself.ctcode_file.WriteLine("        return myself.ParseOptionalSave(index, result);");
+        myself.ctcode_file.WriteLine("    }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine(Concat(Concat("    function bool ParseManySave(LengthString index, ", class_name), "ListResult list_result, int minimum, int maximum)"));
+        myself.ctcode_file.WriteLine("    {");
+        myself.ctcode_file.WriteLine("        int index_start = index.GetStart();");
+        myself.ctcode_file.WriteLine("        int index_length = index.GetLength();");
+        myself.ctcode_file.WriteLine(Concat(Concat("        ", class_name), "[] results;"));
+        myself.ctcode_file.WriteLine("        int count = 0;");
+        myself.ctcode_file.WriteLine("        int max_check = maximum;");
+        myself.ctcode_file.WriteLine("        bool check_next = true;");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("        if (maximum < 0)");
+        myself.ctcode_file.WriteLine("        {");
+        myself.ctcode_file.WriteLine("            max_check = count + 1;");
+        myself.ctcode_file.WriteLine("        }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("        while (check_next && count < max_check)");
+        myself.ctcode_file.WriteLine("        {");
+        myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat("            ", class_name), "Result result = new "), class_name), "Result;"));
+        myself.ctcode_file.WriteLine("            myself.ParseSingleSave(index, result);");
+        myself.ctcode_file.WriteLine("            check_next = result.GetResult();");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("            if (result.GetResult())");
+        myself.ctcode_file.WriteLine("            {");
+        myself.ctcode_file.WriteLine("                count = count + 1;");
+        myself.ctcode_file.WriteLine("                Append(results, result.GetValue());");
+        myself.ctcode_file.WriteLine("            }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("            if (maximum < 0)");
+        myself.ctcode_file.WriteLine("            {");
+        myself.ctcode_file.WriteLine("                max_check = count + 1;");
+        myself.ctcode_file.WriteLine("            }");
+        myself.ctcode_file.WriteLine("        }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("        if (count >= minimum && count <= max_check)");
+        myself.ctcode_file.WriteLine("        {");
+        myself.ctcode_file.WriteLine("            list_result.SetValue(results);");
+        myself.ctcode_file.WriteLine("            list_result.SetResult(true);");
+        myself.ctcode_file.WriteLine("        } else {");
+        myself.ctcode_file.WriteLine("            index.SetStart(index_start);");
+        myself.ctcode_file.WriteLine("            index.SetLength(index_length);");
+        myself.ctcode_file.WriteLine("            list_result.SetResult(false);");
+        myself.ctcode_file.WriteLine("        }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("        return list_result.GetResult();");
+        myself.ctcode_file.WriteLine("    }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("    function bool ParseMany(LengthString index, int minimum, int maximum)");
+        myself.ctcode_file.WriteLine("    {");
+        myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat("        ", class_name), "ListResult result = new "), class_name), "ListResult;"));
+        myself.ctcode_file.WriteLine("        return myself.ParseManySave(index, result, minimum, maximum);");
+        myself.ctcode_file.WriteLine("    }");
+        myself.ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine(Concat(Concat("class ", class_name), "Result"));
+        myself.ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine(Concat(Concat("    function void SetValue(", class_name), " new_value) { myself.value = new_value; }"));
+        myself.ctcode_file.WriteLine(Concat(Concat("    function ", class_name), " GetValue() { return myself.value; }"));
+        myself.ctcode_file.WriteLine("    function void SetResult(bool new_result) { myself.result = new_result; }");
+        myself.ctcode_file.WriteLine("    function bool GetResult() { return myself.result; }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine(Concat(Concat("    ", class_name), " value;"));
+        myself.ctcode_file.WriteLine("    bool result;");
+        myself.ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine(Concat(Concat("class ", class_name), "ListResult"));
+        myself.ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine(Concat(Concat("    function void SetValue(", class_name), "[] new_value) { myself.value = new_value; }"));
+        myself.ctcode_file.WriteLine(Concat(Concat("    function ", class_name), "[] GetValue() { return myself.value; }"));
+        myself.ctcode_file.WriteLine("    function void SetResult(bool new_result) { myself.result = new_result; }");
+        myself.ctcode_file.WriteLine("    function bool GetResult() { return myself.result; }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine(Concat(Concat("    ", class_name), "[] value;"));
+        myself.ctcode_file.WriteLine("    bool result;");
+        myself.ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine(Concat("class ", class_name));
+        myself.ctcode_file.WriteLine("{");
+        myself.ctcode_file.WriteLine("    function void SetLengthString(LengthString new_value)");
+        myself.ctcode_file.WriteLine("    {");
+        myself.ctcode_file.WriteLine("        myself.length_string = new LengthString;");
+        myself.ctcode_file.WriteLine("        myself.length_string.SetData(new_value.GetData());");
+        myself.ctcode_file.WriteLine("        myself.length_string.SetStart(new_value.GetStart());");
+        myself.ctcode_file.WriteLine("        myself.length_string.SetLength(new_value.GetLength());");
+        myself.ctcode_file.WriteLine("    }");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("    function string UnParse() { return myself.length_string.GetString(); }");
 
         member_name_index = 0;
 
@@ -673,14 +673,14 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
                 list_suffix = "[]";
             }
 
-            ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(Concat("    function void ", GenerateSetterName(member_name)), "("), member_type.GetBaseType()), list_suffix), " input_value) { myself."), member_name), " = input_value; }"));
-            ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(Concat("    function ", member_type.GetBaseType()), list_suffix), " "), GenerateGetterName(member_name)), "() { return myself."), member_name), "; }"));
+            myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(Concat("    function void ", myself.GenerateSetterName(member_name)), "("), member_type.GetBaseType()), list_suffix), " input_value) { myself."), member_name), " = input_value; }"));
+            myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(Concat("    function ", member_type.GetBaseType()), list_suffix), " "), myself.GenerateGetterName(member_name)), "() { return myself."), member_name), "; }"));
 
             member_name_index = member_name_index + 1;
         }
 
-        ctcode_file.WriteLine("");
-        ctcode_file.WriteLine("    LengthString length_string;");
+        myself.ctcode_file.WriteLine("");
+        myself.ctcode_file.WriteLine("    LengthString length_string;");
 
         member_name_index = 0;
 
@@ -695,12 +695,12 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
                 list_suffix = "[]";
             }
 
-            ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat("    ", member_type.GetBaseType()), list_suffix), " "), member_name), ";"));
+            myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat("    ", member_type.GetBaseType()), list_suffix), " "), member_name), ";"));
 
             member_name_index = member_name_index + 1;
         }
 
-        ctcode_file.WriteLine("}");
+        myself.ctcode_file.WriteLine("}");
     }
 
     function void WriteExpression(S84.Tower.dbnf.ctcode.Expression expression)
@@ -716,7 +716,7 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
             S84.Tower.dbnf.ctcode.Token token = Element(token_sequence, token_sequence_index);
             S84.Tower.dbnf.ctcode.SimpleToken simple_token = token.GetValue();
             S84.Tower.dbnf.ctcode.Modifier modifier_node = token.GetModifier();
-            string member = GenerateMemberName(token.GetName());
+            string member = myself.GenerateMemberName(token.GetName());
             line = Concat(line, " && ");
             string match_function = "ParseSingle";
             string match_function_parameters = "index";
@@ -724,7 +724,7 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
 
             if (simple_token.GetToken())
             {
-                parser = Concat(GenerateClassName(simple_token.GetToken()), "Parser");
+                parser = Concat(myself.GenerateClassName(simple_token.GetToken()), "Parser");
             }
             else 
             {
@@ -822,13 +822,13 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
                 match_function = Concat(match_function, "Save");
             }
 
-            string parser_instance_name = Concat(CamelCaseToSnakeCase(parser), "_instance");
+            string parser_instance_name = Concat(myself.CamelCaseToSnakeCase(parser), "_instance");
             line = Concat(Concat(Concat(Concat(Concat(Concat(line, parser_instance_name), "."), match_function), "("), match_function_parameters), ")");
             token_sequence_index = token_sequence_index + 1;
         }
 
         line = Concat(line, ") {");
-        ctcode_file.WriteLine(line);
+        myself.ctcode_file.WriteLine(line);
     }
 
     function MemberType{} GetMembers(S84.Tower.dbnf.ctcode.Rule rule)
@@ -847,12 +847,12 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
             {
                 S84.Tower.dbnf.ctcode.Token token = Element(token_sequence, token_sequence_index);
                 S84.Tower.dbnf.ctcode.Modifier modifier_node = token.GetModifier();
-                string token_member_name = GenerateMemberName(token.GetName());
+                string token_member_name = myself.GenerateMemberName(token.GetName());
 
                 if(token_member_name != "")
                 {
                     S84.Tower.dbnf.ctcode.SimpleToken simple_token = token.GetValue();
-                    string token_type_name = GenerateClassName(simple_token.GetToken());
+                    string token_type_name = myself.GenerateClassName(simple_token.GetToken());
                     bool is_list = false;
 
                     if (!HasKV(members, token_member_name)) {
@@ -919,7 +919,7 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
     {
         if (name_node)
         {
-            return SnakeCaseToCamelCase(name_node.UnParse());
+            return myself.SnakeCaseToCamelCase(name_node.UnParse());
         }
         else
         {
@@ -955,12 +955,12 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
 
     function string GenerateGetterName(string member)
     {
-        return Concat("Get", SnakeCaseToCamelCase(GenerateMimicName(member)));
+        return Concat("Get", myself.SnakeCaseToCamelCase(myself.GenerateMimicName(member)));
     }
 
     function string GenerateSetterName(string member)
     {
-        return Concat("Set", SnakeCaseToCamelCase(GenerateMimicName(member)));
+        return Concat("Set", myself.SnakeCaseToCamelCase(myself.GenerateMimicName(member)));
     }
     function string SnakeCaseToCamelCase(string snake_case)
     {
@@ -981,7 +981,7 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
                 if (capitalize_this_letter == true)
                 {
                     string upper_character;
-                    upper_character = CharacterToUpper(source_character);
+                    upper_character = myself.CharacterToUpper(source_character);
                     capitalize_this_letter = false;
                     camel_case = Concat(camel_case, upper_character);
                 } else {
@@ -1008,9 +1008,9 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
             string source_character;
             source_character = At(camel_case, index);
             string lower_character;
-            lower_character = CharacterToLower(source_character);
+            lower_character = myself.CharacterToLower(source_character);
 
-            if (IsUpper(source_character) || IsDigit(source_character)) {
+            if (myself.IsUpper(source_character) || myself.IsDigit(source_character)) {
                 bool is_first_character;
                 is_first_character = Length(snake_case) == 0;
 
@@ -1091,7 +1091,7 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
             string character;
             character = At(input, index);
             string lowerCharacter;
-            lowerCharacter = CharacterToLower(character);
+            lowerCharacter = myself.CharacterToLower(character);
             result = Concat(result, lowerCharacter);
             index = index + 1;
         }
@@ -1217,7 +1217,7 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
             string character;
             character = At(input, index);
             string upperCharacter;
-            upperCharacter = CharacterToUpper(character);
+            upperCharacter = myself.CharacterToUpper(character);
             result = Concat(result, upperCharacter);
             index = index + 1;
         }

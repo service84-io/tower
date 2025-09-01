@@ -16,348 +16,295 @@ namespace ctcode
 {
     void MemberType::SetBaseType(std::string input)
     {
-        base_type = input;
+        this->base_type = input;
     }
 
     std::string MemberType::GetBaseType()
     {
-        return base_type;
+        return this->base_type;
     }
 
     void MemberType::SetIsList(bool input)
     {
-        is_list = input;
+        this->is_list = input;
     }
 
     bool MemberType::GetIsList()
     {
-        return is_list;
+        return this->is_list;
     }
 
     int CTCodeGenerator::GenerateParser(OmniPointer<s84::tower::system::ctcode::System> system, OmniPointer<s84::tower::dbnf::ctcode::Grammar> grammar, std::string base_name)
     {
-        logger = system->GetLoggerDestination();
-        ctcode_file = system->OpenFileWriter(Concat(base_name, std::string(".ctcode")));
-        logger->WriteLine(std::string("Generating CTCode file..."));
-        WriteClasses(grammar, base_name);
-        logger->WriteLine(std::string("Done!"));
+        this->logger = system->GetLoggerDestination();
+        this->ctcode_file = system->OpenFileWriter(Concat(base_name, std::string(".ctcode")));
+        this->logger->WriteLine(std::string("Generating CTCode file..."));
+        this->WriteClasses(grammar, base_name);
+        this->logger->WriteLine(std::string("Done!"));
         return 0;
     }
 
     void CTCodeGenerator::WriteClasses(OmniPointer<s84::tower::dbnf::ctcode::Grammar> grammar, std::string base_name)
     {
         std::vector<OmniPointer<s84::tower::dbnf::ctcode::Rule>> rules = grammar->GetRules();
-        ctcode_file->WriteLine(std::string("class StringParser"));
-        ctcode_file->WriteLine(std::string("{"));
-        ctcode_file->WriteLine(std::string("    function bool ParseSingleSave(LengthString index, string value, StringResult result)"));
-        ctcode_file->WriteLine(std::string("    {"));
-        ctcode_file->WriteLine(std::string("        int index_start = index.GetStart();"));
-        ctcode_file->WriteLine(std::string("        int index_length = index.GetLength();"));
-        ctcode_file->WriteLine(std::string("        LargeString index_data = index.GetData();"));
-        ctcode_file->WriteLine(std::string("        LengthString consumed_string = new LengthString;"));
-        ctcode_file->WriteLine(std::string("        consumed_string.SetData(index.GetData());"));
-        ctcode_file->WriteLine(std::string("        consumed_string.SetStart(index.GetStart());"));
-        ctcode_file->WriteLine(std::string("        consumed_string.SetLength(0);"));
-        ctcode_file->WriteLine(std::string("        String instance = new String;"));
-        ctcode_file->WriteLine(std::string("        int value_length = Length(value);"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("        if (value_length > index.GetLength())"));
-        ctcode_file->WriteLine(std::string("        {"));
-        ctcode_file->WriteLine(std::string("            result.SetResult(false);"));
-        ctcode_file->WriteLine(std::string("            return false;"));
-        ctcode_file->WriteLine(std::string("        }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("        int offset_index = 0;"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("        while (offset_index < value_length)"));
-        ctcode_file->WriteLine(std::string("        {"));
-        ctcode_file->WriteLine(std::string("            if (index_data.GetAt(index.GetStart() + offset_index) != At(value, offset_index))"));
-        ctcode_file->WriteLine(std::string("            {"));
-        ctcode_file->WriteLine(std::string("                result.SetResult(false);"));
-        ctcode_file->WriteLine(std::string("                return false;"));
-        ctcode_file->WriteLine(std::string("            }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("            offset_index = offset_index + 1;"));
-        ctcode_file->WriteLine(std::string("        }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("        index.SetStart(index.GetStart() + value_length);"));
-        ctcode_file->WriteLine(std::string("        index.SetLength(index.GetLength() - value_length);"));
-        ctcode_file->WriteLine(std::string("        consumed_string.SetLength(index.GetStart() - index_start);"));
-        ctcode_file->WriteLine(std::string("        instance.SetLengthString(consumed_string);"));
-        ctcode_file->WriteLine(std::string("        result.SetValue(instance);"));
-        ctcode_file->WriteLine(std::string("        result.SetResult(true);"));
-        ctcode_file->WriteLine(std::string("        return true;"));
-        ctcode_file->WriteLine(std::string("    }"));
-        ctcode_file->WriteLine(std::string("    function bool ParseSingle(LengthString index, string value)"));
-        ctcode_file->WriteLine(std::string("    {"));
-        ctcode_file->WriteLine(std::string("        StringResult result = new StringResult;"));
-        ctcode_file->WriteLine(std::string("        return myself.ParseSingleSave(index, value, result);"));
-        ctcode_file->WriteLine(std::string("    }"));
-        ctcode_file->WriteLine(std::string("}"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("class StringResult"));
-        ctcode_file->WriteLine(std::string("{"));
-        ctcode_file->WriteLine(std::string("    function void SetValue(String new_value) { myself.value = new_value; }"));
-        ctcode_file->WriteLine(std::string("    function String GetValue() { return myself.value; }"));
-        ctcode_file->WriteLine(std::string("    function void SetResult(bool new_result) { myself.result = new_result; }"));
-        ctcode_file->WriteLine(std::string("    function bool GetResult() { return myself.result; }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("    String value;"));
-        ctcode_file->WriteLine(std::string("    bool result;"));
-        ctcode_file->WriteLine(std::string("}"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("class StringListResult"));
-        ctcode_file->WriteLine(std::string("{"));
-        ctcode_file->WriteLine(std::string("    function void SetValue(String[] new_value) { myself.value = new_value; }"));
-        ctcode_file->WriteLine(std::string("    function String[] GetValue() { return myself.value; }"));
-        ctcode_file->WriteLine(std::string("    function void SetResult(bool new_result) { myself.result = new_result; }"));
-        ctcode_file->WriteLine(std::string("    function bool GetResult() { return myself.result; }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("    String[] value;"));
-        ctcode_file->WriteLine(std::string("    bool result;"));
-        ctcode_file->WriteLine(std::string("}"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("class String"));
-        ctcode_file->WriteLine(std::string("{"));
-        ctcode_file->WriteLine(std::string("    function void SetLengthString(LengthString new_value)"));
-        ctcode_file->WriteLine(std::string("    {"));
-        ctcode_file->WriteLine(std::string("        myself.length_string = new LengthString;"));
-        ctcode_file->WriteLine(std::string("        myself.length_string.SetData(new_value.GetData());"));
-        ctcode_file->WriteLine(std::string("        myself.length_string.SetStart(new_value.GetStart());"));
-        ctcode_file->WriteLine(std::string("        myself.length_string.SetLength(new_value.GetLength());"));
-        ctcode_file->WriteLine(std::string("    }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("    function string UnParse() { return myself.length_string.GetString(); }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("    LengthString length_string;"));
-        ctcode_file->WriteLine(std::string("}"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("class CharacterParser"));
-        ctcode_file->WriteLine(std::string("{"));
-        ctcode_file->WriteLine(std::string("    function bool ParseSingle(LengthString index, int value)"));
-        ctcode_file->WriteLine(std::string("    {"));
-        ctcode_file->WriteLine(std::string("        if (0 == index.GetLength())"));
-        ctcode_file->WriteLine(std::string("        {"));
-        ctcode_file->WriteLine(std::string("            return false;"));
-        ctcode_file->WriteLine(std::string("        }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("        LargeString index_data = index.GetData();"));
-        ctcode_file->WriteLine(std::string("        int current_character = index_data.GetIntAt(index.GetStart());"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("        if (current_character == value)"));
-        ctcode_file->WriteLine(std::string("        {"));
-        ctcode_file->WriteLine(std::string("            index.SetStart(index.GetStart() + 1);"));
-        ctcode_file->WriteLine(std::string("            index.SetLength(index.GetLength() - 1);"));
-        ctcode_file->WriteLine(std::string("            return true;"));
-        ctcode_file->WriteLine(std::string("        }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("        return false;"));
-        ctcode_file->WriteLine(std::string("    }"));
-        ctcode_file->WriteLine(std::string("}"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("class CharacterResult"));
-        ctcode_file->WriteLine(std::string("{"));
-        ctcode_file->WriteLine(std::string("    function void SetValue(Character new_value) { myself.value = new_value; }"));
-        ctcode_file->WriteLine(std::string("    function Character GetValue() { return myself.value; }"));
-        ctcode_file->WriteLine(std::string("    function void SetResult(bool new_result) { myself.result = new_result; }"));
-        ctcode_file->WriteLine(std::string("    function bool GetResult() { return myself.result; }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("    Character value;"));
-        ctcode_file->WriteLine(std::string("    bool result;"));
-        ctcode_file->WriteLine(std::string("}"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("class CharacterListResult"));
-        ctcode_file->WriteLine(std::string("{"));
-        ctcode_file->WriteLine(std::string("    function void SetValue(Character[] new_value) { myself.value = new_value; }"));
-        ctcode_file->WriteLine(std::string("    function Character[] GetValue() { return myself.value; }"));
-        ctcode_file->WriteLine(std::string("    function void SetResult(bool new_result) { myself.result = new_result; }"));
-        ctcode_file->WriteLine(std::string("    function bool GetResult() { return myself.result; }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("    Character[] value;"));
-        ctcode_file->WriteLine(std::string("    bool result;"));
-        ctcode_file->WriteLine(std::string("}"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("class Character"));
-        ctcode_file->WriteLine(std::string("{"));
-        ctcode_file->WriteLine(std::string("    function void SetLengthString(LengthString new_value)"));
-        ctcode_file->WriteLine(std::string("    {"));
-        ctcode_file->WriteLine(std::string("        myself.length_string = new LengthString;"));
-        ctcode_file->WriteLine(std::string("        myself.length_string.SetData(new_value.GetData());"));
-        ctcode_file->WriteLine(std::string("        myself.length_string.SetStart(new_value.GetStart());"));
-        ctcode_file->WriteLine(std::string("        myself.length_string.SetLength(new_value.GetLength());"));
-        ctcode_file->WriteLine(std::string("    }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("    function string UnParse() { return myself.length_string.GetString(); }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("    LengthString length_string;"));
-        ctcode_file->WriteLine(std::string("}"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("class CharacterRangeParser"));
-        ctcode_file->WriteLine(std::string("{"));
-        ctcode_file->WriteLine(std::string("    function bool ParseSingle(LengthString index, int low_value, int high_value)"));
-        ctcode_file->WriteLine(std::string("    {"));
-        ctcode_file->WriteLine(std::string("        if (0 == index.GetLength())"));
-        ctcode_file->WriteLine(std::string("        {"));
-        ctcode_file->WriteLine(std::string("            return false;"));
-        ctcode_file->WriteLine(std::string("        }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("        LargeString index_data = index.GetData();"));
-        ctcode_file->WriteLine(std::string("        int current_character = index_data.GetIntAt(index.GetStart());"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("        if (low_value <= current_character && current_character <= high_value)"));
-        ctcode_file->WriteLine(std::string("        {"));
-        ctcode_file->WriteLine(std::string("            index.SetStart(index.GetStart() + 1);"));
-        ctcode_file->WriteLine(std::string("            index.SetLength(index.GetLength() - 1);"));
-        ctcode_file->WriteLine(std::string("            return true;"));
-        ctcode_file->WriteLine(std::string("        }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("        return false;"));
-        ctcode_file->WriteLine(std::string("    }"));
-        ctcode_file->WriteLine(std::string("}"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("class CharacterRangeResult"));
-        ctcode_file->WriteLine(std::string("{"));
-        ctcode_file->WriteLine(std::string("    function void SetValue(CharacterRange new_value) { myself.value = new_value; }"));
-        ctcode_file->WriteLine(std::string("    function CharacterRange GetValue() { return myself.value; }"));
-        ctcode_file->WriteLine(std::string("    function void SetResult(bool new_result) { myself.result = new_result; }"));
-        ctcode_file->WriteLine(std::string("    function bool GetResult() { return myself.result; }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("    CharacterRange value;"));
-        ctcode_file->WriteLine(std::string("    bool result;"));
-        ctcode_file->WriteLine(std::string("}"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("class CharacterRangeListResult"));
-        ctcode_file->WriteLine(std::string("{"));
-        ctcode_file->WriteLine(std::string("    function void SetValue(CharacterRange[] new_value) { myself.value = new_value; }"));
-        ctcode_file->WriteLine(std::string("    function CharacterRange[] GetValue() { return myself.value; }"));
-        ctcode_file->WriteLine(std::string("    function void SetResult(bool new_result) { myself.result = new_result; }"));
-        ctcode_file->WriteLine(std::string("    function bool GetResult() { return myself.result; }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("    CharacterRange[] value;"));
-        ctcode_file->WriteLine(std::string("    bool result;"));
-        ctcode_file->WriteLine(std::string("}"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("class CharacterRange"));
-        ctcode_file->WriteLine(std::string("{"));
-        ctcode_file->WriteLine(std::string("    function void SetLengthString(LengthString new_value)"));
-        ctcode_file->WriteLine(std::string("    {"));
-        ctcode_file->WriteLine(std::string("        myself.length_string = new LengthString;"));
-        ctcode_file->WriteLine(std::string("        myself.length_string.SetData(new_value.GetData());"));
-        ctcode_file->WriteLine(std::string("        myself.length_string.SetStart(new_value.GetStart());"));
-        ctcode_file->WriteLine(std::string("        myself.length_string.SetLength(new_value.GetLength());"));
-        ctcode_file->WriteLine(std::string("    }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("    function string UnParse() { return myself.length_string.GetString(); }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("    LengthString length_string;"));
-        ctcode_file->WriteLine(std::string("}"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("class ParserNetwork"));
-        ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(std::string("class StringParser"));
+        this->ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(std::string("    function bool ParseSingleSave(LengthString index, string value, StringResult result)"));
+        this->ctcode_file->WriteLine(std::string("    {"));
+        this->ctcode_file->WriteLine(std::string("        int index_start = index.GetStart();"));
+        this->ctcode_file->WriteLine(std::string("        int index_length = index.GetLength();"));
+        this->ctcode_file->WriteLine(std::string("        LargeString index_data = index.GetData();"));
+        this->ctcode_file->WriteLine(std::string("        LengthString consumed_string = new LengthString;"));
+        this->ctcode_file->WriteLine(std::string("        consumed_string.SetData(index.GetData());"));
+        this->ctcode_file->WriteLine(std::string("        consumed_string.SetStart(index.GetStart());"));
+        this->ctcode_file->WriteLine(std::string("        consumed_string.SetLength(0);"));
+        this->ctcode_file->WriteLine(std::string("        String instance = new String;"));
+        this->ctcode_file->WriteLine(std::string("        int value_length = Length(value);"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("        if (value_length > index.GetLength())"));
+        this->ctcode_file->WriteLine(std::string("        {"));
+        this->ctcode_file->WriteLine(std::string("            result.SetResult(false);"));
+        this->ctcode_file->WriteLine(std::string("            return false;"));
+        this->ctcode_file->WriteLine(std::string("        }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("        int offset_index = 0;"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("        while (offset_index < value_length)"));
+        this->ctcode_file->WriteLine(std::string("        {"));
+        this->ctcode_file->WriteLine(std::string("            if (index_data.GetAt(index.GetStart() + offset_index) != At(value, offset_index))"));
+        this->ctcode_file->WriteLine(std::string("            {"));
+        this->ctcode_file->WriteLine(std::string("                result.SetResult(false);"));
+        this->ctcode_file->WriteLine(std::string("                return false;"));
+        this->ctcode_file->WriteLine(std::string("            }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("            offset_index = offset_index + 1;"));
+        this->ctcode_file->WriteLine(std::string("        }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("        index.SetStart(index.GetStart() + value_length);"));
+        this->ctcode_file->WriteLine(std::string("        index.SetLength(index.GetLength() - value_length);"));
+        this->ctcode_file->WriteLine(std::string("        consumed_string.SetLength(index.GetStart() - index_start);"));
+        this->ctcode_file->WriteLine(std::string("        instance.SetLengthString(consumed_string);"));
+        this->ctcode_file->WriteLine(std::string("        result.SetValue(instance);"));
+        this->ctcode_file->WriteLine(std::string("        result.SetResult(true);"));
+        this->ctcode_file->WriteLine(std::string("        return true;"));
+        this->ctcode_file->WriteLine(std::string("    }"));
+        this->ctcode_file->WriteLine(std::string("    function bool ParseSingle(LengthString index, string value)"));
+        this->ctcode_file->WriteLine(std::string("    {"));
+        this->ctcode_file->WriteLine(std::string("        StringResult result = new StringResult;"));
+        this->ctcode_file->WriteLine(std::string("        return myself.ParseSingleSave(index, value, result);"));
+        this->ctcode_file->WriteLine(std::string("    }"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("class StringResult"));
+        this->ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(std::string("    function void SetValue(String new_value) { myself.value = new_value; }"));
+        this->ctcode_file->WriteLine(std::string("    function String GetValue() { return myself.value; }"));
+        this->ctcode_file->WriteLine(std::string("    function void SetResult(bool new_result) { myself.result = new_result; }"));
+        this->ctcode_file->WriteLine(std::string("    function bool GetResult() { return myself.result; }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("    String value;"));
+        this->ctcode_file->WriteLine(std::string("    bool result;"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("class StringListResult"));
+        this->ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(std::string("    function void SetValue(String[] new_value) { myself.value = new_value; }"));
+        this->ctcode_file->WriteLine(std::string("    function String[] GetValue() { return myself.value; }"));
+        this->ctcode_file->WriteLine(std::string("    function void SetResult(bool new_result) { myself.result = new_result; }"));
+        this->ctcode_file->WriteLine(std::string("    function bool GetResult() { return myself.result; }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("    String[] value;"));
+        this->ctcode_file->WriteLine(std::string("    bool result;"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("class String"));
+        this->ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(std::string("    function void SetLengthString(LengthString new_value)"));
+        this->ctcode_file->WriteLine(std::string("    {"));
+        this->ctcode_file->WriteLine(std::string("        myself.length_string = new LengthString;"));
+        this->ctcode_file->WriteLine(std::string("        myself.length_string.SetData(new_value.GetData());"));
+        this->ctcode_file->WriteLine(std::string("        myself.length_string.SetStart(new_value.GetStart());"));
+        this->ctcode_file->WriteLine(std::string("        myself.length_string.SetLength(new_value.GetLength());"));
+        this->ctcode_file->WriteLine(std::string("    }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("    function string UnParse() { return myself.length_string.GetString(); }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("    LengthString length_string;"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("class CharacterParser"));
+        this->ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(std::string("    function bool ParseSingle(LengthString index, int value)"));
+        this->ctcode_file->WriteLine(std::string("    {"));
+        this->ctcode_file->WriteLine(std::string("        if (0 == index.GetLength())"));
+        this->ctcode_file->WriteLine(std::string("        {"));
+        this->ctcode_file->WriteLine(std::string("            return false;"));
+        this->ctcode_file->WriteLine(std::string("        }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("        LargeString index_data = index.GetData();"));
+        this->ctcode_file->WriteLine(std::string("        int current_character = index_data.GetIntAt(index.GetStart());"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("        if (current_character == value)"));
+        this->ctcode_file->WriteLine(std::string("        {"));
+        this->ctcode_file->WriteLine(std::string("            index.SetStart(index.GetStart() + 1);"));
+        this->ctcode_file->WriteLine(std::string("            index.SetLength(index.GetLength() - 1);"));
+        this->ctcode_file->WriteLine(std::string("            return true;"));
+        this->ctcode_file->WriteLine(std::string("        }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("        return false;"));
+        this->ctcode_file->WriteLine(std::string("    }"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("class CharacterResult"));
+        this->ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(std::string("    function void SetValue(Character new_value) { myself.value = new_value; }"));
+        this->ctcode_file->WriteLine(std::string("    function Character GetValue() { return myself.value; }"));
+        this->ctcode_file->WriteLine(std::string("    function void SetResult(bool new_result) { myself.result = new_result; }"));
+        this->ctcode_file->WriteLine(std::string("    function bool GetResult() { return myself.result; }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("    Character value;"));
+        this->ctcode_file->WriteLine(std::string("    bool result;"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("class CharacterListResult"));
+        this->ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(std::string("    function void SetValue(Character[] new_value) { myself.value = new_value; }"));
+        this->ctcode_file->WriteLine(std::string("    function Character[] GetValue() { return myself.value; }"));
+        this->ctcode_file->WriteLine(std::string("    function void SetResult(bool new_result) { myself.result = new_result; }"));
+        this->ctcode_file->WriteLine(std::string("    function bool GetResult() { return myself.result; }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("    Character[] value;"));
+        this->ctcode_file->WriteLine(std::string("    bool result;"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("class Character"));
+        this->ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(std::string("    function void SetLengthString(LengthString new_value)"));
+        this->ctcode_file->WriteLine(std::string("    {"));
+        this->ctcode_file->WriteLine(std::string("        myself.length_string = new LengthString;"));
+        this->ctcode_file->WriteLine(std::string("        myself.length_string.SetData(new_value.GetData());"));
+        this->ctcode_file->WriteLine(std::string("        myself.length_string.SetStart(new_value.GetStart());"));
+        this->ctcode_file->WriteLine(std::string("        myself.length_string.SetLength(new_value.GetLength());"));
+        this->ctcode_file->WriteLine(std::string("    }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("    function string UnParse() { return myself.length_string.GetString(); }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("    LengthString length_string;"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("class CharacterRangeParser"));
+        this->ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(std::string("    function bool ParseSingle(LengthString index, int low_value, int high_value)"));
+        this->ctcode_file->WriteLine(std::string("    {"));
+        this->ctcode_file->WriteLine(std::string("        if (0 == index.GetLength())"));
+        this->ctcode_file->WriteLine(std::string("        {"));
+        this->ctcode_file->WriteLine(std::string("            return false;"));
+        this->ctcode_file->WriteLine(std::string("        }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("        LargeString index_data = index.GetData();"));
+        this->ctcode_file->WriteLine(std::string("        int current_character = index_data.GetIntAt(index.GetStart());"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("        if (low_value <= current_character && current_character <= high_value)"));
+        this->ctcode_file->WriteLine(std::string("        {"));
+        this->ctcode_file->WriteLine(std::string("            index.SetStart(index.GetStart() + 1);"));
+        this->ctcode_file->WriteLine(std::string("            index.SetLength(index.GetLength() - 1);"));
+        this->ctcode_file->WriteLine(std::string("            return true;"));
+        this->ctcode_file->WriteLine(std::string("        }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("        return false;"));
+        this->ctcode_file->WriteLine(std::string("    }"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("class CharacterRangeResult"));
+        this->ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(std::string("    function void SetValue(CharacterRange new_value) { myself.value = new_value; }"));
+        this->ctcode_file->WriteLine(std::string("    function CharacterRange GetValue() { return myself.value; }"));
+        this->ctcode_file->WriteLine(std::string("    function void SetResult(bool new_result) { myself.result = new_result; }"));
+        this->ctcode_file->WriteLine(std::string("    function bool GetResult() { return myself.result; }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("    CharacterRange value;"));
+        this->ctcode_file->WriteLine(std::string("    bool result;"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("class CharacterRangeListResult"));
+        this->ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(std::string("    function void SetValue(CharacterRange[] new_value) { myself.value = new_value; }"));
+        this->ctcode_file->WriteLine(std::string("    function CharacterRange[] GetValue() { return myself.value; }"));
+        this->ctcode_file->WriteLine(std::string("    function void SetResult(bool new_result) { myself.result = new_result; }"));
+        this->ctcode_file->WriteLine(std::string("    function bool GetResult() { return myself.result; }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("    CharacterRange[] value;"));
+        this->ctcode_file->WriteLine(std::string("    bool result;"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("class CharacterRange"));
+        this->ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(std::string("    function void SetLengthString(LengthString new_value)"));
+        this->ctcode_file->WriteLine(std::string("    {"));
+        this->ctcode_file->WriteLine(std::string("        myself.length_string = new LengthString;"));
+        this->ctcode_file->WriteLine(std::string("        myself.length_string.SetData(new_value.GetData());"));
+        this->ctcode_file->WriteLine(std::string("        myself.length_string.SetStart(new_value.GetStart());"));
+        this->ctcode_file->WriteLine(std::string("        myself.length_string.SetLength(new_value.GetLength());"));
+        this->ctcode_file->WriteLine(std::string("    }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("    function string UnParse() { return myself.length_string.GetString(); }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("    LengthString length_string;"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("class ParserNetwork"));
+        this->ctcode_file->WriteLine(std::string("{"));
         int rule_index = 0;
         while (rule_index < Size(rules))
         {
             OmniPointer<s84::tower::dbnf::ctcode::Rule> rule = Element(rules, rule_index);
             if (rule->GetName())
             {
-                std::string class_name = Concat(GenerateClassName(rule->GetName()), std::string("Parser"));
-                std::string field_name = Concat(CamelCaseToSnakeCase(class_name), std::string("_field"));
-                ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("    "), class_name), std::string(" ")), field_name), std::string(";")));
-                ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("    function "), class_name), std::string(" ")), GenerateGetterName(field_name)), std::string("() { return myself.")), field_name), std::string("; }")));
+                std::string class_name = Concat(this->GenerateClassName(rule->GetName()), std::string("Parser"));
+                std::string field_name = Concat(this->CamelCaseToSnakeCase(class_name), std::string("_field"));
+                this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("    "), class_name), std::string(" ")), field_name), std::string(";")));
+                this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("    function "), class_name), std::string(" ")), this->GenerateGetterName(field_name)), std::string("() { return myself.")), field_name), std::string("; }")));
             }
 
             rule_index = rule_index + 1;
         }
 
         std::string string_parser_class_name = std::string("StringParser");
-        std::string string_parser_field_name = Concat(CamelCaseToSnakeCase(string_parser_class_name), std::string("_field"));
+        std::string string_parser_field_name = Concat(this->CamelCaseToSnakeCase(string_parser_class_name), std::string("_field"));
         std::string character_parser_class_name = std::string("CharacterParser");
-        std::string character_parser_field_name = Concat(CamelCaseToSnakeCase(character_parser_class_name), std::string("_field"));
+        std::string character_parser_field_name = Concat(this->CamelCaseToSnakeCase(character_parser_class_name), std::string("_field"));
         std::string character_range_parser_class_name = std::string("CharacterRangeParser");
-        std::string character_range_parser_field_name = Concat(CamelCaseToSnakeCase(character_range_parser_class_name), std::string("_field"));
-        ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("    "), string_parser_class_name), std::string(" ")), string_parser_field_name), std::string(";")));
-        ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("    function "), string_parser_class_name), std::string(" ")), GenerateGetterName(string_parser_field_name)), std::string("() { return myself.")), string_parser_field_name), std::string(";}")));
-        ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("    "), character_parser_class_name), std::string(" ")), character_parser_field_name), std::string(";")));
-        ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("    function "), character_parser_class_name), std::string(" ")), GenerateGetterName(character_parser_field_name)), std::string("() { return myself.")), character_parser_field_name), std::string(";}")));
-        ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("    "), character_range_parser_class_name), std::string(" ")), character_range_parser_field_name), std::string(";")));
-        ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("    function "), character_range_parser_class_name), std::string(" ")), GenerateGetterName(character_range_parser_field_name)), std::string("() { return myself.")), character_range_parser_field_name), std::string(";}")));
-        ctcode_file->WriteLine(std::string("    function void Initialize() {"));
+        std::string character_range_parser_field_name = Concat(this->CamelCaseToSnakeCase(character_range_parser_class_name), std::string("_field"));
+        this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("    "), string_parser_class_name), std::string(" ")), string_parser_field_name), std::string(";")));
+        this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("    function "), string_parser_class_name), std::string(" ")), this->GenerateGetterName(string_parser_field_name)), std::string("() { return myself.")), string_parser_field_name), std::string(";}")));
+        this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("    "), character_parser_class_name), std::string(" ")), character_parser_field_name), std::string(";")));
+        this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("    function "), character_parser_class_name), std::string(" ")), this->GenerateGetterName(character_parser_field_name)), std::string("() { return myself.")), character_parser_field_name), std::string(";}")));
+        this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("    "), character_range_parser_class_name), std::string(" ")), character_range_parser_field_name), std::string(";")));
+        this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("    function "), character_range_parser_class_name), std::string(" ")), this->GenerateGetterName(character_range_parser_field_name)), std::string("() { return myself.")), character_range_parser_field_name), std::string(";}")));
+        this->ctcode_file->WriteLine(std::string("    function void Initialize() {"));
         rule_index = 0;
         while (rule_index < Size(rules))
         {
             OmniPointer<s84::tower::dbnf::ctcode::Rule> rule = Element(rules, rule_index);
             if (rule->GetName())
             {
-                std::string class_name = Concat(GenerateClassName(rule->GetName()), std::string("Parser"));
-                std::string field_name = Concat(CamelCaseToSnakeCase(class_name), std::string("_field"));
-                ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("        myself."), field_name), std::string(" = new ")), class_name), std::string(";")));
-                ctcode_file->WriteLine(Concat(Concat(std::string("        myself."), field_name), std::string(".SetParserNetwork(myself);")));
+                std::string class_name = Concat(this->GenerateClassName(rule->GetName()), std::string("Parser"));
+                std::string field_name = Concat(this->CamelCaseToSnakeCase(class_name), std::string("_field"));
+                this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("        myself."), field_name), std::string(" = new ")), class_name), std::string(";")));
+                this->ctcode_file->WriteLine(Concat(Concat(std::string("        myself."), field_name), std::string(".SetParserNetwork(myself);")));
             }
 
             rule_index = rule_index + 1;
         }
 
-        ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("        myself."), string_parser_field_name), std::string(" = new ")), string_parser_class_name), std::string(";")));
-        ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("        myself."), character_parser_field_name), std::string(" = new ")), character_parser_class_name), std::string(";")));
-        ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("        myself."), character_range_parser_field_name), std::string(" = new ")), character_range_parser_class_name), std::string(";")));
-        ctcode_file->WriteLine(std::string("    }"));
-        ctcode_file->WriteLine(std::string("}"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("class DBNFOmniType"));
-        ctcode_file->WriteLine(std::string("{"));
-        rule_index = 0;
-        while (rule_index < Size(rules))
-        {
-            OmniPointer<s84::tower::dbnf::ctcode::Rule> rule = Element(rules, rule_index);
-            if (rule->GetName())
-            {
-                std::string class_name = GenerateClassName(rule->GetName());
-                std::string field_name = Concat(CamelCaseToSnakeCase(class_name), std::string("_field"));
-                ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("    "), class_name), std::string(" ")), field_name), std::string(";")));
-                ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("    function void "), GenerateSetterName(field_name)), std::string("(")), class_name), std::string(" input_value) { myself.")), field_name), std::string(" = input_value; }")));
-                ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("    function "), class_name), std::string(" ")), GenerateGetterName(field_name)), std::string("() { return myself.")), field_name), std::string("; }")));
-            }
-
-            rule_index = rule_index + 1;
-        }
-
-        ctcode_file->WriteLine(std::string("}"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("class DBNFOmniTypeResult"));
-        ctcode_file->WriteLine(std::string("{"));
-        ctcode_file->WriteLine(std::string("    function void SetValue(DBNFOmniType new_value) { myself.value = new_value; }"));
-        ctcode_file->WriteLine(std::string("    function DBNFOmniType GetValue() { return myself.value; }"));
-        ctcode_file->WriteLine(std::string("    function void SetResult(bool new_result) { myself.result = new_result; }"));
-        ctcode_file->WriteLine(std::string("    function bool GetResult() { return myself.result; }"));
-        rule_index = 0;
-        while (rule_index < Size(rules))
-        {
-            OmniPointer<s84::tower::dbnf::ctcode::Rule> rule = Element(rules, rule_index);
-            if (rule->GetName())
-            {
-                std::string class_name = this->GenerateClassName(rule->GetName());
-                std::string field_name = Concat(CamelCaseToSnakeCase(class_name), std::string("_field"));
-                ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("    function void "), this->GenerateSetterName(field_name)), std::string("(")), class_name), std::string(" input_value)")));
-                ctcode_file->WriteLine(std::string("    {"));
-                ctcode_file->WriteLine(std::string("        myself.value = new DBNFOmniType;"));
-                ctcode_file->WriteLine(Concat(Concat(std::string("        myself.value."), GenerateSetterName(field_name)), std::string("(input_value);")));
-                ctcode_file->WriteLine(std::string("    }"));
-            }
-
-            rule_index = rule_index + 1;
-        }
-
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("    DBNFOmniType value;"));
-        ctcode_file->WriteLine(std::string("    bool result;"));
-        ctcode_file->WriteLine(std::string("}"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("class DBNFOmniTypeListResult"));
-        ctcode_file->WriteLine(std::string("{"));
-        ctcode_file->WriteLine(std::string("    function void SetValue(DBNFOmniType[] new_value) { myself.value = new_value; }"));
-        ctcode_file->WriteLine(std::string("    function DBNFOmniType[] GetValue() { return myself.value; }"));
-        ctcode_file->WriteLine(std::string("    function void SetResult(bool new_result) { myself.result = new_result; }"));
-        ctcode_file->WriteLine(std::string("    function bool GetResult() { return myself.result; }"));
+        this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("        myself."), string_parser_field_name), std::string(" = new ")), string_parser_class_name), std::string(";")));
+        this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("        myself."), character_parser_field_name), std::string(" = new ")), character_parser_class_name), std::string(";")));
+        this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("        myself."), character_range_parser_field_name), std::string(" = new ")), character_range_parser_class_name), std::string(";")));
+        this->ctcode_file->WriteLine(std::string("    }"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("class DBNFOmniType"));
+        this->ctcode_file->WriteLine(std::string("{"));
         rule_index = 0;
         while (rule_index < Size(rules))
         {
@@ -366,71 +313,124 @@ namespace ctcode
             {
                 std::string class_name = this->GenerateClassName(rule->GetName());
                 std::string field_name = Concat(this->CamelCaseToSnakeCase(class_name), std::string("_field"));
-                ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("    function void "), this->GenerateSetterName(field_name)), std::string("(")), class_name), std::string("[] input_value)")));
-                ctcode_file->WriteLine(std::string("    {"));
-                ctcode_file->WriteLine(std::string("        int index = 0;"));
-                ctcode_file->WriteLine(std::string("        while (index < Size(input_value))"));
-                ctcode_file->WriteLine(std::string("        {"));
-                ctcode_file->WriteLine(std::string("            DBNFOmniType value = new DBNFOmniType;"));
-                ctcode_file->WriteLine(Concat(Concat(std::string("            value."), GenerateSetterName(field_name)), std::string("(Element(input_value, index));")));
-                ctcode_file->WriteLine(std::string("            index = index + 1;"));
-                ctcode_file->WriteLine(std::string("        }"));
-                ctcode_file->WriteLine(std::string("    }"));
-                ctcode_file->WriteLine(std::string(""));
+                this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("    "), class_name), std::string(" ")), field_name), std::string(";")));
+                this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("    function void "), this->GenerateSetterName(field_name)), std::string("(")), class_name), std::string(" input_value) { myself.")), field_name), std::string(" = input_value; }")));
+                this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("    function "), class_name), std::string(" ")), this->GenerateGetterName(field_name)), std::string("() { return myself.")), field_name), std::string("; }")));
             }
 
             rule_index = rule_index + 1;
         }
 
-        ctcode_file->WriteLine(std::string("    DBNFOmniType[] value;"));
-        ctcode_file->WriteLine(std::string("    bool result;"));
-        ctcode_file->WriteLine(std::string("}"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("class LargeString"));
-        ctcode_file->WriteLine(std::string("{"));
-        ctcode_file->WriteLine(std::string("    function void SetData(string new_data) { myself.data = new_data; }"));
-        ctcode_file->WriteLine(std::string("    function string GetData() { return myself.data; }"));
-        ctcode_file->WriteLine(std::string("    function int GetIntAt(int offset) { return IntAt(myself.data, offset); }"));
-        ctcode_file->WriteLine(std::string("    function string GetAt(int offset) { return At(myself.data, offset); }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("    string data;"));
-        ctcode_file->WriteLine(std::string("}"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("class LengthString"));
-        ctcode_file->WriteLine(std::string("{"));
-        ctcode_file->WriteLine(std::string("    function void SetData(LargeString new_data) { myself.data = new_data; }"));
-        ctcode_file->WriteLine(std::string("    function LargeString GetData() { return myself.data; }"));
-        ctcode_file->WriteLine(std::string("    function void SetStart(int new_start) { myself.start = new_start; }"));
-        ctcode_file->WriteLine(std::string("    function int GetStart() { return myself.start; }"));
-        ctcode_file->WriteLine(std::string("    function void SetLength(int new_length) { myself.length = new_length; }"));
-        ctcode_file->WriteLine(std::string("    function int GetLength() { return myself.length; }"));
-        ctcode_file->WriteLine(std::string("    function string GetString()"));
-        ctcode_file->WriteLine(std::string("    {"));
-        ctcode_file->WriteLine(std::string("        string deep_data = myself.data.GetData();"));
-        ctcode_file->WriteLine(std::string("        string result;"));
-        ctcode_file->WriteLine(std::string("        int index = myself.start;"));
-        ctcode_file->WriteLine(std::string("        int end = myself.start + myself.length;"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("        while (index < end)"));
-        ctcode_file->WriteLine(std::string("        {"));
-        ctcode_file->WriteLine(std::string("            result = Concat(result, At(deep_data, index));"));
-        ctcode_file->WriteLine(std::string("            index = index + 1;"));
-        ctcode_file->WriteLine(std::string("        }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("        return result;"));
-        ctcode_file->WriteLine(std::string("    }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("    LargeString data;"));
-        ctcode_file->WriteLine(std::string("    int start;"));
-        ctcode_file->WriteLine(std::string("    int length;"));
-        ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("class DBNFOmniTypeResult"));
+        this->ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(std::string("    function void SetValue(DBNFOmniType new_value) { myself.value = new_value; }"));
+        this->ctcode_file->WriteLine(std::string("    function DBNFOmniType GetValue() { return myself.value; }"));
+        this->ctcode_file->WriteLine(std::string("    function void SetResult(bool new_result) { myself.result = new_result; }"));
+        this->ctcode_file->WriteLine(std::string("    function bool GetResult() { return myself.result; }"));
         rule_index = 0;
         while (rule_index < Size(rules))
         {
             OmniPointer<s84::tower::dbnf::ctcode::Rule> rule = Element(rules, rule_index);
             if (rule->GetName())
             {
-                WriteClass(grammar, rule);
+                std::string class_name = this->GenerateClassName(rule->GetName());
+                std::string field_name = Concat(this->CamelCaseToSnakeCase(class_name), std::string("_field"));
+                this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("    function void "), this->GenerateSetterName(field_name)), std::string("(")), class_name), std::string(" input_value)")));
+                this->ctcode_file->WriteLine(std::string("    {"));
+                this->ctcode_file->WriteLine(std::string("        myself.value = new DBNFOmniType;"));
+                this->ctcode_file->WriteLine(Concat(Concat(std::string("        myself.value."), this->GenerateSetterName(field_name)), std::string("(input_value);")));
+                this->ctcode_file->WriteLine(std::string("    }"));
+            }
+
+            rule_index = rule_index + 1;
+        }
+
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("    DBNFOmniType value;"));
+        this->ctcode_file->WriteLine(std::string("    bool result;"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("class DBNFOmniTypeListResult"));
+        this->ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(std::string("    function void SetValue(DBNFOmniType[] new_value) { myself.value = new_value; }"));
+        this->ctcode_file->WriteLine(std::string("    function DBNFOmniType[] GetValue() { return myself.value; }"));
+        this->ctcode_file->WriteLine(std::string("    function void SetResult(bool new_result) { myself.result = new_result; }"));
+        this->ctcode_file->WriteLine(std::string("    function bool GetResult() { return myself.result; }"));
+        rule_index = 0;
+        while (rule_index < Size(rules))
+        {
+            OmniPointer<s84::tower::dbnf::ctcode::Rule> rule = Element(rules, rule_index);
+            if (rule->GetName())
+            {
+                std::string class_name = this->GenerateClassName(rule->GetName());
+                std::string field_name = Concat(this->CamelCaseToSnakeCase(class_name), std::string("_field"));
+                this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("    function void "), this->GenerateSetterName(field_name)), std::string("(")), class_name), std::string("[] input_value)")));
+                this->ctcode_file->WriteLine(std::string("    {"));
+                this->ctcode_file->WriteLine(std::string("        int index = 0;"));
+                this->ctcode_file->WriteLine(std::string("        while (index < Size(input_value))"));
+                this->ctcode_file->WriteLine(std::string("        {"));
+                this->ctcode_file->WriteLine(std::string("            DBNFOmniType value = new DBNFOmniType;"));
+                this->ctcode_file->WriteLine(Concat(Concat(std::string("            value."), this->GenerateSetterName(field_name)), std::string("(Element(input_value, index));")));
+                this->ctcode_file->WriteLine(std::string("            index = index + 1;"));
+                this->ctcode_file->WriteLine(std::string("        }"));
+                this->ctcode_file->WriteLine(std::string("    }"));
+                this->ctcode_file->WriteLine(std::string(""));
+            }
+
+            rule_index = rule_index + 1;
+        }
+
+        this->ctcode_file->WriteLine(std::string("    DBNFOmniType[] value;"));
+        this->ctcode_file->WriteLine(std::string("    bool result;"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("class LargeString"));
+        this->ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(std::string("    function void SetData(string new_data) { myself.data = new_data; }"));
+        this->ctcode_file->WriteLine(std::string("    function string GetData() { return myself.data; }"));
+        this->ctcode_file->WriteLine(std::string("    function int GetIntAt(int offset) { return IntAt(myself.data, offset); }"));
+        this->ctcode_file->WriteLine(std::string("    function string GetAt(int offset) { return At(myself.data, offset); }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("    string data;"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("class LengthString"));
+        this->ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(std::string("    function void SetData(LargeString new_data) { myself.data = new_data; }"));
+        this->ctcode_file->WriteLine(std::string("    function LargeString GetData() { return myself.data; }"));
+        this->ctcode_file->WriteLine(std::string("    function void SetStart(int new_start) { myself.start = new_start; }"));
+        this->ctcode_file->WriteLine(std::string("    function int GetStart() { return myself.start; }"));
+        this->ctcode_file->WriteLine(std::string("    function void SetLength(int new_length) { myself.length = new_length; }"));
+        this->ctcode_file->WriteLine(std::string("    function int GetLength() { return myself.length; }"));
+        this->ctcode_file->WriteLine(std::string("    function string GetString()"));
+        this->ctcode_file->WriteLine(std::string("    {"));
+        this->ctcode_file->WriteLine(std::string("        string deep_data = myself.data.GetData();"));
+        this->ctcode_file->WriteLine(std::string("        string result;"));
+        this->ctcode_file->WriteLine(std::string("        int index = myself.start;"));
+        this->ctcode_file->WriteLine(std::string("        int end = myself.start + myself.length;"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("        while (index < end)"));
+        this->ctcode_file->WriteLine(std::string("        {"));
+        this->ctcode_file->WriteLine(std::string("            result = Concat(result, At(deep_data, index));"));
+        this->ctcode_file->WriteLine(std::string("            index = index + 1;"));
+        this->ctcode_file->WriteLine(std::string("        }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("        return result;"));
+        this->ctcode_file->WriteLine(std::string("    }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("    LargeString data;"));
+        this->ctcode_file->WriteLine(std::string("    int start;"));
+        this->ctcode_file->WriteLine(std::string("    int length;"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        rule_index = 0;
+        while (rule_index < Size(rules))
+        {
+            OmniPointer<s84::tower::dbnf::ctcode::Rule> rule = Element(rules, rule_index);
+            if (rule->GetName())
+            {
+                this->WriteClass(grammar, rule);
             }
 
             rule_index = rule_index + 1;
@@ -439,23 +439,23 @@ namespace ctcode
 
     void CTCodeGenerator::WriteClass(OmniPointer<s84::tower::dbnf::ctcode::Grammar> grammar, OmniPointer<s84::tower::dbnf::ctcode::Rule> rule)
     {
-        std::string class_name = GenerateClassName(rule->GetName());
-        std::unordered_map<std::string, OmniPointer<MemberType>> members = GetMembers(rule);
+        std::string class_name = this->GenerateClassName(rule->GetName());
+        std::unordered_map<std::string, OmniPointer<MemberType>> members = this->GetMembers(rule);
         std::vector<std::string> member_names = Keys(members);
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(Concat(Concat(std::string("class "), class_name), std::string("Parser")));
-        ctcode_file->WriteLine(std::string("{"));
-        ctcode_file->WriteLine(std::string("    ParserNetwork parser_network;"));
-        ctcode_file->WriteLine(std::string("    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }"));
-        ctcode_file->WriteLine(Concat(Concat(std::string("    function bool ParseSingleSave(LengthString index, "), class_name), std::string("Result result)")));
-        ctcode_file->WriteLine(std::string("    {"));
-        ctcode_file->WriteLine(std::string("        int index_start = index.GetStart();"));
-        ctcode_file->WriteLine(std::string("        int index_length = index.GetLength();"));
-        ctcode_file->WriteLine(std::string("        LengthString consumed_string = new LengthString;"));
-        ctcode_file->WriteLine(std::string("        consumed_string.SetData(index.GetData());"));
-        ctcode_file->WriteLine(std::string("        consumed_string.SetStart(index.GetStart());"));
-        ctcode_file->WriteLine(std::string("        consumed_string.SetLength(0);"));
-        ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("        "), class_name), std::string(" instance = new ")), class_name), std::string(";")));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(Concat(Concat(std::string("class "), class_name), std::string("Parser")));
+        this->ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(std::string("    ParserNetwork parser_network;"));
+        this->ctcode_file->WriteLine(std::string("    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }"));
+        this->ctcode_file->WriteLine(Concat(Concat(std::string("    function bool ParseSingleSave(LengthString index, "), class_name), std::string("Result result)")));
+        this->ctcode_file->WriteLine(std::string("    {"));
+        this->ctcode_file->WriteLine(std::string("        int index_start = index.GetStart();"));
+        this->ctcode_file->WriteLine(std::string("        int index_length = index.GetLength();"));
+        this->ctcode_file->WriteLine(std::string("        LengthString consumed_string = new LengthString;"));
+        this->ctcode_file->WriteLine(std::string("        consumed_string.SetData(index.GetData());"));
+        this->ctcode_file->WriteLine(std::string("        consumed_string.SetStart(index.GetStart());"));
+        this->ctcode_file->WriteLine(std::string("        consumed_string.SetLength(0);"));
+        this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("        "), class_name), std::string(" instance = new ")), class_name), std::string(";")));
         int member_name_index = 0;
         while (member_name_index < Size(member_names))
         {
@@ -463,17 +463,17 @@ namespace ctcode
             OmniPointer<MemberType> member_type = GetKV(members, member_name);
             if (member_type->GetIsList())
             {
-                ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("        "), member_type->GetBaseType()), std::string("ListResult ")), member_name), std::string(" = new ")), member_type->GetBaseType()), std::string("ListResult;")));
+                this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("        "), member_type->GetBaseType()), std::string("ListResult ")), member_name), std::string(" = new ")), member_type->GetBaseType()), std::string("ListResult;")));
             }
             else
             {
-                ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("        "), member_type->GetBaseType()), std::string("Result ")), member_name), std::string(" = new ")), member_type->GetBaseType()), std::string("Result;")));
+                this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("        "), member_type->GetBaseType()), std::string("Result ")), member_name), std::string(" = new ")), member_type->GetBaseType()), std::string("Result;")));
             }
 
             member_name_index = member_name_index + 1;
         }
 
-        ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string(""));
         std::vector<OmniPointer<s84::tower::dbnf::ctcode::Rule>> rules = grammar->GetRules();
         int rule_index = 0;
         while (rule_index < Size(rules))
@@ -481,28 +481,28 @@ namespace ctcode
             OmniPointer<s84::tower::dbnf::ctcode::Rule> rule = Element(rules, rule_index);
             if (rule->GetName())
             {
-                std::string class_name = Concat(GenerateClassName(rule->GetName()), std::string("Parser"));
-                std::string field_name = Concat(CamelCaseToSnakeCase(class_name), std::string("_field"));
-                std::string local_name = Concat(CamelCaseToSnakeCase(class_name), std::string("_instance"));
-                ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("        "), class_name), std::string(" ")), local_name), std::string(" = myself.parser_network.")), GenerateGetterName(field_name)), std::string("();")));
+                std::string class_name = Concat(this->GenerateClassName(rule->GetName()), std::string("Parser"));
+                std::string field_name = Concat(this->CamelCaseToSnakeCase(class_name), std::string("_field"));
+                std::string local_name = Concat(this->CamelCaseToSnakeCase(class_name), std::string("_instance"));
+                this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("        "), class_name), std::string(" ")), local_name), std::string(" = myself.parser_network.")), this->GenerateGetterName(field_name)), std::string("();")));
             }
 
             rule_index = rule_index + 1;
         }
 
         std::string string_parser_class_name = std::string("StringParser");
-        std::string string_parser_field_name = Concat(CamelCaseToSnakeCase(string_parser_class_name), std::string("_field"));
-        std::string string_parser_local_name = Concat(CamelCaseToSnakeCase(string_parser_class_name), std::string("_instance"));
-        ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("        "), string_parser_class_name), std::string(" ")), string_parser_local_name), std::string(" = myself.parser_network.")), GenerateGetterName(string_parser_field_name)), std::string("();")));
+        std::string string_parser_field_name = Concat(this->CamelCaseToSnakeCase(string_parser_class_name), std::string("_field"));
+        std::string string_parser_local_name = Concat(this->CamelCaseToSnakeCase(string_parser_class_name), std::string("_instance"));
+        this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("        "), string_parser_class_name), std::string(" ")), string_parser_local_name), std::string(" = myself.parser_network.")), this->GenerateGetterName(string_parser_field_name)), std::string("();")));
         std::string character_parser_class_name = std::string("CharacterParser");
-        std::string character_parser_field_name = Concat(CamelCaseToSnakeCase(character_parser_class_name), std::string("_field"));
-        std::string character_parser_local_name = Concat(CamelCaseToSnakeCase(character_parser_class_name), std::string("_instance"));
-        ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("        "), character_parser_class_name), std::string(" ")), character_parser_local_name), std::string(" = myself.parser_network.")), GenerateGetterName(character_parser_field_name)), std::string("();")));
+        std::string character_parser_field_name = Concat(this->CamelCaseToSnakeCase(character_parser_class_name), std::string("_field"));
+        std::string character_parser_local_name = Concat(this->CamelCaseToSnakeCase(character_parser_class_name), std::string("_instance"));
+        this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("        "), character_parser_class_name), std::string(" ")), character_parser_local_name), std::string(" = myself.parser_network.")), this->GenerateGetterName(character_parser_field_name)), std::string("();")));
         std::string character_range_parser_class_name = std::string("CharacterRangeParser");
-        std::string character_range_parser_field_name = Concat(CamelCaseToSnakeCase(character_range_parser_class_name), std::string("_field"));
-        std::string character_range_parser_local_name = Concat(CamelCaseToSnakeCase(character_range_parser_class_name), std::string("_instance"));
-        ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("        "), character_range_parser_class_name), std::string(" ")), character_range_parser_local_name), std::string(" = myself.parser_network.")), GenerateGetterName(character_range_parser_field_name)), std::string("();")));
-        ctcode_file->WriteLine(std::string(""));
+        std::string character_range_parser_field_name = Concat(this->CamelCaseToSnakeCase(character_range_parser_class_name), std::string("_field"));
+        std::string character_range_parser_local_name = Concat(this->CamelCaseToSnakeCase(character_range_parser_class_name), std::string("_instance"));
+        this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("        "), character_range_parser_class_name), std::string(" ")), character_range_parser_local_name), std::string(" = myself.parser_network.")), this->GenerateGetterName(character_range_parser_field_name)), std::string("();")));
+        this->ctcode_file->WriteLine(std::string(""));
         std::vector<OmniPointer<s84::tower::dbnf::ctcode::Expression>> expressions = rule->GetExpressions();
         int expression_index = 0;
         while (expression_index < Size(expressions))
@@ -510,24 +510,24 @@ namespace ctcode
             OmniPointer<s84::tower::dbnf::ctcode::Expression> expression = Element(expressions, expression_index);
             if (expression->GetExpressionDiscriminator())
             {
-                WriteExpression(expression);
+                this->WriteExpression(expression);
                 member_name_index = 0;
                 while (member_name_index < Size(member_names))
                 {
                     std::string member_name = Element(member_names, member_name_index);
                     OmniPointer<MemberType> member_type = GetKV(members, member_name);
-                    ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("            instance."), GenerateSetterName(member_name)), std::string("(")), member_name), std::string(".GetValue());")));
+                    this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("            instance."), this->GenerateSetterName(member_name)), std::string("(")), member_name), std::string(".GetValue());")));
                     member_name_index = member_name_index + 1;
                 }
 
-                ctcode_file->WriteLine(std::string("            consumed_string.SetLength(index.GetStart() - index_start);"));
-                ctcode_file->WriteLine(std::string("            instance.SetLengthString(consumed_string);"));
-                ctcode_file->WriteLine(std::string("            result.SetValue(instance);"));
-                ctcode_file->WriteLine(std::string("            result.SetResult(true);"));
-                ctcode_file->WriteLine(std::string("            return result.GetResult();"));
-                ctcode_file->WriteLine(std::string("        } else {"));
-                ctcode_file->WriteLine(std::string("            index.SetStart(index_start);"));
-                ctcode_file->WriteLine(std::string("            index.SetLength(index_length);"));
+                this->ctcode_file->WriteLine(std::string("            consumed_string.SetLength(index.GetStart() - index_start);"));
+                this->ctcode_file->WriteLine(std::string("            instance.SetLengthString(consumed_string);"));
+                this->ctcode_file->WriteLine(std::string("            result.SetValue(instance);"));
+                this->ctcode_file->WriteLine(std::string("            result.SetResult(true);"));
+                this->ctcode_file->WriteLine(std::string("            return result.GetResult();"));
+                this->ctcode_file->WriteLine(std::string("        } else {"));
+                this->ctcode_file->WriteLine(std::string("            index.SetStart(index_start);"));
+                this->ctcode_file->WriteLine(std::string("            index.SetLength(index_length);"));
                 member_name_index = 0;
                 while (member_name_index < Size(member_names))
                 {
@@ -535,131 +535,131 @@ namespace ctcode
                     OmniPointer<MemberType> member_type = GetKV(members, member_name);
                     if (member_type->GetIsList())
                     {
-                        ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("            "), member_name), std::string(" = new ")), member_type->GetBaseType()), std::string("ListResult;")));
+                        this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("            "), member_name), std::string(" = new ")), member_type->GetBaseType()), std::string("ListResult;")));
                     }
                     else
                     {
-                        ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("            "), member_name), std::string(" = new ")), member_type->GetBaseType()), std::string("Result;")));
+                        this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("            "), member_name), std::string(" = new ")), member_type->GetBaseType()), std::string("Result;")));
                     }
 
                     member_name_index = member_name_index + 1;
                 }
 
-                ctcode_file->WriteLine(std::string("        }"));
-                ctcode_file->WriteLine(std::string(""));
+                this->ctcode_file->WriteLine(std::string("        }"));
+                this->ctcode_file->WriteLine(std::string(""));
             }
 
             expression_index = expression_index + 1;
         }
 
-        ctcode_file->WriteLine(std::string("        result.SetResult(false);"));
-        ctcode_file->WriteLine(std::string("        return result.GetResult();"));
-        ctcode_file->WriteLine(std::string("    }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("    function bool ParseSingle(LengthString index)"));
-        ctcode_file->WriteLine(std::string("    {"));
-        ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("        "), class_name), std::string("Result result = new ")), class_name), std::string("Result;")));
-        ctcode_file->WriteLine(std::string("        return myself.ParseSingleSave(index, result);"));
-        ctcode_file->WriteLine(std::string("    }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(Concat(Concat(std::string("    function bool ParseOptionalSave(LengthString index, "), class_name), std::string("Result result)")));
-        ctcode_file->WriteLine(std::string("    {"));
-        ctcode_file->WriteLine(std::string("        myself.ParseSingleSave(index, result);"));
-        ctcode_file->WriteLine(std::string("        result.SetResult(true);"));
-        ctcode_file->WriteLine(std::string("        return true;"));
-        ctcode_file->WriteLine(std::string("    }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("    function bool ParseOptional(LengthString index)"));
-        ctcode_file->WriteLine(std::string("    {"));
-        ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("        "), class_name), std::string("Result result = new ")), class_name), std::string("Result;")));
-        ctcode_file->WriteLine(std::string("        return myself.ParseOptionalSave(index, result);"));
-        ctcode_file->WriteLine(std::string("    }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(Concat(Concat(std::string("    function bool ParseManySave(LengthString index, "), class_name), std::string("ListResult list_result, int minimum, int maximum)")));
-        ctcode_file->WriteLine(std::string("    {"));
-        ctcode_file->WriteLine(std::string("        int index_start = index.GetStart();"));
-        ctcode_file->WriteLine(std::string("        int index_length = index.GetLength();"));
-        ctcode_file->WriteLine(Concat(Concat(std::string("        "), class_name), std::string("[] results;")));
-        ctcode_file->WriteLine(std::string("        int count = 0;"));
-        ctcode_file->WriteLine(std::string("        int max_check = maximum;"));
-        ctcode_file->WriteLine(std::string("        bool check_next = true;"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("        if (maximum < 0)"));
-        ctcode_file->WriteLine(std::string("        {"));
-        ctcode_file->WriteLine(std::string("            max_check = count + 1;"));
-        ctcode_file->WriteLine(std::string("        }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("        while (check_next && count < max_check)"));
-        ctcode_file->WriteLine(std::string("        {"));
-        ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("            "), class_name), std::string("Result result = new ")), class_name), std::string("Result;")));
-        ctcode_file->WriteLine(std::string("            myself.ParseSingleSave(index, result);"));
-        ctcode_file->WriteLine(std::string("            check_next = result.GetResult();"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("            if (result.GetResult())"));
-        ctcode_file->WriteLine(std::string("            {"));
-        ctcode_file->WriteLine(std::string("                count = count + 1;"));
-        ctcode_file->WriteLine(std::string("                Append(results, result.GetValue());"));
-        ctcode_file->WriteLine(std::string("            }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("            if (maximum < 0)"));
-        ctcode_file->WriteLine(std::string("            {"));
-        ctcode_file->WriteLine(std::string("                max_check = count + 1;"));
-        ctcode_file->WriteLine(std::string("            }"));
-        ctcode_file->WriteLine(std::string("        }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("        if (count >= minimum && count <= max_check)"));
-        ctcode_file->WriteLine(std::string("        {"));
-        ctcode_file->WriteLine(std::string("            list_result.SetValue(results);"));
-        ctcode_file->WriteLine(std::string("            list_result.SetResult(true);"));
-        ctcode_file->WriteLine(std::string("        } else {"));
-        ctcode_file->WriteLine(std::string("            index.SetStart(index_start);"));
-        ctcode_file->WriteLine(std::string("            index.SetLength(index_length);"));
-        ctcode_file->WriteLine(std::string("            list_result.SetResult(false);"));
-        ctcode_file->WriteLine(std::string("        }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("        return list_result.GetResult();"));
-        ctcode_file->WriteLine(std::string("    }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("    function bool ParseMany(LengthString index, int minimum, int maximum)"));
-        ctcode_file->WriteLine(std::string("    {"));
-        ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("        "), class_name), std::string("ListResult result = new ")), class_name), std::string("ListResult;")));
-        ctcode_file->WriteLine(std::string("        return myself.ParseManySave(index, result, minimum, maximum);"));
-        ctcode_file->WriteLine(std::string("    }"));
-        ctcode_file->WriteLine(std::string("}"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(Concat(Concat(std::string("class "), class_name), std::string("Result")));
-        ctcode_file->WriteLine(std::string("{"));
-        ctcode_file->WriteLine(Concat(Concat(std::string("    function void SetValue("), class_name), std::string(" new_value) { myself.value = new_value; }")));
-        ctcode_file->WriteLine(Concat(Concat(std::string("    function "), class_name), std::string(" GetValue() { return myself.value; }")));
-        ctcode_file->WriteLine(std::string("    function void SetResult(bool new_result) { myself.result = new_result; }"));
-        ctcode_file->WriteLine(std::string("    function bool GetResult() { return myself.result; }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(Concat(Concat(std::string("    "), class_name), std::string(" value;")));
-        ctcode_file->WriteLine(std::string("    bool result;"));
-        ctcode_file->WriteLine(std::string("}"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(Concat(Concat(std::string("class "), class_name), std::string("ListResult")));
-        ctcode_file->WriteLine(std::string("{"));
-        ctcode_file->WriteLine(Concat(Concat(std::string("    function void SetValue("), class_name), std::string("[] new_value) { myself.value = new_value; }")));
-        ctcode_file->WriteLine(Concat(Concat(std::string("    function "), class_name), std::string("[] GetValue() { return myself.value; }")));
-        ctcode_file->WriteLine(std::string("    function void SetResult(bool new_result) { myself.result = new_result; }"));
-        ctcode_file->WriteLine(std::string("    function bool GetResult() { return myself.result; }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(Concat(Concat(std::string("    "), class_name), std::string("[] value;")));
-        ctcode_file->WriteLine(std::string("    bool result;"));
-        ctcode_file->WriteLine(std::string("}"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(Concat(std::string("class "), class_name));
-        ctcode_file->WriteLine(std::string("{"));
-        ctcode_file->WriteLine(std::string("    function void SetLengthString(LengthString new_value)"));
-        ctcode_file->WriteLine(std::string("    {"));
-        ctcode_file->WriteLine(std::string("        myself.length_string = new LengthString;"));
-        ctcode_file->WriteLine(std::string("        myself.length_string.SetData(new_value.GetData());"));
-        ctcode_file->WriteLine(std::string("        myself.length_string.SetStart(new_value.GetStart());"));
-        ctcode_file->WriteLine(std::string("        myself.length_string.SetLength(new_value.GetLength());"));
-        ctcode_file->WriteLine(std::string("    }"));
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("    function string UnParse() { return myself.length_string.GetString(); }"));
+        this->ctcode_file->WriteLine(std::string("        result.SetResult(false);"));
+        this->ctcode_file->WriteLine(std::string("        return result.GetResult();"));
+        this->ctcode_file->WriteLine(std::string("    }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("    function bool ParseSingle(LengthString index)"));
+        this->ctcode_file->WriteLine(std::string("    {"));
+        this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("        "), class_name), std::string("Result result = new ")), class_name), std::string("Result;")));
+        this->ctcode_file->WriteLine(std::string("        return myself.ParseSingleSave(index, result);"));
+        this->ctcode_file->WriteLine(std::string("    }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(Concat(Concat(std::string("    function bool ParseOptionalSave(LengthString index, "), class_name), std::string("Result result)")));
+        this->ctcode_file->WriteLine(std::string("    {"));
+        this->ctcode_file->WriteLine(std::string("        myself.ParseSingleSave(index, result);"));
+        this->ctcode_file->WriteLine(std::string("        result.SetResult(true);"));
+        this->ctcode_file->WriteLine(std::string("        return true;"));
+        this->ctcode_file->WriteLine(std::string("    }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("    function bool ParseOptional(LengthString index)"));
+        this->ctcode_file->WriteLine(std::string("    {"));
+        this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("        "), class_name), std::string("Result result = new ")), class_name), std::string("Result;")));
+        this->ctcode_file->WriteLine(std::string("        return myself.ParseOptionalSave(index, result);"));
+        this->ctcode_file->WriteLine(std::string("    }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(Concat(Concat(std::string("    function bool ParseManySave(LengthString index, "), class_name), std::string("ListResult list_result, int minimum, int maximum)")));
+        this->ctcode_file->WriteLine(std::string("    {"));
+        this->ctcode_file->WriteLine(std::string("        int index_start = index.GetStart();"));
+        this->ctcode_file->WriteLine(std::string("        int index_length = index.GetLength();"));
+        this->ctcode_file->WriteLine(Concat(Concat(std::string("        "), class_name), std::string("[] results;")));
+        this->ctcode_file->WriteLine(std::string("        int count = 0;"));
+        this->ctcode_file->WriteLine(std::string("        int max_check = maximum;"));
+        this->ctcode_file->WriteLine(std::string("        bool check_next = true;"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("        if (maximum < 0)"));
+        this->ctcode_file->WriteLine(std::string("        {"));
+        this->ctcode_file->WriteLine(std::string("            max_check = count + 1;"));
+        this->ctcode_file->WriteLine(std::string("        }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("        while (check_next && count < max_check)"));
+        this->ctcode_file->WriteLine(std::string("        {"));
+        this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("            "), class_name), std::string("Result result = new ")), class_name), std::string("Result;")));
+        this->ctcode_file->WriteLine(std::string("            myself.ParseSingleSave(index, result);"));
+        this->ctcode_file->WriteLine(std::string("            check_next = result.GetResult();"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("            if (result.GetResult())"));
+        this->ctcode_file->WriteLine(std::string("            {"));
+        this->ctcode_file->WriteLine(std::string("                count = count + 1;"));
+        this->ctcode_file->WriteLine(std::string("                Append(results, result.GetValue());"));
+        this->ctcode_file->WriteLine(std::string("            }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("            if (maximum < 0)"));
+        this->ctcode_file->WriteLine(std::string("            {"));
+        this->ctcode_file->WriteLine(std::string("                max_check = count + 1;"));
+        this->ctcode_file->WriteLine(std::string("            }"));
+        this->ctcode_file->WriteLine(std::string("        }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("        if (count >= minimum && count <= max_check)"));
+        this->ctcode_file->WriteLine(std::string("        {"));
+        this->ctcode_file->WriteLine(std::string("            list_result.SetValue(results);"));
+        this->ctcode_file->WriteLine(std::string("            list_result.SetResult(true);"));
+        this->ctcode_file->WriteLine(std::string("        } else {"));
+        this->ctcode_file->WriteLine(std::string("            index.SetStart(index_start);"));
+        this->ctcode_file->WriteLine(std::string("            index.SetLength(index_length);"));
+        this->ctcode_file->WriteLine(std::string("            list_result.SetResult(false);"));
+        this->ctcode_file->WriteLine(std::string("        }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("        return list_result.GetResult();"));
+        this->ctcode_file->WriteLine(std::string("    }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("    function bool ParseMany(LengthString index, int minimum, int maximum)"));
+        this->ctcode_file->WriteLine(std::string("    {"));
+        this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(std::string("        "), class_name), std::string("ListResult result = new ")), class_name), std::string("ListResult;")));
+        this->ctcode_file->WriteLine(std::string("        return myself.ParseManySave(index, result, minimum, maximum);"));
+        this->ctcode_file->WriteLine(std::string("    }"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(Concat(Concat(std::string("class "), class_name), std::string("Result")));
+        this->ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(Concat(Concat(std::string("    function void SetValue("), class_name), std::string(" new_value) { myself.value = new_value; }")));
+        this->ctcode_file->WriteLine(Concat(Concat(std::string("    function "), class_name), std::string(" GetValue() { return myself.value; }")));
+        this->ctcode_file->WriteLine(std::string("    function void SetResult(bool new_result) { myself.result = new_result; }"));
+        this->ctcode_file->WriteLine(std::string("    function bool GetResult() { return myself.result; }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(Concat(Concat(std::string("    "), class_name), std::string(" value;")));
+        this->ctcode_file->WriteLine(std::string("    bool result;"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(Concat(Concat(std::string("class "), class_name), std::string("ListResult")));
+        this->ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(Concat(Concat(std::string("    function void SetValue("), class_name), std::string("[] new_value) { myself.value = new_value; }")));
+        this->ctcode_file->WriteLine(Concat(Concat(std::string("    function "), class_name), std::string("[] GetValue() { return myself.value; }")));
+        this->ctcode_file->WriteLine(std::string("    function void SetResult(bool new_result) { myself.result = new_result; }"));
+        this->ctcode_file->WriteLine(std::string("    function bool GetResult() { return myself.result; }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(Concat(Concat(std::string("    "), class_name), std::string("[] value;")));
+        this->ctcode_file->WriteLine(std::string("    bool result;"));
+        this->ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(Concat(std::string("class "), class_name));
+        this->ctcode_file->WriteLine(std::string("{"));
+        this->ctcode_file->WriteLine(std::string("    function void SetLengthString(LengthString new_value)"));
+        this->ctcode_file->WriteLine(std::string("    {"));
+        this->ctcode_file->WriteLine(std::string("        myself.length_string = new LengthString;"));
+        this->ctcode_file->WriteLine(std::string("        myself.length_string.SetData(new_value.GetData());"));
+        this->ctcode_file->WriteLine(std::string("        myself.length_string.SetStart(new_value.GetStart());"));
+        this->ctcode_file->WriteLine(std::string("        myself.length_string.SetLength(new_value.GetLength());"));
+        this->ctcode_file->WriteLine(std::string("    }"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("    function string UnParse() { return myself.length_string.GetString(); }"));
         member_name_index = 0;
         while (member_name_index < Size(member_names))
         {
@@ -671,13 +671,13 @@ namespace ctcode
                 list_suffix = std::string("[]");
             }
 
-            ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(Concat(std::string("    function void "), GenerateSetterName(member_name)), std::string("(")), member_type->GetBaseType()), list_suffix), std::string(" input_value) { myself.")), member_name), std::string(" = input_value; }")));
-            ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(Concat(std::string("    function "), member_type->GetBaseType()), list_suffix), std::string(" ")), GenerateGetterName(member_name)), std::string("() { return myself.")), member_name), std::string("; }")));
+            this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(Concat(std::string("    function void "), this->GenerateSetterName(member_name)), std::string("(")), member_type->GetBaseType()), list_suffix), std::string(" input_value) { myself.")), member_name), std::string(" = input_value; }")));
+            this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(Concat(std::string("    function "), member_type->GetBaseType()), list_suffix), std::string(" ")), this->GenerateGetterName(member_name)), std::string("() { return myself.")), member_name), std::string("; }")));
             member_name_index = member_name_index + 1;
         }
 
-        ctcode_file->WriteLine(std::string(""));
-        ctcode_file->WriteLine(std::string("    LengthString length_string;"));
+        this->ctcode_file->WriteLine(std::string(""));
+        this->ctcode_file->WriteLine(std::string("    LengthString length_string;"));
         member_name_index = 0;
         while (member_name_index < Size(member_names))
         {
@@ -689,11 +689,11 @@ namespace ctcode
                 list_suffix = std::string("[]");
             }
 
-            ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(std::string("    "), member_type->GetBaseType()), list_suffix), std::string(" ")), member_name), std::string(";")));
+            this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(std::string("    "), member_type->GetBaseType()), list_suffix), std::string(" ")), member_name), std::string(";")));
             member_name_index = member_name_index + 1;
         }
 
-        ctcode_file->WriteLine(std::string("}"));
+        this->ctcode_file->WriteLine(std::string("}"));
     }
 
     void CTCodeGenerator::WriteExpression(OmniPointer<s84::tower::dbnf::ctcode::Expression> expression)
@@ -707,14 +707,14 @@ namespace ctcode
             OmniPointer<s84::tower::dbnf::ctcode::Token> token = Element(token_sequence, token_sequence_index);
             OmniPointer<s84::tower::dbnf::ctcode::SimpleToken> simple_token = token->GetValue();
             OmniPointer<s84::tower::dbnf::ctcode::Modifier> modifier_node = token->GetModifier();
-            std::string member = GenerateMemberName(token->GetName());
+            std::string member = this->GenerateMemberName(token->GetName());
             line = Concat(line, std::string(" && "));
             std::string match_function = std::string("ParseSingle");
             std::string match_function_parameters = std::string("index");
             std::string parser = std::string("");
             if (simple_token->GetToken())
             {
-                parser = Concat(GenerateClassName(simple_token->GetToken()), std::string("Parser"));
+                parser = Concat(this->GenerateClassName(simple_token->GetToken()), std::string("Parser"));
             }
             else
             {
@@ -810,13 +810,13 @@ namespace ctcode
                 match_function = Concat(match_function, std::string("Save"));
             }
 
-            std::string parser_instance_name = Concat(CamelCaseToSnakeCase(parser), std::string("_instance"));
+            std::string parser_instance_name = Concat(this->CamelCaseToSnakeCase(parser), std::string("_instance"));
             line = Concat(Concat(Concat(Concat(Concat(Concat(line, parser_instance_name), std::string(".")), match_function), std::string("(")), match_function_parameters), std::string(")"));
             token_sequence_index = token_sequence_index + 1;
         }
 
         line = Concat(line, std::string(") {"));
-        ctcode_file->WriteLine(line);
+        this->ctcode_file->WriteLine(line);
     }
 
     std::unordered_map<std::string, OmniPointer<MemberType>> CTCodeGenerator::GetMembers(OmniPointer<s84::tower::dbnf::ctcode::Rule> rule)
@@ -833,11 +833,11 @@ namespace ctcode
             {
                 OmniPointer<s84::tower::dbnf::ctcode::Token> token = Element(token_sequence, token_sequence_index);
                 OmniPointer<s84::tower::dbnf::ctcode::Modifier> modifier_node = token->GetModifier();
-                std::string token_member_name = GenerateMemberName(token->GetName());
+                std::string token_member_name = this->GenerateMemberName(token->GetName());
                 if (token_member_name != std::string(""))
                 {
                     OmniPointer<s84::tower::dbnf::ctcode::SimpleToken> simple_token = token->GetValue();
-                    std::string token_type_name = GenerateClassName(simple_token->GetToken());
+                    std::string token_type_name = this->GenerateClassName(simple_token->GetToken());
                     bool is_list = false;
                     if (!HasKV(members, token_member_name))
                     {
@@ -893,7 +893,7 @@ namespace ctcode
     {
         if (name_node)
         {
-            return SnakeCaseToCamelCase(name_node->UnParse());
+            return this->SnakeCaseToCamelCase(name_node->UnParse());
         }
         else
         {
@@ -928,12 +928,12 @@ namespace ctcode
 
     std::string CTCodeGenerator::GenerateGetterName(std::string member)
     {
-        return Concat(std::string("Get"), SnakeCaseToCamelCase(GenerateMimicName(member)));
+        return Concat(std::string("Get"), this->SnakeCaseToCamelCase(this->GenerateMimicName(member)));
     }
 
     std::string CTCodeGenerator::GenerateSetterName(std::string member)
     {
-        return Concat(std::string("Set"), SnakeCaseToCamelCase(GenerateMimicName(member)));
+        return Concat(std::string("Set"), this->SnakeCaseToCamelCase(this->GenerateMimicName(member)));
     }
 
     std::string CTCodeGenerator::SnakeCaseToCamelCase(std::string snake_case)
@@ -957,7 +957,7 @@ namespace ctcode
                 if (capitalize_this_letter == true)
                 {
                     std::string upper_character;
-                    upper_character = CharacterToUpper(source_character);
+                    upper_character = this->CharacterToUpper(source_character);
                     capitalize_this_letter = false;
                     camel_case = Concat(camel_case, upper_character);
                 }
@@ -987,8 +987,8 @@ namespace ctcode
             std::string source_character;
             source_character = At(camel_case, index);
             std::string lower_character;
-            lower_character = CharacterToLower(source_character);
-            if (IsUpper(source_character) || IsDigit(source_character))
+            lower_character = this->CharacterToLower(source_character);
+            if (this->IsUpper(source_character) || this->IsDigit(source_character))
             {
                 bool is_first_character;
                 is_first_character = Length(snake_case) == 0;
@@ -1078,7 +1078,7 @@ namespace ctcode
             std::string character;
             character = At(input, index);
             std::string lower_character;
-            lower_character = CharacterToLower(character);
+            lower_character = this->CharacterToLower(character);
             result = Concat(result, lower_character);
             index = index + 1;
         }
@@ -1232,7 +1232,7 @@ namespace ctcode
             std::string character;
             character = At(input, index);
             std::string upper_character;
-            upper_character = CharacterToUpper(character);
+            upper_character = this->CharacterToUpper(character);
             result = Concat(result, upper_character);
             index = index + 1;
         }
