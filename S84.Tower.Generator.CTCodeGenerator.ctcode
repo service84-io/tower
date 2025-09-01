@@ -471,13 +471,13 @@ class CTCodeGenerator implements S84.Tower.Generator.ctcode.Generator
 
         while (rule_index < Size(rules))
         {
-            S84.Tower.dbnf.ctcode.Rule rule = Element(rules, rule_index);
+            S84.Tower.dbnf.ctcode.Rule rule_for_parser = Element(rules, rule_index);
 
-            if (rule.GetName()) {
-                string class_name = Concat(myself.GenerateClassName(rule.GetName()), "Parser");
-                string field_name = Concat(myself.CamelCaseToSnakeCase(class_name), "_field");
-                string local_name = Concat(myself.CamelCaseToSnakeCase(class_name), "_instance");
-                myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ", class_name), " "), local_name), " = myself.parser_network."), myself.GenerateGetterName(field_name)), "();"));
+            if (rule_for_parser.GetName()) {
+                string rule_class_name = Concat(myself.GenerateClassName(rule_for_parser.GetName()), "Parser");
+                string field_name = Concat(myself.CamelCaseToSnakeCase(rule_class_name), "_field");
+                string local_name = Concat(myself.CamelCaseToSnakeCase(rule_class_name), "_instance");
+                myself.ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ", rule_class_name), " "), local_name), " = myself.parser_network."), myself.GenerateGetterName(field_name)), "();"));
             }
 
             rule_index = rule_index + 1;

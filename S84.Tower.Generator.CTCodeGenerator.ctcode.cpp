@@ -478,13 +478,13 @@ namespace ctcode
         int rule_index = 0;
         while (rule_index < Size(rules))
         {
-            OmniPointer<s84::tower::dbnf::ctcode::Rule> rule = Element(rules, rule_index);
-            if (rule->GetName())
+            OmniPointer<s84::tower::dbnf::ctcode::Rule> rule_for_parser = Element(rules, rule_index);
+            if (rule_for_parser->GetName())
             {
-                std::string class_name = Concat(this->GenerateClassName(rule->GetName()), std::string("Parser"));
-                std::string field_name = Concat(this->CamelCaseToSnakeCase(class_name), std::string("_field"));
-                std::string local_name = Concat(this->CamelCaseToSnakeCase(class_name), std::string("_instance"));
-                this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("        "), class_name), std::string(" ")), local_name), std::string(" = myself.parser_network.")), this->GenerateGetterName(field_name)), std::string("();")));
+                std::string rule_class_name = Concat(this->GenerateClassName(rule_for_parser->GetName()), std::string("Parser"));
+                std::string field_name = Concat(this->CamelCaseToSnakeCase(rule_class_name), std::string("_field"));
+                std::string local_name = Concat(this->CamelCaseToSnakeCase(rule_class_name), std::string("_instance"));
+                this->ctcode_file->WriteLine(Concat(Concat(Concat(Concat(Concat(Concat(std::string("        "), rule_class_name), std::string(" ")), local_name), std::string(" = myself.parser_network.")), this->GenerateGetterName(field_name)), std::string("();")));
             }
 
             rule_index = rule_index + 1;

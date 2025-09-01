@@ -25,13 +25,7 @@ class Main
         S84.Tower.Generator.ctcode.Generator{} generators;
 
         SetKV(generators, "CPPGenerator", myself.GetCPPGenerator());
-        SetKV(generators, "DSA::Vent::Tower::CPPGenerator", myself.GetCPPGenerator());
-        SetKV(generators, "S84::Tower::CPPGenerator", myself.GetCPPGenerator());
-        SetKV(generators, "s84::tower::CPPGenerator", myself.GetCPPGenerator());
         SetKV(generators, "CTCodeGenerator", myself.GetCTCodeGenerator());
-        SetKV(generators, "DSA::Vent::Tower::CTCodeGenerator", myself.GetCTCodeGenerator());
-        SetKV(generators, "S84::Tower::CTCodeGenerator", myself.GetCTCodeGenerator());
-        SetKV(generators, "s84::tower::CTCodeGenerator", myself.GetCTCodeGenerator());
         SetKV(generators, "LogToConsole", myself.GetLogToConsole());
 
         if (dbnf_file_name == "" || !HasKV(generators, generator)) {

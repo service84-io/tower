@@ -437,12 +437,12 @@ class CTCodeGenerator(S84_Tower_Generator_ctcode.Generator):
         rules: 'list[S84_Tower_dbnf_ctcode.Rule]' = grammar.GetRules()
         rule_index: 'int' = 0
         while rule_index<Size(rules):
-            rule: 'S84_Tower_dbnf_ctcode.Rule' = Element(rules,rule_index)
-            if rule.GetName():
-                class_name: 'str' = Concat(self.GenerateClassName(rule.GetName()),"Parser")
-                field_name: 'str' = Concat(self.CamelCaseToSnakeCase(class_name),"_field")
-                local_name: 'str' = Concat(self.CamelCaseToSnakeCase(class_name),"_instance")
-                self.ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ",class_name)," "),local_name)," = myself.parser_network."),self.GenerateGetterName(field_name)),"();"))
+            rule_for_parser: 'S84_Tower_dbnf_ctcode.Rule' = Element(rules,rule_index)
+            if rule_for_parser.GetName():
+                rule_class_name: 'str' = Concat(self.GenerateClassName(rule_for_parser.GetName()),"Parser")
+                field_name: 'str' = Concat(self.CamelCaseToSnakeCase(rule_class_name),"_field")
+                local_name: 'str' = Concat(self.CamelCaseToSnakeCase(rule_class_name),"_instance")
+                self.ctcode_file.WriteLine(Concat(Concat(Concat(Concat(Concat(Concat("        ",rule_class_name)," "),local_name)," = myself.parser_network."),self.GenerateGetterName(field_name)),"();"))
             rule_index = rule_index+1
         string_parser_class_name: 'str' = "StringParser"
         string_parser_field_name: 'str' = Concat(self.CamelCaseToSnakeCase(string_parser_class_name),"_field")

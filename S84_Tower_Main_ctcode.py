@@ -40,13 +40,7 @@ class Main:
         logger: 'S84_Tower_System_ctcode.OutputStream' = system.GetLoggerDestination()
         generators: 'dict[str, S84_Tower_Generator_ctcode.Generator]' = {}
         SetKV(generators,"CPPGenerator",self.GetCPPGenerator())
-        SetKV(generators,"DSA::Vent::Tower::CPPGenerator",self.GetCPPGenerator())
-        SetKV(generators,"S84::Tower::CPPGenerator",self.GetCPPGenerator())
-        SetKV(generators,"s84::tower::CPPGenerator",self.GetCPPGenerator())
         SetKV(generators,"CTCodeGenerator",self.GetCTCodeGenerator())
-        SetKV(generators,"DSA::Vent::Tower::CTCodeGenerator",self.GetCTCodeGenerator())
-        SetKV(generators,"S84::Tower::CTCodeGenerator",self.GetCTCodeGenerator())
-        SetKV(generators,"s84::tower::CTCodeGenerator",self.GetCTCodeGenerator())
         SetKV(generators,"LogToConsole",self.GetLogToConsole())
         if dbnf_file_name=="" or not HasKV(generators,generator):
             logger.WriteLine("tower <DBNF_File> <Generator>")
