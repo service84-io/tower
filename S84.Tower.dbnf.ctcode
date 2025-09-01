@@ -42,16 +42,16 @@ class StringParser
     function bool ParseSingle(LengthString index, string value)
     {
         StringResult result = new StringResult;
-        return ParseSingleSave(index, value, result);
+        return myself.ParseSingleSave(index, value, result);
     }
 }
 
 class StringResult
 {
-    function void SetValue(String new_value) { value = new_value; }
-    function String GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(String new_value) { myself.value = new_value; }
+    function String GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     String value;
     bool result;
@@ -59,10 +59,10 @@ class StringResult
 
 class StringListResult
 {
-    function void SetValue(String[] new_value) { value = new_value; }
-    function String[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(String[] new_value) { myself.value = new_value; }
+    function String[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     String[] value;
     bool result;
@@ -72,13 +72,13 @@ class String
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
+    function string UnParse() { return myself.length_string.GetString(); }
 
     LengthString length_string;
 }
@@ -108,10 +108,10 @@ class CharacterParser
 
 class CharacterResult
 {
-    function void SetValue(Character new_value) { value = new_value; }
-    function Character GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Character new_value) { myself.value = new_value; }
+    function Character GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Character value;
     bool result;
@@ -119,10 +119,10 @@ class CharacterResult
 
 class CharacterListResult
 {
-    function void SetValue(Character[] new_value) { value = new_value; }
-    function Character[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Character[] new_value) { myself.value = new_value; }
+    function Character[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Character[] value;
     bool result;
@@ -132,13 +132,13 @@ class Character
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
+    function string UnParse() { return myself.length_string.GetString(); }
 
     LengthString length_string;
 }
@@ -168,10 +168,10 @@ class CharacterRangeParser
 
 class CharacterRangeResult
 {
-    function void SetValue(CharacterRange new_value) { value = new_value; }
-    function CharacterRange GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(CharacterRange new_value) { myself.value = new_value; }
+    function CharacterRange GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     CharacterRange value;
     bool result;
@@ -179,10 +179,10 @@ class CharacterRangeResult
 
 class CharacterRangeListResult
 {
-    function void SetValue(CharacterRange[] new_value) { value = new_value; }
-    function CharacterRange[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(CharacterRange[] new_value) { myself.value = new_value; }
+    function CharacterRange[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     CharacterRange[] value;
     bool result;
@@ -192,13 +192,13 @@ class CharacterRange
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
+    function string UnParse() { return myself.length_string.GetString(); }
 
     LengthString length_string;
 }
@@ -206,254 +206,255 @@ class CharacterRange
 class ParserNetwork
 {
     GrammarParser grammar_parser_field;
-    function GrammarParser GetGrammarParser() { return grammar_parser_field; }
+    function GrammarParser GetGrammarParser() { return myself.grammar_parser_field; }
     RuleParser rule_parser_field;
-    function RuleParser GetRuleParser() { return rule_parser_field; }
+    function RuleParser GetRuleParser() { return myself.rule_parser_field; }
     ExpressionParser expression_parser_field;
-    function ExpressionParser GetExpressionParser() { return expression_parser_field; }
+    function ExpressionParser GetExpressionParser() { return myself.expression_parser_field; }
     TokenParser token_parser_field;
-    function TokenParser GetTokenParser() { return token_parser_field; }
+    function TokenParser GetTokenParser() { return myself.token_parser_field; }
     SimpleTokenParser simple_token_parser_field;
-    function SimpleTokenParser GetSimpleTokenParser() { return simple_token_parser_field; }
+    function SimpleTokenParser GetSimpleTokenParser() { return myself.simple_token_parser_field; }
     ModifierParser modifier_parser_field;
-    function ModifierParser GetModifierParser() { return modifier_parser_field; }
+    function ModifierParser GetModifierParser() { return myself.modifier_parser_field; }
     CardinalityParser cardinality_parser_field;
-    function CardinalityParser GetCardinalityParser() { return cardinality_parser_field; }
+    function CardinalityParser GetCardinalityParser() { return myself.cardinality_parser_field; }
     NameParser name_parser_field;
-    function NameParser GetNameParser() { return name_parser_field; }
+    function NameParser GetNameParser() { return myself.name_parser_field; }
     NameCharacterParser name_character_parser_field;
-    function NameCharacterParser GetNameCharacterParser() { return name_character_parser_field; }
+    function NameCharacterParser GetNameCharacterParser() { return myself.name_character_parser_field; }
     NumberParser number_parser_field;
-    function NumberParser GetNumberParser() { return number_parser_field; }
+    function NumberParser GetNumberParser() { return myself.number_parser_field; }
     DigitParser digit_parser_field;
-    function DigitParser GetDigitParser() { return digit_parser_field; }
+    function DigitParser GetDigitParser() { return myself.digit_parser_field; }
     PunctuationParser punctuation_parser_field;
-    function PunctuationParser GetPunctuationParser() { return punctuation_parser_field; }
+    function PunctuationParser GetPunctuationParser() { return myself.punctuation_parser_field; }
     CommentCharacterParser comment_character_parser_field;
-    function CommentCharacterParser GetCommentCharacterParser() { return comment_character_parser_field; }
+    function CommentCharacterParser GetCommentCharacterParser() { return myself.comment_character_parser_field; }
     CommentParser comment_parser_field;
-    function CommentParser GetCommentParser() { return comment_parser_field; }
+    function CommentParser GetCommentParser() { return myself.comment_parser_field; }
     LiteralParser literal_parser_field;
-    function LiteralParser GetLiteralParser() { return literal_parser_field; }
+    function LiteralParser GetLiteralParser() { return myself.literal_parser_field; }
     LiteralCharacterParser literal_character_parser_field;
-    function LiteralCharacterParser GetLiteralCharacterParser() { return literal_character_parser_field; }
+    function LiteralCharacterParser GetLiteralCharacterParser() { return myself.literal_character_parser_field; }
     HexDigitParser hex_digit_parser_field;
-    function HexDigitParser GetHexDigitParser() { return hex_digit_parser_field; }
+    function HexDigitParser GetHexDigitParser() { return myself.hex_digit_parser_field; }
     WhitespaceParser whitespace_parser_field;
-    function WhitespaceParser GetWhitespaceParser() { return whitespace_parser_field; }
+    function WhitespaceParser GetWhitespaceParser() { return myself.whitespace_parser_field; }
     EolParser eol_parser_field;
-    function EolParser GetEolParser() { return eol_parser_field; }
+    function EolParser GetEolParser() { return myself.eol_parser_field; }
     StringParser string_parser_field;
-    function StringParser GetStringParser() { return string_parser_field;}
+    function StringParser GetStringParser() { return myself.string_parser_field;}
     CharacterParser character_parser_field;
-    function CharacterParser GetCharacterParser() { return character_parser_field;}
+    function CharacterParser GetCharacterParser() { return myself.character_parser_field;}
     CharacterRangeParser character_range_parser_field;
-    function CharacterRangeParser GetCharacterRangeParser() { return character_range_parser_field;}
+    function CharacterRangeParser GetCharacterRangeParser() { return myself.character_range_parser_field;}
     function void Initialize() {
-        grammar_parser_field = new GrammarParser;
-        grammar_parser_field.SetParserNetwork(myself);
-        rule_parser_field = new RuleParser;
-        rule_parser_field.SetParserNetwork(myself);
-        expression_parser_field = new ExpressionParser;
-        expression_parser_field.SetParserNetwork(myself);
-        token_parser_field = new TokenParser;
-        token_parser_field.SetParserNetwork(myself);
-        simple_token_parser_field = new SimpleTokenParser;
-        simple_token_parser_field.SetParserNetwork(myself);
-        modifier_parser_field = new ModifierParser;
-        modifier_parser_field.SetParserNetwork(myself);
-        cardinality_parser_field = new CardinalityParser;
-        cardinality_parser_field.SetParserNetwork(myself);
-        name_parser_field = new NameParser;
-        name_parser_field.SetParserNetwork(myself);
-        name_character_parser_field = new NameCharacterParser;
-        name_character_parser_field.SetParserNetwork(myself);
-        number_parser_field = new NumberParser;
-        number_parser_field.SetParserNetwork(myself);
-        digit_parser_field = new DigitParser;
-        digit_parser_field.SetParserNetwork(myself);
-        punctuation_parser_field = new PunctuationParser;
-        punctuation_parser_field.SetParserNetwork(myself);
-        comment_character_parser_field = new CommentCharacterParser;
-        comment_character_parser_field.SetParserNetwork(myself);
-        comment_parser_field = new CommentParser;
-        comment_parser_field.SetParserNetwork(myself);
-        literal_parser_field = new LiteralParser;
-        literal_parser_field.SetParserNetwork(myself);
-        literal_character_parser_field = new LiteralCharacterParser;
-        literal_character_parser_field.SetParserNetwork(myself);
-        hex_digit_parser_field = new HexDigitParser;
-        hex_digit_parser_field.SetParserNetwork(myself);
-        whitespace_parser_field = new WhitespaceParser;
-        whitespace_parser_field.SetParserNetwork(myself);
-        eol_parser_field = new EolParser;
-        eol_parser_field.SetParserNetwork(myself);
-        string_parser_field = new StringParser;
-        character_parser_field = new CharacterParser;
+        myself.grammar_parser_field = new GrammarParser;
+        myself.grammar_parser_field.SetParserNetwork(myself);
+        myself.rule_parser_field = new RuleParser;
+        myself.rule_parser_field.SetParserNetwork(myself);
+        myself.expression_parser_field = new ExpressionParser;
+        myself.expression_parser_field.SetParserNetwork(myself);
+        myself.token_parser_field = new TokenParser;
+        myself.token_parser_field.SetParserNetwork(myself);
+        myself.simple_token_parser_field = new SimpleTokenParser;
+        myself.simple_token_parser_field.SetParserNetwork(myself);
+        myself.modifier_parser_field = new ModifierParser;
+        myself.modifier_parser_field.SetParserNetwork(myself);
+        myself.cardinality_parser_field = new CardinalityParser;
+        myself.cardinality_parser_field.SetParserNetwork(myself);
+        myself.name_parser_field = new NameParser;
+        myself.name_parser_field.SetParserNetwork(myself);
+        myself.name_character_parser_field = new NameCharacterParser;
+        myself.name_character_parser_field.SetParserNetwork(myself);
+        myself.number_parser_field = new NumberParser;
+        myself.number_parser_field.SetParserNetwork(myself);
+        myself.digit_parser_field = new DigitParser;
+        myself.digit_parser_field.SetParserNetwork(myself);
+        myself.punctuation_parser_field = new PunctuationParser;
+        myself.punctuation_parser_field.SetParserNetwork(myself);
+        myself.comment_character_parser_field = new CommentCharacterParser;
+        myself.comment_character_parser_field.SetParserNetwork(myself);
+        myself.comment_parser_field = new CommentParser;
+        myself.comment_parser_field.SetParserNetwork(myself);
+        myself.literal_parser_field = new LiteralParser;
+        myself.literal_parser_field.SetParserNetwork(myself);
+        myself.literal_character_parser_field = new LiteralCharacterParser;
+        myself.literal_character_parser_field.SetParserNetwork(myself);
+        myself.hex_digit_parser_field = new HexDigitParser;
+        myself.hex_digit_parser_field.SetParserNetwork(myself);
+        myself.whitespace_parser_field = new WhitespaceParser;
+        myself.whitespace_parser_field.SetParserNetwork(myself);
+        myself.eol_parser_field = new EolParser;
+        myself.eol_parser_field.SetParserNetwork(myself);
+        myself.string_parser_field = new StringParser;
+        myself.character_parser_field = new CharacterParser;
+        myself.character_range_parser_field = new CharacterRangeParser;
     }
 }
 
 class DBNFOmniType
 {
     Grammar grammar_field;
-    function void SetGrammar(Grammar input_value) { grammar_field = input_value; }
-    function Grammar GetGrammar() { return grammar_field; }
+    function void SetGrammar(Grammar input_value) { myself.grammar_field = input_value; }
+    function Grammar GetGrammar() { return myself.grammar_field; }
     Rule rule_field;
-    function void SetRule(Rule input_value) { rule_field = input_value; }
-    function Rule GetRule() { return rule_field; }
+    function void SetRule(Rule input_value) { myself.rule_field = input_value; }
+    function Rule GetRule() { return myself.rule_field; }
     Expression expression_field;
-    function void SetExpression(Expression input_value) { expression_field = input_value; }
-    function Expression GetExpression() { return expression_field; }
+    function void SetExpression(Expression input_value) { myself.expression_field = input_value; }
+    function Expression GetExpression() { return myself.expression_field; }
     Token token_field;
-    function void SetToken(Token input_value) { token_field = input_value; }
-    function Token GetToken() { return token_field; }
+    function void SetToken(Token input_value) { myself.token_field = input_value; }
+    function Token GetToken() { return myself.token_field; }
     SimpleToken simple_token_field;
-    function void SetSimpleToken(SimpleToken input_value) { simple_token_field = input_value; }
-    function SimpleToken GetSimpleToken() { return simple_token_field; }
+    function void SetSimpleToken(SimpleToken input_value) { myself.simple_token_field = input_value; }
+    function SimpleToken GetSimpleToken() { return myself.simple_token_field; }
     Modifier modifier_field;
-    function void SetModifier(Modifier input_value) { modifier_field = input_value; }
-    function Modifier GetModifier() { return modifier_field; }
+    function void SetModifier(Modifier input_value) { myself.modifier_field = input_value; }
+    function Modifier GetModifier() { return myself.modifier_field; }
     Cardinality cardinality_field;
-    function void SetCardinality(Cardinality input_value) { cardinality_field = input_value; }
-    function Cardinality GetCardinality() { return cardinality_field; }
+    function void SetCardinality(Cardinality input_value) { myself.cardinality_field = input_value; }
+    function Cardinality GetCardinality() { return myself.cardinality_field; }
     Name name_field;
-    function void SetName(Name input_value) { name_field = input_value; }
-    function Name GetName() { return name_field; }
+    function void SetName(Name input_value) { myself.name_field = input_value; }
+    function Name GetName() { return myself.name_field; }
     NameCharacter name_character_field;
-    function void SetNameCharacter(NameCharacter input_value) { name_character_field = input_value; }
-    function NameCharacter GetNameCharacter() { return name_character_field; }
+    function void SetNameCharacter(NameCharacter input_value) { myself.name_character_field = input_value; }
+    function NameCharacter GetNameCharacter() { return myself.name_character_field; }
     Number number_field;
-    function void SetNumber(Number input_value) { number_field = input_value; }
-    function Number GetNumber() { return number_field; }
+    function void SetNumber(Number input_value) { myself.number_field = input_value; }
+    function Number GetNumber() { return myself.number_field; }
     Digit digit_field;
-    function void SetDigit(Digit input_value) { digit_field = input_value; }
-    function Digit GetDigit() { return digit_field; }
+    function void SetDigit(Digit input_value) { myself.digit_field = input_value; }
+    function Digit GetDigit() { return myself.digit_field; }
     Punctuation punctuation_field;
-    function void SetPunctuation(Punctuation input_value) { punctuation_field = input_value; }
-    function Punctuation GetPunctuation() { return punctuation_field; }
+    function void SetPunctuation(Punctuation input_value) { myself.punctuation_field = input_value; }
+    function Punctuation GetPunctuation() { return myself.punctuation_field; }
     CommentCharacter comment_character_field;
-    function void SetCommentCharacter(CommentCharacter input_value) { comment_character_field = input_value; }
-    function CommentCharacter GetCommentCharacter() { return comment_character_field; }
+    function void SetCommentCharacter(CommentCharacter input_value) { myself.comment_character_field = input_value; }
+    function CommentCharacter GetCommentCharacter() { return myself.comment_character_field; }
     Comment comment_field;
-    function void SetComment(Comment input_value) { comment_field = input_value; }
-    function Comment GetComment() { return comment_field; }
+    function void SetComment(Comment input_value) { myself.comment_field = input_value; }
+    function Comment GetComment() { return myself.comment_field; }
     Literal literal_field;
-    function void SetLiteral(Literal input_value) { literal_field = input_value; }
-    function Literal GetLiteral() { return literal_field; }
+    function void SetLiteral(Literal input_value) { myself.literal_field = input_value; }
+    function Literal GetLiteral() { return myself.literal_field; }
     LiteralCharacter literal_character_field;
-    function void SetLiteralCharacter(LiteralCharacter input_value) { literal_character_field = input_value; }
-    function LiteralCharacter GetLiteralCharacter() { return literal_character_field; }
+    function void SetLiteralCharacter(LiteralCharacter input_value) { myself.literal_character_field = input_value; }
+    function LiteralCharacter GetLiteralCharacter() { return myself.literal_character_field; }
     HexDigit hex_digit_field;
-    function void SetHexDigit(HexDigit input_value) { hex_digit_field = input_value; }
-    function HexDigit GetHexDigit() { return hex_digit_field; }
+    function void SetHexDigit(HexDigit input_value) { myself.hex_digit_field = input_value; }
+    function HexDigit GetHexDigit() { return myself.hex_digit_field; }
     Whitespace whitespace_field;
-    function void SetWhitespace(Whitespace input_value) { whitespace_field = input_value; }
-    function Whitespace GetWhitespace() { return whitespace_field; }
+    function void SetWhitespace(Whitespace input_value) { myself.whitespace_field = input_value; }
+    function Whitespace GetWhitespace() { return myself.whitespace_field; }
     Eol eol_field;
-    function void SetEol(Eol input_value) { eol_field = input_value; }
-    function Eol GetEol() { return eol_field; }
+    function void SetEol(Eol input_value) { myself.eol_field = input_value; }
+    function Eol GetEol() { return myself.eol_field; }
 }
 
 class DBNFOmniTypeResult
 {
-    function void SetValue(DBNFOmniType new_value) { value = new_value; }
-    function DBNFOmniType GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(DBNFOmniType new_value) { myself.value = new_value; }
+    function DBNFOmniType GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
     function void SetGrammar(Grammar input_value)
     {
-        value = new DBNFOmniType;
-        value.SetGrammar(input_value);
+        myself.value = new DBNFOmniType;
+        myself.value.SetGrammar(input_value);
     }
     function void SetRule(Rule input_value)
     {
-        value = new DBNFOmniType;
-        value.SetRule(input_value);
+        myself.value = new DBNFOmniType;
+        myself.value.SetRule(input_value);
     }
     function void SetExpression(Expression input_value)
     {
-        value = new DBNFOmniType;
-        value.SetExpression(input_value);
+        myself.value = new DBNFOmniType;
+        myself.value.SetExpression(input_value);
     }
     function void SetToken(Token input_value)
     {
-        value = new DBNFOmniType;
-        value.SetToken(input_value);
+        myself.value = new DBNFOmniType;
+        myself.value.SetToken(input_value);
     }
     function void SetSimpleToken(SimpleToken input_value)
     {
-        value = new DBNFOmniType;
-        value.SetSimpleToken(input_value);
+        myself.value = new DBNFOmniType;
+        myself.value.SetSimpleToken(input_value);
     }
     function void SetModifier(Modifier input_value)
     {
-        value = new DBNFOmniType;
-        value.SetModifier(input_value);
+        myself.value = new DBNFOmniType;
+        myself.value.SetModifier(input_value);
     }
     function void SetCardinality(Cardinality input_value)
     {
-        value = new DBNFOmniType;
-        value.SetCardinality(input_value);
+        myself.value = new DBNFOmniType;
+        myself.value.SetCardinality(input_value);
     }
     function void SetName(Name input_value)
     {
-        value = new DBNFOmniType;
-        value.SetName(input_value);
+        myself.value = new DBNFOmniType;
+        myself.value.SetName(input_value);
     }
     function void SetNameCharacter(NameCharacter input_value)
     {
-        value = new DBNFOmniType;
-        value.SetNameCharacter(input_value);
+        myself.value = new DBNFOmniType;
+        myself.value.SetNameCharacter(input_value);
     }
     function void SetNumber(Number input_value)
     {
-        value = new DBNFOmniType;
-        value.SetNumber(input_value);
+        myself.value = new DBNFOmniType;
+        myself.value.SetNumber(input_value);
     }
     function void SetDigit(Digit input_value)
     {
-        value = new DBNFOmniType;
-        value.SetDigit(input_value);
+        myself.value = new DBNFOmniType;
+        myself.value.SetDigit(input_value);
     }
     function void SetPunctuation(Punctuation input_value)
     {
-        value = new DBNFOmniType;
-        value.SetPunctuation(input_value);
+        myself.value = new DBNFOmniType;
+        myself.value.SetPunctuation(input_value);
     }
     function void SetCommentCharacter(CommentCharacter input_value)
     {
-        value = new DBNFOmniType;
-        value.SetCommentCharacter(input_value);
+        myself.value = new DBNFOmniType;
+        myself.value.SetCommentCharacter(input_value);
     }
     function void SetComment(Comment input_value)
     {
-        value = new DBNFOmniType;
-        value.SetComment(input_value);
+        myself.value = new DBNFOmniType;
+        myself.value.SetComment(input_value);
     }
     function void SetLiteral(Literal input_value)
     {
-        value = new DBNFOmniType;
-        value.SetLiteral(input_value);
+        myself.value = new DBNFOmniType;
+        myself.value.SetLiteral(input_value);
     }
     function void SetLiteralCharacter(LiteralCharacter input_value)
     {
-        value = new DBNFOmniType;
-        value.SetLiteralCharacter(input_value);
+        myself.value = new DBNFOmniType;
+        myself.value.SetLiteralCharacter(input_value);
     }
     function void SetHexDigit(HexDigit input_value)
     {
-        value = new DBNFOmniType;
-        value.SetHexDigit(input_value);
+        myself.value = new DBNFOmniType;
+        myself.value.SetHexDigit(input_value);
     }
     function void SetWhitespace(Whitespace input_value)
     {
-        value = new DBNFOmniType;
-        value.SetWhitespace(input_value);
+        myself.value = new DBNFOmniType;
+        myself.value.SetWhitespace(input_value);
     }
     function void SetEol(Eol input_value)
     {
-        value = new DBNFOmniType;
-        value.SetEol(input_value);
+        myself.value = new DBNFOmniType;
+        myself.value.SetEol(input_value);
     }
 
     DBNFOmniType value;
@@ -462,10 +463,10 @@ class DBNFOmniTypeResult
 
 class DBNFOmniTypeListResult
 {
-    function void SetValue(DBNFOmniType[] new_value) { value = new_value; }
-    function DBNFOmniType[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(DBNFOmniType[] new_value) { myself.value = new_value; }
+    function DBNFOmniType[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
     function void SetGrammar(Grammar[] input_value)
     {
         int index = 0;
@@ -681,28 +682,28 @@ class DBNFOmniTypeListResult
 
 class LargeString
 {
-    function void SetData(string new_data) { data = new_data; }
-    function string GetData() { return data; }
-    function int GetIntAt(int offset) { return IntAt(data, offset); }
-    function string GetAt(int offset) { return At(data, offset); }
+    function void SetData(string new_data) { myself.data = new_data; }
+    function string GetData() { return myself.data; }
+    function int GetIntAt(int offset) { return IntAt(myself.data, offset); }
+    function string GetAt(int offset) { return At(myself.data, offset); }
 
     string data;
 }
 
 class LengthString
 {
-    function void SetData(LargeString new_data) { data = new_data; }
-    function LargeString GetData() { return data; }
-    function void SetStart(int new_start) { start = new_start; }
-    function int GetStart() { return start; }
-    function void SetLength(int new_length) { length = new_length; }
-    function int GetLength() { return length; }
+    function void SetData(LargeString new_data) { myself.data = new_data; }
+    function LargeString GetData() { return myself.data; }
+    function void SetStart(int new_start) { myself.start = new_start; }
+    function int GetStart() { return myself.start; }
+    function void SetLength(int new_length) { myself.length = new_length; }
+    function int GetLength() { return myself.length; }
     function string GetString()
     {
-        string deep_data = data.GetData();
+        string deep_data = myself.data.GetData();
         string result;
-        int index = start;
-        int end = start + length;
+        int index = myself.start;
+        int end = myself.start + myself.length;
 
         while (index < end)
         {
@@ -721,7 +722,7 @@ class LengthString
 class GrammarParser
 {
     ParserNetwork parser_network;
-    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }
+    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }
     function bool ParseSingleSave(LengthString index, GrammarResult result)
     {
         int index_start = index.GetStart();
@@ -733,28 +734,28 @@ class GrammarParser
         Grammar instance = new Grammar;
         RuleListResult rules_field = new RuleListResult;
 
-        GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
-        RuleParser rule_parser_instance = parser_network.GetRuleParser();
-        ExpressionParser expression_parser_instance = parser_network.GetExpressionParser();
-        TokenParser token_parser_instance = parser_network.GetTokenParser();
-        SimpleTokenParser simple_token_parser_instance = parser_network.GetSimpleTokenParser();
-        ModifierParser modifier_parser_instance = parser_network.GetModifierParser();
-        CardinalityParser cardinality_parser_instance = parser_network.GetCardinalityParser();
-        NameParser name_parser_instance = parser_network.GetNameParser();
-        NameCharacterParser name_character_parser_instance = parser_network.GetNameCharacterParser();
-        NumberParser number_parser_instance = parser_network.GetNumberParser();
-        DigitParser digit_parser_instance = parser_network.GetDigitParser();
-        PunctuationParser punctuation_parser_instance = parser_network.GetPunctuationParser();
-        CommentCharacterParser comment_character_parser_instance = parser_network.GetCommentCharacterParser();
-        CommentParser comment_parser_instance = parser_network.GetCommentParser();
-        LiteralParser literal_parser_instance = parser_network.GetLiteralParser();
-        LiteralCharacterParser literal_character_parser_instance = parser_network.GetLiteralCharacterParser();
-        HexDigitParser hex_digit_parser_instance = parser_network.GetHexDigitParser();
-        WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
-        EolParser eol_parser_instance = parser_network.GetEolParser();
-        StringParser string_parser_instance = parser_network.GetStringParser();
-        CharacterParser character_parser_instance = parser_network.GetCharacterParser();
-        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
+        GrammarParser grammar_parser_instance = myself.parser_network.GetGrammarParser();
+        RuleParser rule_parser_instance = myself.parser_network.GetRuleParser();
+        ExpressionParser expression_parser_instance = myself.parser_network.GetExpressionParser();
+        TokenParser token_parser_instance = myself.parser_network.GetTokenParser();
+        SimpleTokenParser simple_token_parser_instance = myself.parser_network.GetSimpleTokenParser();
+        ModifierParser modifier_parser_instance = myself.parser_network.GetModifierParser();
+        CardinalityParser cardinality_parser_instance = myself.parser_network.GetCardinalityParser();
+        NameParser name_parser_instance = myself.parser_network.GetNameParser();
+        NameCharacterParser name_character_parser_instance = myself.parser_network.GetNameCharacterParser();
+        NumberParser number_parser_instance = myself.parser_network.GetNumberParser();
+        DigitParser digit_parser_instance = myself.parser_network.GetDigitParser();
+        PunctuationParser punctuation_parser_instance = myself.parser_network.GetPunctuationParser();
+        CommentCharacterParser comment_character_parser_instance = myself.parser_network.GetCommentCharacterParser();
+        CommentParser comment_parser_instance = myself.parser_network.GetCommentParser();
+        LiteralParser literal_parser_instance = myself.parser_network.GetLiteralParser();
+        LiteralCharacterParser literal_character_parser_instance = myself.parser_network.GetLiteralCharacterParser();
+        HexDigitParser hex_digit_parser_instance = myself.parser_network.GetHexDigitParser();
+        WhitespaceParser whitespace_parser_instance = myself.parser_network.GetWhitespaceParser();
+        EolParser eol_parser_instance = myself.parser_network.GetEolParser();
+        StringParser string_parser_instance = myself.parser_network.GetStringParser();
+        CharacterParser character_parser_instance = myself.parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = myself.parser_network.GetCharacterRangeParser();
 
         if (true && rule_parser_instance.ParseManySave(index, rules_field, 0, -1)) {
             instance.SetRules(rules_field.GetValue());
@@ -776,12 +777,12 @@ class GrammarParser
     function bool ParseSingle(LengthString index)
     {
         GrammarResult result = new GrammarResult;
-        return ParseSingleSave(index, result);
+        return myself.ParseSingleSave(index, result);
     }
 
     function bool ParseOptionalSave(LengthString index, GrammarResult result)
     {
-        ParseSingleSave(index, result);
+        myself.ParseSingleSave(index, result);
         result.SetResult(true);
         return true;
     }
@@ -789,7 +790,7 @@ class GrammarParser
     function bool ParseOptional(LengthString index)
     {
         GrammarResult result = new GrammarResult;
-        return ParseOptionalSave(index, result);
+        return myself.ParseOptionalSave(index, result);
     }
 
     function bool ParseManySave(LengthString index, GrammarListResult list_result, int minimum, int maximum)
@@ -809,7 +810,7 @@ class GrammarParser
         while (check_next && count < max_check)
         {
             GrammarResult result = new GrammarResult;
-            ParseSingleSave(index, result);
+            myself.ParseSingleSave(index, result);
             check_next = result.GetResult();
 
             if (result.GetResult())
@@ -840,16 +841,16 @@ class GrammarParser
     function bool ParseMany(LengthString index, int minimum, int maximum)
     {
         GrammarListResult result = new GrammarListResult;
-        return ParseManySave(index, result, minimum, maximum);
+        return myself.ParseManySave(index, result, minimum, maximum);
     }
 }
 
 class GrammarResult
 {
-    function void SetValue(Grammar new_value) { value = new_value; }
-    function Grammar GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Grammar new_value) { myself.value = new_value; }
+    function Grammar GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Grammar value;
     bool result;
@@ -857,10 +858,10 @@ class GrammarResult
 
 class GrammarListResult
 {
-    function void SetValue(Grammar[] new_value) { value = new_value; }
-    function Grammar[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Grammar[] new_value) { myself.value = new_value; }
+    function Grammar[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Grammar[] value;
     bool result;
@@ -870,15 +871,15 @@ class Grammar
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
-    function void SetRules(Rule[] input_value) { rules_field = input_value; }
-    function Rule[] GetRules() { return rules_field; }
+    function string UnParse() { return myself.length_string.GetString(); }
+    function void SetRules(Rule[] input_value) { myself.rules_field = input_value; }
+    function Rule[] GetRules() { return myself.rules_field; }
 
     LengthString length_string;
     Rule[] rules_field;
@@ -887,7 +888,7 @@ class Grammar
 class RuleParser
 {
     ParserNetwork parser_network;
-    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }
+    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }
     function bool ParseSingleSave(LengthString index, RuleResult result)
     {
         int index_start = index.GetStart();
@@ -900,28 +901,28 @@ class RuleParser
         ExpressionListResult expressions_field = new ExpressionListResult;
         NameResult name_field = new NameResult;
 
-        GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
-        RuleParser rule_parser_instance = parser_network.GetRuleParser();
-        ExpressionParser expression_parser_instance = parser_network.GetExpressionParser();
-        TokenParser token_parser_instance = parser_network.GetTokenParser();
-        SimpleTokenParser simple_token_parser_instance = parser_network.GetSimpleTokenParser();
-        ModifierParser modifier_parser_instance = parser_network.GetModifierParser();
-        CardinalityParser cardinality_parser_instance = parser_network.GetCardinalityParser();
-        NameParser name_parser_instance = parser_network.GetNameParser();
-        NameCharacterParser name_character_parser_instance = parser_network.GetNameCharacterParser();
-        NumberParser number_parser_instance = parser_network.GetNumberParser();
-        DigitParser digit_parser_instance = parser_network.GetDigitParser();
-        PunctuationParser punctuation_parser_instance = parser_network.GetPunctuationParser();
-        CommentCharacterParser comment_character_parser_instance = parser_network.GetCommentCharacterParser();
-        CommentParser comment_parser_instance = parser_network.GetCommentParser();
-        LiteralParser literal_parser_instance = parser_network.GetLiteralParser();
-        LiteralCharacterParser literal_character_parser_instance = parser_network.GetLiteralCharacterParser();
-        HexDigitParser hex_digit_parser_instance = parser_network.GetHexDigitParser();
-        WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
-        EolParser eol_parser_instance = parser_network.GetEolParser();
-        StringParser string_parser_instance = parser_network.GetStringParser();
-        CharacterParser character_parser_instance = parser_network.GetCharacterParser();
-        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
+        GrammarParser grammar_parser_instance = myself.parser_network.GetGrammarParser();
+        RuleParser rule_parser_instance = myself.parser_network.GetRuleParser();
+        ExpressionParser expression_parser_instance = myself.parser_network.GetExpressionParser();
+        TokenParser token_parser_instance = myself.parser_network.GetTokenParser();
+        SimpleTokenParser simple_token_parser_instance = myself.parser_network.GetSimpleTokenParser();
+        ModifierParser modifier_parser_instance = myself.parser_network.GetModifierParser();
+        CardinalityParser cardinality_parser_instance = myself.parser_network.GetCardinalityParser();
+        NameParser name_parser_instance = myself.parser_network.GetNameParser();
+        NameCharacterParser name_character_parser_instance = myself.parser_network.GetNameCharacterParser();
+        NumberParser number_parser_instance = myself.parser_network.GetNumberParser();
+        DigitParser digit_parser_instance = myself.parser_network.GetDigitParser();
+        PunctuationParser punctuation_parser_instance = myself.parser_network.GetPunctuationParser();
+        CommentCharacterParser comment_character_parser_instance = myself.parser_network.GetCommentCharacterParser();
+        CommentParser comment_parser_instance = myself.parser_network.GetCommentParser();
+        LiteralParser literal_parser_instance = myself.parser_network.GetLiteralParser();
+        LiteralCharacterParser literal_character_parser_instance = myself.parser_network.GetLiteralCharacterParser();
+        HexDigitParser hex_digit_parser_instance = myself.parser_network.GetHexDigitParser();
+        WhitespaceParser whitespace_parser_instance = myself.parser_network.GetWhitespaceParser();
+        EolParser eol_parser_instance = myself.parser_network.GetEolParser();
+        StringParser string_parser_instance = myself.parser_network.GetStringParser();
+        CharacterParser character_parser_instance = myself.parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = myself.parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "<") && name_parser_instance.ParseSingleSave(index, name_field) && string_parser_instance.ParseSingle(index, ">") && expression_parser_instance.ParseManySave(index, expressions_field, 0, -1)) {
             instance.SetExpressions(expressions_field.GetValue());
@@ -960,12 +961,12 @@ class RuleParser
     function bool ParseSingle(LengthString index)
     {
         RuleResult result = new RuleResult;
-        return ParseSingleSave(index, result);
+        return myself.ParseSingleSave(index, result);
     }
 
     function bool ParseOptionalSave(LengthString index, RuleResult result)
     {
-        ParseSingleSave(index, result);
+        myself.ParseSingleSave(index, result);
         result.SetResult(true);
         return true;
     }
@@ -973,7 +974,7 @@ class RuleParser
     function bool ParseOptional(LengthString index)
     {
         RuleResult result = new RuleResult;
-        return ParseOptionalSave(index, result);
+        return myself.ParseOptionalSave(index, result);
     }
 
     function bool ParseManySave(LengthString index, RuleListResult list_result, int minimum, int maximum)
@@ -993,7 +994,7 @@ class RuleParser
         while (check_next && count < max_check)
         {
             RuleResult result = new RuleResult;
-            ParseSingleSave(index, result);
+            myself.ParseSingleSave(index, result);
             check_next = result.GetResult();
 
             if (result.GetResult())
@@ -1024,16 +1025,16 @@ class RuleParser
     function bool ParseMany(LengthString index, int minimum, int maximum)
     {
         RuleListResult result = new RuleListResult;
-        return ParseManySave(index, result, minimum, maximum);
+        return myself.ParseManySave(index, result, minimum, maximum);
     }
 }
 
 class RuleResult
 {
-    function void SetValue(Rule new_value) { value = new_value; }
-    function Rule GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Rule new_value) { myself.value = new_value; }
+    function Rule GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Rule value;
     bool result;
@@ -1041,10 +1042,10 @@ class RuleResult
 
 class RuleListResult
 {
-    function void SetValue(Rule[] new_value) { value = new_value; }
-    function Rule[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Rule[] new_value) { myself.value = new_value; }
+    function Rule[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Rule[] value;
     bool result;
@@ -1054,17 +1055,17 @@ class Rule
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
-    function void SetExpressions(Expression[] input_value) { expressions_field = input_value; }
-    function Expression[] GetExpressions() { return expressions_field; }
-    function void SetName(Name input_value) { name_field = input_value; }
-    function Name GetName() { return name_field; }
+    function string UnParse() { return myself.length_string.GetString(); }
+    function void SetExpressions(Expression[] input_value) { myself.expressions_field = input_value; }
+    function Expression[] GetExpressions() { return myself.expressions_field; }
+    function void SetName(Name input_value) { myself.name_field = input_value; }
+    function Name GetName() { return myself.name_field; }
 
     LengthString length_string;
     Expression[] expressions_field;
@@ -1074,7 +1075,7 @@ class Rule
 class ExpressionParser
 {
     ParserNetwork parser_network;
-    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }
+    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }
     function bool ParseSingleSave(LengthString index, ExpressionResult result)
     {
         int index_start = index.GetStart();
@@ -1087,28 +1088,28 @@ class ExpressionParser
         TokenListResult token_sequence_field = new TokenListResult;
         StringResult expression_discriminator_field = new StringResult;
 
-        GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
-        RuleParser rule_parser_instance = parser_network.GetRuleParser();
-        ExpressionParser expression_parser_instance = parser_network.GetExpressionParser();
-        TokenParser token_parser_instance = parser_network.GetTokenParser();
-        SimpleTokenParser simple_token_parser_instance = parser_network.GetSimpleTokenParser();
-        ModifierParser modifier_parser_instance = parser_network.GetModifierParser();
-        CardinalityParser cardinality_parser_instance = parser_network.GetCardinalityParser();
-        NameParser name_parser_instance = parser_network.GetNameParser();
-        NameCharacterParser name_character_parser_instance = parser_network.GetNameCharacterParser();
-        NumberParser number_parser_instance = parser_network.GetNumberParser();
-        DigitParser digit_parser_instance = parser_network.GetDigitParser();
-        PunctuationParser punctuation_parser_instance = parser_network.GetPunctuationParser();
-        CommentCharacterParser comment_character_parser_instance = parser_network.GetCommentCharacterParser();
-        CommentParser comment_parser_instance = parser_network.GetCommentParser();
-        LiteralParser literal_parser_instance = parser_network.GetLiteralParser();
-        LiteralCharacterParser literal_character_parser_instance = parser_network.GetLiteralCharacterParser();
-        HexDigitParser hex_digit_parser_instance = parser_network.GetHexDigitParser();
-        WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
-        EolParser eol_parser_instance = parser_network.GetEolParser();
-        StringParser string_parser_instance = parser_network.GetStringParser();
-        CharacterParser character_parser_instance = parser_network.GetCharacterParser();
-        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
+        GrammarParser grammar_parser_instance = myself.parser_network.GetGrammarParser();
+        RuleParser rule_parser_instance = myself.parser_network.GetRuleParser();
+        ExpressionParser expression_parser_instance = myself.parser_network.GetExpressionParser();
+        TokenParser token_parser_instance = myself.parser_network.GetTokenParser();
+        SimpleTokenParser simple_token_parser_instance = myself.parser_network.GetSimpleTokenParser();
+        ModifierParser modifier_parser_instance = myself.parser_network.GetModifierParser();
+        CardinalityParser cardinality_parser_instance = myself.parser_network.GetCardinalityParser();
+        NameParser name_parser_instance = myself.parser_network.GetNameParser();
+        NameCharacterParser name_character_parser_instance = myself.parser_network.GetNameCharacterParser();
+        NumberParser number_parser_instance = myself.parser_network.GetNumberParser();
+        DigitParser digit_parser_instance = myself.parser_network.GetDigitParser();
+        PunctuationParser punctuation_parser_instance = myself.parser_network.GetPunctuationParser();
+        CommentCharacterParser comment_character_parser_instance = myself.parser_network.GetCommentCharacterParser();
+        CommentParser comment_parser_instance = myself.parser_network.GetCommentParser();
+        LiteralParser literal_parser_instance = myself.parser_network.GetLiteralParser();
+        LiteralCharacterParser literal_character_parser_instance = myself.parser_network.GetLiteralCharacterParser();
+        HexDigitParser hex_digit_parser_instance = myself.parser_network.GetHexDigitParser();
+        WhitespaceParser whitespace_parser_instance = myself.parser_network.GetWhitespaceParser();
+        EolParser eol_parser_instance = myself.parser_network.GetEolParser();
+        StringParser string_parser_instance = myself.parser_network.GetStringParser();
+        CharacterParser character_parser_instance = myself.parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = myself.parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingleSave(index, "::=", expression_discriminator_field) && token_parser_instance.ParseManySave(index, token_sequence_field, 0, -1) && eol_parser_instance.ParseSingle(index)) {
             instance.SetTokenSequence(token_sequence_field.GetValue());
@@ -1147,12 +1148,12 @@ class ExpressionParser
     function bool ParseSingle(LengthString index)
     {
         ExpressionResult result = new ExpressionResult;
-        return ParseSingleSave(index, result);
+        return myself.ParseSingleSave(index, result);
     }
 
     function bool ParseOptionalSave(LengthString index, ExpressionResult result)
     {
-        ParseSingleSave(index, result);
+        myself.ParseSingleSave(index, result);
         result.SetResult(true);
         return true;
     }
@@ -1160,7 +1161,7 @@ class ExpressionParser
     function bool ParseOptional(LengthString index)
     {
         ExpressionResult result = new ExpressionResult;
-        return ParseOptionalSave(index, result);
+        return myself.ParseOptionalSave(index, result);
     }
 
     function bool ParseManySave(LengthString index, ExpressionListResult list_result, int minimum, int maximum)
@@ -1180,7 +1181,7 @@ class ExpressionParser
         while (check_next && count < max_check)
         {
             ExpressionResult result = new ExpressionResult;
-            ParseSingleSave(index, result);
+            myself.ParseSingleSave(index, result);
             check_next = result.GetResult();
 
             if (result.GetResult())
@@ -1211,16 +1212,16 @@ class ExpressionParser
     function bool ParseMany(LengthString index, int minimum, int maximum)
     {
         ExpressionListResult result = new ExpressionListResult;
-        return ParseManySave(index, result, minimum, maximum);
+        return myself.ParseManySave(index, result, minimum, maximum);
     }
 }
 
 class ExpressionResult
 {
-    function void SetValue(Expression new_value) { value = new_value; }
-    function Expression GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Expression new_value) { myself.value = new_value; }
+    function Expression GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Expression value;
     bool result;
@@ -1228,10 +1229,10 @@ class ExpressionResult
 
 class ExpressionListResult
 {
-    function void SetValue(Expression[] new_value) { value = new_value; }
-    function Expression[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Expression[] new_value) { myself.value = new_value; }
+    function Expression[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Expression[] value;
     bool result;
@@ -1241,17 +1242,17 @@ class Expression
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
-    function void SetTokenSequence(Token[] input_value) { token_sequence_field = input_value; }
-    function Token[] GetTokenSequence() { return token_sequence_field; }
-    function void SetExpressionDiscriminator(String input_value) { expression_discriminator_field = input_value; }
-    function String GetExpressionDiscriminator() { return expression_discriminator_field; }
+    function string UnParse() { return myself.length_string.GetString(); }
+    function void SetTokenSequence(Token[] input_value) { myself.token_sequence_field = input_value; }
+    function Token[] GetTokenSequence() { return myself.token_sequence_field; }
+    function void SetExpressionDiscriminator(String input_value) { myself.expression_discriminator_field = input_value; }
+    function String GetExpressionDiscriminator() { return myself.expression_discriminator_field; }
 
     LengthString length_string;
     Token[] token_sequence_field;
@@ -1261,7 +1262,7 @@ class Expression
 class TokenParser
 {
     ParserNetwork parser_network;
-    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }
+    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }
     function bool ParseSingleSave(LengthString index, TokenResult result)
     {
         int index_start = index.GetStart();
@@ -1275,28 +1276,28 @@ class TokenParser
         SimpleTokenResult value_field = new SimpleTokenResult;
         NameResult name_field = new NameResult;
 
-        GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
-        RuleParser rule_parser_instance = parser_network.GetRuleParser();
-        ExpressionParser expression_parser_instance = parser_network.GetExpressionParser();
-        TokenParser token_parser_instance = parser_network.GetTokenParser();
-        SimpleTokenParser simple_token_parser_instance = parser_network.GetSimpleTokenParser();
-        ModifierParser modifier_parser_instance = parser_network.GetModifierParser();
-        CardinalityParser cardinality_parser_instance = parser_network.GetCardinalityParser();
-        NameParser name_parser_instance = parser_network.GetNameParser();
-        NameCharacterParser name_character_parser_instance = parser_network.GetNameCharacterParser();
-        NumberParser number_parser_instance = parser_network.GetNumberParser();
-        DigitParser digit_parser_instance = parser_network.GetDigitParser();
-        PunctuationParser punctuation_parser_instance = parser_network.GetPunctuationParser();
-        CommentCharacterParser comment_character_parser_instance = parser_network.GetCommentCharacterParser();
-        CommentParser comment_parser_instance = parser_network.GetCommentParser();
-        LiteralParser literal_parser_instance = parser_network.GetLiteralParser();
-        LiteralCharacterParser literal_character_parser_instance = parser_network.GetLiteralCharacterParser();
-        HexDigitParser hex_digit_parser_instance = parser_network.GetHexDigitParser();
-        WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
-        EolParser eol_parser_instance = parser_network.GetEolParser();
-        StringParser string_parser_instance = parser_network.GetStringParser();
-        CharacterParser character_parser_instance = parser_network.GetCharacterParser();
-        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
+        GrammarParser grammar_parser_instance = myself.parser_network.GetGrammarParser();
+        RuleParser rule_parser_instance = myself.parser_network.GetRuleParser();
+        ExpressionParser expression_parser_instance = myself.parser_network.GetExpressionParser();
+        TokenParser token_parser_instance = myself.parser_network.GetTokenParser();
+        SimpleTokenParser simple_token_parser_instance = myself.parser_network.GetSimpleTokenParser();
+        ModifierParser modifier_parser_instance = myself.parser_network.GetModifierParser();
+        CardinalityParser cardinality_parser_instance = myself.parser_network.GetCardinalityParser();
+        NameParser name_parser_instance = myself.parser_network.GetNameParser();
+        NameCharacterParser name_character_parser_instance = myself.parser_network.GetNameCharacterParser();
+        NumberParser number_parser_instance = myself.parser_network.GetNumberParser();
+        DigitParser digit_parser_instance = myself.parser_network.GetDigitParser();
+        PunctuationParser punctuation_parser_instance = myself.parser_network.GetPunctuationParser();
+        CommentCharacterParser comment_character_parser_instance = myself.parser_network.GetCommentCharacterParser();
+        CommentParser comment_parser_instance = myself.parser_network.GetCommentParser();
+        LiteralParser literal_parser_instance = myself.parser_network.GetLiteralParser();
+        LiteralCharacterParser literal_character_parser_instance = myself.parser_network.GetLiteralCharacterParser();
+        HexDigitParser hex_digit_parser_instance = myself.parser_network.GetHexDigitParser();
+        WhitespaceParser whitespace_parser_instance = myself.parser_network.GetWhitespaceParser();
+        EolParser eol_parser_instance = myself.parser_network.GetEolParser();
+        StringParser string_parser_instance = myself.parser_network.GetStringParser();
+        CharacterParser character_parser_instance = myself.parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = myself.parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "attribute") && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "(") && whitespace_parser_instance.ParseMany(index, 0, -1) && name_parser_instance.ParseSingleSave(index, name_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && simple_token_parser_instance.ParseSingleSave(index, value_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && modifier_parser_instance.ParseSingleSave(index, modifier_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ")") && whitespace_parser_instance.ParseMany(index, 0, -1)) {
             instance.SetModifier(modifier_field.GetValue());
@@ -1373,12 +1374,12 @@ class TokenParser
     function bool ParseSingle(LengthString index)
     {
         TokenResult result = new TokenResult;
-        return ParseSingleSave(index, result);
+        return myself.ParseSingleSave(index, result);
     }
 
     function bool ParseOptionalSave(LengthString index, TokenResult result)
     {
-        ParseSingleSave(index, result);
+        myself.ParseSingleSave(index, result);
         result.SetResult(true);
         return true;
     }
@@ -1386,7 +1387,7 @@ class TokenParser
     function bool ParseOptional(LengthString index)
     {
         TokenResult result = new TokenResult;
-        return ParseOptionalSave(index, result);
+        return myself.ParseOptionalSave(index, result);
     }
 
     function bool ParseManySave(LengthString index, TokenListResult list_result, int minimum, int maximum)
@@ -1406,7 +1407,7 @@ class TokenParser
         while (check_next && count < max_check)
         {
             TokenResult result = new TokenResult;
-            ParseSingleSave(index, result);
+            myself.ParseSingleSave(index, result);
             check_next = result.GetResult();
 
             if (result.GetResult())
@@ -1437,16 +1438,16 @@ class TokenParser
     function bool ParseMany(LengthString index, int minimum, int maximum)
     {
         TokenListResult result = new TokenListResult;
-        return ParseManySave(index, result, minimum, maximum);
+        return myself.ParseManySave(index, result, minimum, maximum);
     }
 }
 
 class TokenResult
 {
-    function void SetValue(Token new_value) { value = new_value; }
-    function Token GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Token new_value) { myself.value = new_value; }
+    function Token GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Token value;
     bool result;
@@ -1454,10 +1455,10 @@ class TokenResult
 
 class TokenListResult
 {
-    function void SetValue(Token[] new_value) { value = new_value; }
-    function Token[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Token[] new_value) { myself.value = new_value; }
+    function Token[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Token[] value;
     bool result;
@@ -1467,19 +1468,19 @@ class Token
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
-    function void SetModifier(Modifier input_value) { modifier_field = input_value; }
-    function Modifier GetModifier() { return modifier_field; }
-    function void SetValue(SimpleToken input_value) { value_field = input_value; }
-    function SimpleToken GetValue() { return value_field; }
-    function void SetName(Name input_value) { name_field = input_value; }
-    function Name GetName() { return name_field; }
+    function string UnParse() { return myself.length_string.GetString(); }
+    function void SetModifier(Modifier input_value) { myself.modifier_field = input_value; }
+    function Modifier GetModifier() { return myself.modifier_field; }
+    function void SetValue(SimpleToken input_value) { myself.value_field = input_value; }
+    function SimpleToken GetValue() { return myself.value_field; }
+    function void SetName(Name input_value) { myself.name_field = input_value; }
+    function Name GetName() { return myself.name_field; }
 
     LengthString length_string;
     Modifier modifier_field;
@@ -1490,7 +1491,7 @@ class Token
 class SimpleTokenParser
 {
     ParserNetwork parser_network;
-    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }
+    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }
     function bool ParseSingleSave(LengthString index, SimpleTokenResult result)
     {
         int index_start = index.GetStart();
@@ -1509,28 +1510,28 @@ class SimpleTokenParser
         HexDigitResult high_field = new HexDigitResult;
         NameResult token_field = new NameResult;
 
-        GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
-        RuleParser rule_parser_instance = parser_network.GetRuleParser();
-        ExpressionParser expression_parser_instance = parser_network.GetExpressionParser();
-        TokenParser token_parser_instance = parser_network.GetTokenParser();
-        SimpleTokenParser simple_token_parser_instance = parser_network.GetSimpleTokenParser();
-        ModifierParser modifier_parser_instance = parser_network.GetModifierParser();
-        CardinalityParser cardinality_parser_instance = parser_network.GetCardinalityParser();
-        NameParser name_parser_instance = parser_network.GetNameParser();
-        NameCharacterParser name_character_parser_instance = parser_network.GetNameCharacterParser();
-        NumberParser number_parser_instance = parser_network.GetNumberParser();
-        DigitParser digit_parser_instance = parser_network.GetDigitParser();
-        PunctuationParser punctuation_parser_instance = parser_network.GetPunctuationParser();
-        CommentCharacterParser comment_character_parser_instance = parser_network.GetCommentCharacterParser();
-        CommentParser comment_parser_instance = parser_network.GetCommentParser();
-        LiteralParser literal_parser_instance = parser_network.GetLiteralParser();
-        LiteralCharacterParser literal_character_parser_instance = parser_network.GetLiteralCharacterParser();
-        HexDigitParser hex_digit_parser_instance = parser_network.GetHexDigitParser();
-        WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
-        EolParser eol_parser_instance = parser_network.GetEolParser();
-        StringParser string_parser_instance = parser_network.GetStringParser();
-        CharacterParser character_parser_instance = parser_network.GetCharacterParser();
-        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
+        GrammarParser grammar_parser_instance = myself.parser_network.GetGrammarParser();
+        RuleParser rule_parser_instance = myself.parser_network.GetRuleParser();
+        ExpressionParser expression_parser_instance = myself.parser_network.GetExpressionParser();
+        TokenParser token_parser_instance = myself.parser_network.GetTokenParser();
+        SimpleTokenParser simple_token_parser_instance = myself.parser_network.GetSimpleTokenParser();
+        ModifierParser modifier_parser_instance = myself.parser_network.GetModifierParser();
+        CardinalityParser cardinality_parser_instance = myself.parser_network.GetCardinalityParser();
+        NameParser name_parser_instance = myself.parser_network.GetNameParser();
+        NameCharacterParser name_character_parser_instance = myself.parser_network.GetNameCharacterParser();
+        NumberParser number_parser_instance = myself.parser_network.GetNumberParser();
+        DigitParser digit_parser_instance = myself.parser_network.GetDigitParser();
+        PunctuationParser punctuation_parser_instance = myself.parser_network.GetPunctuationParser();
+        CommentCharacterParser comment_character_parser_instance = myself.parser_network.GetCommentCharacterParser();
+        CommentParser comment_parser_instance = myself.parser_network.GetCommentParser();
+        LiteralParser literal_parser_instance = myself.parser_network.GetLiteralParser();
+        LiteralCharacterParser literal_character_parser_instance = myself.parser_network.GetLiteralCharacterParser();
+        HexDigitParser hex_digit_parser_instance = myself.parser_network.GetHexDigitParser();
+        WhitespaceParser whitespace_parser_instance = myself.parser_network.GetWhitespaceParser();
+        EolParser eol_parser_instance = myself.parser_network.GetEolParser();
+        StringParser string_parser_instance = myself.parser_network.GetStringParser();
+        CharacterParser character_parser_instance = myself.parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = myself.parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, "<") && name_parser_instance.ParseSingleSave(index, token_field) && string_parser_instance.ParseSingle(index, ">")) {
             instance.SetHighLow(high_low_field.GetValue());
@@ -1647,12 +1648,12 @@ class SimpleTokenParser
     function bool ParseSingle(LengthString index)
     {
         SimpleTokenResult result = new SimpleTokenResult;
-        return ParseSingleSave(index, result);
+        return myself.ParseSingleSave(index, result);
     }
 
     function bool ParseOptionalSave(LengthString index, SimpleTokenResult result)
     {
-        ParseSingleSave(index, result);
+        myself.ParseSingleSave(index, result);
         result.SetResult(true);
         return true;
     }
@@ -1660,7 +1661,7 @@ class SimpleTokenParser
     function bool ParseOptional(LengthString index)
     {
         SimpleTokenResult result = new SimpleTokenResult;
-        return ParseOptionalSave(index, result);
+        return myself.ParseOptionalSave(index, result);
     }
 
     function bool ParseManySave(LengthString index, SimpleTokenListResult list_result, int minimum, int maximum)
@@ -1680,7 +1681,7 @@ class SimpleTokenParser
         while (check_next && count < max_check)
         {
             SimpleTokenResult result = new SimpleTokenResult;
-            ParseSingleSave(index, result);
+            myself.ParseSingleSave(index, result);
             check_next = result.GetResult();
 
             if (result.GetResult())
@@ -1711,16 +1712,16 @@ class SimpleTokenParser
     function bool ParseMany(LengthString index, int minimum, int maximum)
     {
         SimpleTokenListResult result = new SimpleTokenListResult;
-        return ParseManySave(index, result, minimum, maximum);
+        return myself.ParseManySave(index, result, minimum, maximum);
     }
 }
 
 class SimpleTokenResult
 {
-    function void SetValue(SimpleToken new_value) { value = new_value; }
-    function SimpleToken GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(SimpleToken new_value) { myself.value = new_value; }
+    function SimpleToken GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     SimpleToken value;
     bool result;
@@ -1728,10 +1729,10 @@ class SimpleTokenResult
 
 class SimpleTokenListResult
 {
-    function void SetValue(SimpleToken[] new_value) { value = new_value; }
-    function SimpleToken[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(SimpleToken[] new_value) { myself.value = new_value; }
+    function SimpleToken[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     SimpleToken[] value;
     bool result;
@@ -1741,29 +1742,29 @@ class SimpleToken
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
-    function void SetHighLow(HexDigit input_value) { high_low_field = input_value; }
-    function HexDigit GetHighLow() { return high_low_field; }
-    function void SetHighHigh(HexDigit input_value) { high_high_field = input_value; }
-    function HexDigit GetHighHigh() { return high_high_field; }
-    function void SetLowLow(HexDigit input_value) { low_low_field = input_value; }
-    function HexDigit GetLowLow() { return low_low_field; }
-    function void SetLowHigh(HexDigit input_value) { low_high_field = input_value; }
-    function HexDigit GetLowHigh() { return low_high_field; }
-    function void SetLow(HexDigit input_value) { low_field = input_value; }
-    function HexDigit GetLow() { return low_field; }
-    function void SetLiteral(Literal input_value) { literal_field = input_value; }
-    function Literal GetLiteral() { return literal_field; }
-    function void SetHigh(HexDigit input_value) { high_field = input_value; }
-    function HexDigit GetHigh() { return high_field; }
-    function void SetToken(Name input_value) { token_field = input_value; }
-    function Name GetToken() { return token_field; }
+    function string UnParse() { return myself.length_string.GetString(); }
+    function void SetHighLow(HexDigit input_value) { myself.high_low_field = input_value; }
+    function HexDigit GetHighLow() { return myself.high_low_field; }
+    function void SetHighHigh(HexDigit input_value) { myself.high_high_field = input_value; }
+    function HexDigit GetHighHigh() { return myself.high_high_field; }
+    function void SetLowLow(HexDigit input_value) { myself.low_low_field = input_value; }
+    function HexDigit GetLowLow() { return myself.low_low_field; }
+    function void SetLowHigh(HexDigit input_value) { myself.low_high_field = input_value; }
+    function HexDigit GetLowHigh() { return myself.low_high_field; }
+    function void SetLow(HexDigit input_value) { myself.low_field = input_value; }
+    function HexDigit GetLow() { return myself.low_field; }
+    function void SetLiteral(Literal input_value) { myself.literal_field = input_value; }
+    function Literal GetLiteral() { return myself.literal_field; }
+    function void SetHigh(HexDigit input_value) { myself.high_field = input_value; }
+    function HexDigit GetHigh() { return myself.high_field; }
+    function void SetToken(Name input_value) { myself.token_field = input_value; }
+    function Name GetToken() { return myself.token_field; }
 
     LengthString length_string;
     HexDigit high_low_field;
@@ -1779,7 +1780,7 @@ class SimpleToken
 class ModifierParser
 {
     ParserNetwork parser_network;
-    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }
+    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }
     function bool ParseSingleSave(LengthString index, ModifierResult result)
     {
         int index_start = index.GetStart();
@@ -1791,28 +1792,28 @@ class ModifierParser
         Modifier instance = new Modifier;
         CardinalityResult cardinality_field = new CardinalityResult;
 
-        GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
-        RuleParser rule_parser_instance = parser_network.GetRuleParser();
-        ExpressionParser expression_parser_instance = parser_network.GetExpressionParser();
-        TokenParser token_parser_instance = parser_network.GetTokenParser();
-        SimpleTokenParser simple_token_parser_instance = parser_network.GetSimpleTokenParser();
-        ModifierParser modifier_parser_instance = parser_network.GetModifierParser();
-        CardinalityParser cardinality_parser_instance = parser_network.GetCardinalityParser();
-        NameParser name_parser_instance = parser_network.GetNameParser();
-        NameCharacterParser name_character_parser_instance = parser_network.GetNameCharacterParser();
-        NumberParser number_parser_instance = parser_network.GetNumberParser();
-        DigitParser digit_parser_instance = parser_network.GetDigitParser();
-        PunctuationParser punctuation_parser_instance = parser_network.GetPunctuationParser();
-        CommentCharacterParser comment_character_parser_instance = parser_network.GetCommentCharacterParser();
-        CommentParser comment_parser_instance = parser_network.GetCommentParser();
-        LiteralParser literal_parser_instance = parser_network.GetLiteralParser();
-        LiteralCharacterParser literal_character_parser_instance = parser_network.GetLiteralCharacterParser();
-        HexDigitParser hex_digit_parser_instance = parser_network.GetHexDigitParser();
-        WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
-        EolParser eol_parser_instance = parser_network.GetEolParser();
-        StringParser string_parser_instance = parser_network.GetStringParser();
-        CharacterParser character_parser_instance = parser_network.GetCharacterParser();
-        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
+        GrammarParser grammar_parser_instance = myself.parser_network.GetGrammarParser();
+        RuleParser rule_parser_instance = myself.parser_network.GetRuleParser();
+        ExpressionParser expression_parser_instance = myself.parser_network.GetExpressionParser();
+        TokenParser token_parser_instance = myself.parser_network.GetTokenParser();
+        SimpleTokenParser simple_token_parser_instance = myself.parser_network.GetSimpleTokenParser();
+        ModifierParser modifier_parser_instance = myself.parser_network.GetModifierParser();
+        CardinalityParser cardinality_parser_instance = myself.parser_network.GetCardinalityParser();
+        NameParser name_parser_instance = myself.parser_network.GetNameParser();
+        NameCharacterParser name_character_parser_instance = myself.parser_network.GetNameCharacterParser();
+        NumberParser number_parser_instance = myself.parser_network.GetNumberParser();
+        DigitParser digit_parser_instance = myself.parser_network.GetDigitParser();
+        PunctuationParser punctuation_parser_instance = myself.parser_network.GetPunctuationParser();
+        CommentCharacterParser comment_character_parser_instance = myself.parser_network.GetCommentCharacterParser();
+        CommentParser comment_parser_instance = myself.parser_network.GetCommentParser();
+        LiteralParser literal_parser_instance = myself.parser_network.GetLiteralParser();
+        LiteralCharacterParser literal_character_parser_instance = myself.parser_network.GetLiteralCharacterParser();
+        HexDigitParser hex_digit_parser_instance = myself.parser_network.GetHexDigitParser();
+        WhitespaceParser whitespace_parser_instance = myself.parser_network.GetWhitespaceParser();
+        EolParser eol_parser_instance = myself.parser_network.GetEolParser();
+        StringParser string_parser_instance = myself.parser_network.GetStringParser();
+        CharacterParser character_parser_instance = myself.parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = myself.parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, "*")) {
             instance.SetCardinality(cardinality_field.GetValue());
@@ -1873,12 +1874,12 @@ class ModifierParser
     function bool ParseSingle(LengthString index)
     {
         ModifierResult result = new ModifierResult;
-        return ParseSingleSave(index, result);
+        return myself.ParseSingleSave(index, result);
     }
 
     function bool ParseOptionalSave(LengthString index, ModifierResult result)
     {
-        ParseSingleSave(index, result);
+        myself.ParseSingleSave(index, result);
         result.SetResult(true);
         return true;
     }
@@ -1886,7 +1887,7 @@ class ModifierParser
     function bool ParseOptional(LengthString index)
     {
         ModifierResult result = new ModifierResult;
-        return ParseOptionalSave(index, result);
+        return myself.ParseOptionalSave(index, result);
     }
 
     function bool ParseManySave(LengthString index, ModifierListResult list_result, int minimum, int maximum)
@@ -1906,7 +1907,7 @@ class ModifierParser
         while (check_next && count < max_check)
         {
             ModifierResult result = new ModifierResult;
-            ParseSingleSave(index, result);
+            myself.ParseSingleSave(index, result);
             check_next = result.GetResult();
 
             if (result.GetResult())
@@ -1937,16 +1938,16 @@ class ModifierParser
     function bool ParseMany(LengthString index, int minimum, int maximum)
     {
         ModifierListResult result = new ModifierListResult;
-        return ParseManySave(index, result, minimum, maximum);
+        return myself.ParseManySave(index, result, minimum, maximum);
     }
 }
 
 class ModifierResult
 {
-    function void SetValue(Modifier new_value) { value = new_value; }
-    function Modifier GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Modifier new_value) { myself.value = new_value; }
+    function Modifier GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Modifier value;
     bool result;
@@ -1954,10 +1955,10 @@ class ModifierResult
 
 class ModifierListResult
 {
-    function void SetValue(Modifier[] new_value) { value = new_value; }
-    function Modifier[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Modifier[] new_value) { myself.value = new_value; }
+    function Modifier[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Modifier[] value;
     bool result;
@@ -1967,15 +1968,15 @@ class Modifier
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
-    function void SetCardinality(Cardinality input_value) { cardinality_field = input_value; }
-    function Cardinality GetCardinality() { return cardinality_field; }
+    function string UnParse() { return myself.length_string.GetString(); }
+    function void SetCardinality(Cardinality input_value) { myself.cardinality_field = input_value; }
+    function Cardinality GetCardinality() { return myself.cardinality_field; }
 
     LengthString length_string;
     Cardinality cardinality_field;
@@ -1984,7 +1985,7 @@ class Modifier
 class CardinalityParser
 {
     ParserNetwork parser_network;
-    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }
+    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }
     function bool ParseSingleSave(LengthString index, CardinalityResult result)
     {
         int index_start = index.GetStart();
@@ -1998,28 +1999,28 @@ class CardinalityParser
         NumberResult count_field = new NumberResult;
         NumberResult minimum_field = new NumberResult;
 
-        GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
-        RuleParser rule_parser_instance = parser_network.GetRuleParser();
-        ExpressionParser expression_parser_instance = parser_network.GetExpressionParser();
-        TokenParser token_parser_instance = parser_network.GetTokenParser();
-        SimpleTokenParser simple_token_parser_instance = parser_network.GetSimpleTokenParser();
-        ModifierParser modifier_parser_instance = parser_network.GetModifierParser();
-        CardinalityParser cardinality_parser_instance = parser_network.GetCardinalityParser();
-        NameParser name_parser_instance = parser_network.GetNameParser();
-        NameCharacterParser name_character_parser_instance = parser_network.GetNameCharacterParser();
-        NumberParser number_parser_instance = parser_network.GetNumberParser();
-        DigitParser digit_parser_instance = parser_network.GetDigitParser();
-        PunctuationParser punctuation_parser_instance = parser_network.GetPunctuationParser();
-        CommentCharacterParser comment_character_parser_instance = parser_network.GetCommentCharacterParser();
-        CommentParser comment_parser_instance = parser_network.GetCommentParser();
-        LiteralParser literal_parser_instance = parser_network.GetLiteralParser();
-        LiteralCharacterParser literal_character_parser_instance = parser_network.GetLiteralCharacterParser();
-        HexDigitParser hex_digit_parser_instance = parser_network.GetHexDigitParser();
-        WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
-        EolParser eol_parser_instance = parser_network.GetEolParser();
-        StringParser string_parser_instance = parser_network.GetStringParser();
-        CharacterParser character_parser_instance = parser_network.GetCharacterParser();
-        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
+        GrammarParser grammar_parser_instance = myself.parser_network.GetGrammarParser();
+        RuleParser rule_parser_instance = myself.parser_network.GetRuleParser();
+        ExpressionParser expression_parser_instance = myself.parser_network.GetExpressionParser();
+        TokenParser token_parser_instance = myself.parser_network.GetTokenParser();
+        SimpleTokenParser simple_token_parser_instance = myself.parser_network.GetSimpleTokenParser();
+        ModifierParser modifier_parser_instance = myself.parser_network.GetModifierParser();
+        CardinalityParser cardinality_parser_instance = myself.parser_network.GetCardinalityParser();
+        NameParser name_parser_instance = myself.parser_network.GetNameParser();
+        NameCharacterParser name_character_parser_instance = myself.parser_network.GetNameCharacterParser();
+        NumberParser number_parser_instance = myself.parser_network.GetNumberParser();
+        DigitParser digit_parser_instance = myself.parser_network.GetDigitParser();
+        PunctuationParser punctuation_parser_instance = myself.parser_network.GetPunctuationParser();
+        CommentCharacterParser comment_character_parser_instance = myself.parser_network.GetCommentCharacterParser();
+        CommentParser comment_parser_instance = myself.parser_network.GetCommentParser();
+        LiteralParser literal_parser_instance = myself.parser_network.GetLiteralParser();
+        LiteralCharacterParser literal_character_parser_instance = myself.parser_network.GetLiteralCharacterParser();
+        HexDigitParser hex_digit_parser_instance = myself.parser_network.GetHexDigitParser();
+        WhitespaceParser whitespace_parser_instance = myself.parser_network.GetWhitespaceParser();
+        EolParser eol_parser_instance = myself.parser_network.GetEolParser();
+        StringParser string_parser_instance = myself.parser_network.GetStringParser();
+        CharacterParser character_parser_instance = myself.parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = myself.parser_network.GetCharacterRangeParser();
 
         if (true && number_parser_instance.ParseSingleSave(index, minimum_field) && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, ",") && whitespace_parser_instance.ParseMany(index, 0, -1) && number_parser_instance.ParseSingleSave(index, maximum_field)) {
             instance.SetMaximum(maximum_field.GetValue());
@@ -2079,12 +2080,12 @@ class CardinalityParser
     function bool ParseSingle(LengthString index)
     {
         CardinalityResult result = new CardinalityResult;
-        return ParseSingleSave(index, result);
+        return myself.ParseSingleSave(index, result);
     }
 
     function bool ParseOptionalSave(LengthString index, CardinalityResult result)
     {
-        ParseSingleSave(index, result);
+        myself.ParseSingleSave(index, result);
         result.SetResult(true);
         return true;
     }
@@ -2092,7 +2093,7 @@ class CardinalityParser
     function bool ParseOptional(LengthString index)
     {
         CardinalityResult result = new CardinalityResult;
-        return ParseOptionalSave(index, result);
+        return myself.ParseOptionalSave(index, result);
     }
 
     function bool ParseManySave(LengthString index, CardinalityListResult list_result, int minimum, int maximum)
@@ -2112,7 +2113,7 @@ class CardinalityParser
         while (check_next && count < max_check)
         {
             CardinalityResult result = new CardinalityResult;
-            ParseSingleSave(index, result);
+            myself.ParseSingleSave(index, result);
             check_next = result.GetResult();
 
             if (result.GetResult())
@@ -2143,16 +2144,16 @@ class CardinalityParser
     function bool ParseMany(LengthString index, int minimum, int maximum)
     {
         CardinalityListResult result = new CardinalityListResult;
-        return ParseManySave(index, result, minimum, maximum);
+        return myself.ParseManySave(index, result, minimum, maximum);
     }
 }
 
 class CardinalityResult
 {
-    function void SetValue(Cardinality new_value) { value = new_value; }
-    function Cardinality GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Cardinality new_value) { myself.value = new_value; }
+    function Cardinality GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Cardinality value;
     bool result;
@@ -2160,10 +2161,10 @@ class CardinalityResult
 
 class CardinalityListResult
 {
-    function void SetValue(Cardinality[] new_value) { value = new_value; }
-    function Cardinality[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Cardinality[] new_value) { myself.value = new_value; }
+    function Cardinality[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Cardinality[] value;
     bool result;
@@ -2173,19 +2174,19 @@ class Cardinality
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
-    function void SetMaximum(Number input_value) { maximum_field = input_value; }
-    function Number GetMaximum() { return maximum_field; }
-    function void SetCount(Number input_value) { count_field = input_value; }
-    function Number GetCount() { return count_field; }
-    function void SetMinimum(Number input_value) { minimum_field = input_value; }
-    function Number GetMinimum() { return minimum_field; }
+    function string UnParse() { return myself.length_string.GetString(); }
+    function void SetMaximum(Number input_value) { myself.maximum_field = input_value; }
+    function Number GetMaximum() { return myself.maximum_field; }
+    function void SetCount(Number input_value) { myself.count_field = input_value; }
+    function Number GetCount() { return myself.count_field; }
+    function void SetMinimum(Number input_value) { myself.minimum_field = input_value; }
+    function Number GetMinimum() { return myself.minimum_field; }
 
     LengthString length_string;
     Number maximum_field;
@@ -2196,7 +2197,7 @@ class Cardinality
 class NameParser
 {
     ParserNetwork parser_network;
-    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }
+    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }
     function bool ParseSingleSave(LengthString index, NameResult result)
     {
         int index_start = index.GetStart();
@@ -2207,28 +2208,28 @@ class NameParser
         consumed_string.SetLength(0);
         Name instance = new Name;
 
-        GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
-        RuleParser rule_parser_instance = parser_network.GetRuleParser();
-        ExpressionParser expression_parser_instance = parser_network.GetExpressionParser();
-        TokenParser token_parser_instance = parser_network.GetTokenParser();
-        SimpleTokenParser simple_token_parser_instance = parser_network.GetSimpleTokenParser();
-        ModifierParser modifier_parser_instance = parser_network.GetModifierParser();
-        CardinalityParser cardinality_parser_instance = parser_network.GetCardinalityParser();
-        NameParser name_parser_instance = parser_network.GetNameParser();
-        NameCharacterParser name_character_parser_instance = parser_network.GetNameCharacterParser();
-        NumberParser number_parser_instance = parser_network.GetNumberParser();
-        DigitParser digit_parser_instance = parser_network.GetDigitParser();
-        PunctuationParser punctuation_parser_instance = parser_network.GetPunctuationParser();
-        CommentCharacterParser comment_character_parser_instance = parser_network.GetCommentCharacterParser();
-        CommentParser comment_parser_instance = parser_network.GetCommentParser();
-        LiteralParser literal_parser_instance = parser_network.GetLiteralParser();
-        LiteralCharacterParser literal_character_parser_instance = parser_network.GetLiteralCharacterParser();
-        HexDigitParser hex_digit_parser_instance = parser_network.GetHexDigitParser();
-        WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
-        EolParser eol_parser_instance = parser_network.GetEolParser();
-        StringParser string_parser_instance = parser_network.GetStringParser();
-        CharacterParser character_parser_instance = parser_network.GetCharacterParser();
-        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
+        GrammarParser grammar_parser_instance = myself.parser_network.GetGrammarParser();
+        RuleParser rule_parser_instance = myself.parser_network.GetRuleParser();
+        ExpressionParser expression_parser_instance = myself.parser_network.GetExpressionParser();
+        TokenParser token_parser_instance = myself.parser_network.GetTokenParser();
+        SimpleTokenParser simple_token_parser_instance = myself.parser_network.GetSimpleTokenParser();
+        ModifierParser modifier_parser_instance = myself.parser_network.GetModifierParser();
+        CardinalityParser cardinality_parser_instance = myself.parser_network.GetCardinalityParser();
+        NameParser name_parser_instance = myself.parser_network.GetNameParser();
+        NameCharacterParser name_character_parser_instance = myself.parser_network.GetNameCharacterParser();
+        NumberParser number_parser_instance = myself.parser_network.GetNumberParser();
+        DigitParser digit_parser_instance = myself.parser_network.GetDigitParser();
+        PunctuationParser punctuation_parser_instance = myself.parser_network.GetPunctuationParser();
+        CommentCharacterParser comment_character_parser_instance = myself.parser_network.GetCommentCharacterParser();
+        CommentParser comment_parser_instance = myself.parser_network.GetCommentParser();
+        LiteralParser literal_parser_instance = myself.parser_network.GetLiteralParser();
+        LiteralCharacterParser literal_character_parser_instance = myself.parser_network.GetLiteralCharacterParser();
+        HexDigitParser hex_digit_parser_instance = myself.parser_network.GetHexDigitParser();
+        WhitespaceParser whitespace_parser_instance = myself.parser_network.GetWhitespaceParser();
+        EolParser eol_parser_instance = myself.parser_network.GetEolParser();
+        StringParser string_parser_instance = myself.parser_network.GetStringParser();
+        CharacterParser character_parser_instance = myself.parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = myself.parser_network.GetCharacterRangeParser();
 
         if (true && name_character_parser_instance.ParseMany(index, 1, -1)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -2248,12 +2249,12 @@ class NameParser
     function bool ParseSingle(LengthString index)
     {
         NameResult result = new NameResult;
-        return ParseSingleSave(index, result);
+        return myself.ParseSingleSave(index, result);
     }
 
     function bool ParseOptionalSave(LengthString index, NameResult result)
     {
-        ParseSingleSave(index, result);
+        myself.ParseSingleSave(index, result);
         result.SetResult(true);
         return true;
     }
@@ -2261,7 +2262,7 @@ class NameParser
     function bool ParseOptional(LengthString index)
     {
         NameResult result = new NameResult;
-        return ParseOptionalSave(index, result);
+        return myself.ParseOptionalSave(index, result);
     }
 
     function bool ParseManySave(LengthString index, NameListResult list_result, int minimum, int maximum)
@@ -2281,7 +2282,7 @@ class NameParser
         while (check_next && count < max_check)
         {
             NameResult result = new NameResult;
-            ParseSingleSave(index, result);
+            myself.ParseSingleSave(index, result);
             check_next = result.GetResult();
 
             if (result.GetResult())
@@ -2312,16 +2313,16 @@ class NameParser
     function bool ParseMany(LengthString index, int minimum, int maximum)
     {
         NameListResult result = new NameListResult;
-        return ParseManySave(index, result, minimum, maximum);
+        return myself.ParseManySave(index, result, minimum, maximum);
     }
 }
 
 class NameResult
 {
-    function void SetValue(Name new_value) { value = new_value; }
-    function Name GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Name new_value) { myself.value = new_value; }
+    function Name GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Name value;
     bool result;
@@ -2329,10 +2330,10 @@ class NameResult
 
 class NameListResult
 {
-    function void SetValue(Name[] new_value) { value = new_value; }
-    function Name[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Name[] new_value) { myself.value = new_value; }
+    function Name[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Name[] value;
     bool result;
@@ -2342,13 +2343,13 @@ class Name
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
+    function string UnParse() { return myself.length_string.GetString(); }
 
     LengthString length_string;
 }
@@ -2356,7 +2357,7 @@ class Name
 class NameCharacterParser
 {
     ParserNetwork parser_network;
-    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }
+    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }
     function bool ParseSingleSave(LengthString index, NameCharacterResult result)
     {
         int index_start = index.GetStart();
@@ -2367,28 +2368,28 @@ class NameCharacterParser
         consumed_string.SetLength(0);
         NameCharacter instance = new NameCharacter;
 
-        GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
-        RuleParser rule_parser_instance = parser_network.GetRuleParser();
-        ExpressionParser expression_parser_instance = parser_network.GetExpressionParser();
-        TokenParser token_parser_instance = parser_network.GetTokenParser();
-        SimpleTokenParser simple_token_parser_instance = parser_network.GetSimpleTokenParser();
-        ModifierParser modifier_parser_instance = parser_network.GetModifierParser();
-        CardinalityParser cardinality_parser_instance = parser_network.GetCardinalityParser();
-        NameParser name_parser_instance = parser_network.GetNameParser();
-        NameCharacterParser name_character_parser_instance = parser_network.GetNameCharacterParser();
-        NumberParser number_parser_instance = parser_network.GetNumberParser();
-        DigitParser digit_parser_instance = parser_network.GetDigitParser();
-        PunctuationParser punctuation_parser_instance = parser_network.GetPunctuationParser();
-        CommentCharacterParser comment_character_parser_instance = parser_network.GetCommentCharacterParser();
-        CommentParser comment_parser_instance = parser_network.GetCommentParser();
-        LiteralParser literal_parser_instance = parser_network.GetLiteralParser();
-        LiteralCharacterParser literal_character_parser_instance = parser_network.GetLiteralCharacterParser();
-        HexDigitParser hex_digit_parser_instance = parser_network.GetHexDigitParser();
-        WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
-        EolParser eol_parser_instance = parser_network.GetEolParser();
-        StringParser string_parser_instance = parser_network.GetStringParser();
-        CharacterParser character_parser_instance = parser_network.GetCharacterParser();
-        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
+        GrammarParser grammar_parser_instance = myself.parser_network.GetGrammarParser();
+        RuleParser rule_parser_instance = myself.parser_network.GetRuleParser();
+        ExpressionParser expression_parser_instance = myself.parser_network.GetExpressionParser();
+        TokenParser token_parser_instance = myself.parser_network.GetTokenParser();
+        SimpleTokenParser simple_token_parser_instance = myself.parser_network.GetSimpleTokenParser();
+        ModifierParser modifier_parser_instance = myself.parser_network.GetModifierParser();
+        CardinalityParser cardinality_parser_instance = myself.parser_network.GetCardinalityParser();
+        NameParser name_parser_instance = myself.parser_network.GetNameParser();
+        NameCharacterParser name_character_parser_instance = myself.parser_network.GetNameCharacterParser();
+        NumberParser number_parser_instance = myself.parser_network.GetNumberParser();
+        DigitParser digit_parser_instance = myself.parser_network.GetDigitParser();
+        PunctuationParser punctuation_parser_instance = myself.parser_network.GetPunctuationParser();
+        CommentCharacterParser comment_character_parser_instance = myself.parser_network.GetCommentCharacterParser();
+        CommentParser comment_parser_instance = myself.parser_network.GetCommentParser();
+        LiteralParser literal_parser_instance = myself.parser_network.GetLiteralParser();
+        LiteralCharacterParser literal_character_parser_instance = myself.parser_network.GetLiteralCharacterParser();
+        HexDigitParser hex_digit_parser_instance = myself.parser_network.GetHexDigitParser();
+        WhitespaceParser whitespace_parser_instance = myself.parser_network.GetWhitespaceParser();
+        EolParser eol_parser_instance = myself.parser_network.GetEolParser();
+        StringParser string_parser_instance = myself.parser_network.GetStringParser();
+        CharacterParser character_parser_instance = myself.parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = myself.parser_network.GetCharacterRangeParser();
 
         if (true && character_range_parser_instance.ParseSingle(index, 0x30, 0x39)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -2441,12 +2442,12 @@ class NameCharacterParser
     function bool ParseSingle(LengthString index)
     {
         NameCharacterResult result = new NameCharacterResult;
-        return ParseSingleSave(index, result);
+        return myself.ParseSingleSave(index, result);
     }
 
     function bool ParseOptionalSave(LengthString index, NameCharacterResult result)
     {
-        ParseSingleSave(index, result);
+        myself.ParseSingleSave(index, result);
         result.SetResult(true);
         return true;
     }
@@ -2454,7 +2455,7 @@ class NameCharacterParser
     function bool ParseOptional(LengthString index)
     {
         NameCharacterResult result = new NameCharacterResult;
-        return ParseOptionalSave(index, result);
+        return myself.ParseOptionalSave(index, result);
     }
 
     function bool ParseManySave(LengthString index, NameCharacterListResult list_result, int minimum, int maximum)
@@ -2474,7 +2475,7 @@ class NameCharacterParser
         while (check_next && count < max_check)
         {
             NameCharacterResult result = new NameCharacterResult;
-            ParseSingleSave(index, result);
+            myself.ParseSingleSave(index, result);
             check_next = result.GetResult();
 
             if (result.GetResult())
@@ -2505,16 +2506,16 @@ class NameCharacterParser
     function bool ParseMany(LengthString index, int minimum, int maximum)
     {
         NameCharacterListResult result = new NameCharacterListResult;
-        return ParseManySave(index, result, minimum, maximum);
+        return myself.ParseManySave(index, result, minimum, maximum);
     }
 }
 
 class NameCharacterResult
 {
-    function void SetValue(NameCharacter new_value) { value = new_value; }
-    function NameCharacter GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(NameCharacter new_value) { myself.value = new_value; }
+    function NameCharacter GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     NameCharacter value;
     bool result;
@@ -2522,10 +2523,10 @@ class NameCharacterResult
 
 class NameCharacterListResult
 {
-    function void SetValue(NameCharacter[] new_value) { value = new_value; }
-    function NameCharacter[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(NameCharacter[] new_value) { myself.value = new_value; }
+    function NameCharacter[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     NameCharacter[] value;
     bool result;
@@ -2535,13 +2536,13 @@ class NameCharacter
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
+    function string UnParse() { return myself.length_string.GetString(); }
 
     LengthString length_string;
 }
@@ -2549,7 +2550,7 @@ class NameCharacter
 class NumberParser
 {
     ParserNetwork parser_network;
-    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }
+    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }
     function bool ParseSingleSave(LengthString index, NumberResult result)
     {
         int index_start = index.GetStart();
@@ -2560,28 +2561,28 @@ class NumberParser
         consumed_string.SetLength(0);
         Number instance = new Number;
 
-        GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
-        RuleParser rule_parser_instance = parser_network.GetRuleParser();
-        ExpressionParser expression_parser_instance = parser_network.GetExpressionParser();
-        TokenParser token_parser_instance = parser_network.GetTokenParser();
-        SimpleTokenParser simple_token_parser_instance = parser_network.GetSimpleTokenParser();
-        ModifierParser modifier_parser_instance = parser_network.GetModifierParser();
-        CardinalityParser cardinality_parser_instance = parser_network.GetCardinalityParser();
-        NameParser name_parser_instance = parser_network.GetNameParser();
-        NameCharacterParser name_character_parser_instance = parser_network.GetNameCharacterParser();
-        NumberParser number_parser_instance = parser_network.GetNumberParser();
-        DigitParser digit_parser_instance = parser_network.GetDigitParser();
-        PunctuationParser punctuation_parser_instance = parser_network.GetPunctuationParser();
-        CommentCharacterParser comment_character_parser_instance = parser_network.GetCommentCharacterParser();
-        CommentParser comment_parser_instance = parser_network.GetCommentParser();
-        LiteralParser literal_parser_instance = parser_network.GetLiteralParser();
-        LiteralCharacterParser literal_character_parser_instance = parser_network.GetLiteralCharacterParser();
-        HexDigitParser hex_digit_parser_instance = parser_network.GetHexDigitParser();
-        WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
-        EolParser eol_parser_instance = parser_network.GetEolParser();
-        StringParser string_parser_instance = parser_network.GetStringParser();
-        CharacterParser character_parser_instance = parser_network.GetCharacterParser();
-        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
+        GrammarParser grammar_parser_instance = myself.parser_network.GetGrammarParser();
+        RuleParser rule_parser_instance = myself.parser_network.GetRuleParser();
+        ExpressionParser expression_parser_instance = myself.parser_network.GetExpressionParser();
+        TokenParser token_parser_instance = myself.parser_network.GetTokenParser();
+        SimpleTokenParser simple_token_parser_instance = myself.parser_network.GetSimpleTokenParser();
+        ModifierParser modifier_parser_instance = myself.parser_network.GetModifierParser();
+        CardinalityParser cardinality_parser_instance = myself.parser_network.GetCardinalityParser();
+        NameParser name_parser_instance = myself.parser_network.GetNameParser();
+        NameCharacterParser name_character_parser_instance = myself.parser_network.GetNameCharacterParser();
+        NumberParser number_parser_instance = myself.parser_network.GetNumberParser();
+        DigitParser digit_parser_instance = myself.parser_network.GetDigitParser();
+        PunctuationParser punctuation_parser_instance = myself.parser_network.GetPunctuationParser();
+        CommentCharacterParser comment_character_parser_instance = myself.parser_network.GetCommentCharacterParser();
+        CommentParser comment_parser_instance = myself.parser_network.GetCommentParser();
+        LiteralParser literal_parser_instance = myself.parser_network.GetLiteralParser();
+        LiteralCharacterParser literal_character_parser_instance = myself.parser_network.GetLiteralCharacterParser();
+        HexDigitParser hex_digit_parser_instance = myself.parser_network.GetHexDigitParser();
+        WhitespaceParser whitespace_parser_instance = myself.parser_network.GetWhitespaceParser();
+        EolParser eol_parser_instance = myself.parser_network.GetEolParser();
+        StringParser string_parser_instance = myself.parser_network.GetStringParser();
+        CharacterParser character_parser_instance = myself.parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = myself.parser_network.GetCharacterRangeParser();
 
         if (true && digit_parser_instance.ParseMany(index, 1, -1)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -2601,12 +2602,12 @@ class NumberParser
     function bool ParseSingle(LengthString index)
     {
         NumberResult result = new NumberResult;
-        return ParseSingleSave(index, result);
+        return myself.ParseSingleSave(index, result);
     }
 
     function bool ParseOptionalSave(LengthString index, NumberResult result)
     {
-        ParseSingleSave(index, result);
+        myself.ParseSingleSave(index, result);
         result.SetResult(true);
         return true;
     }
@@ -2614,7 +2615,7 @@ class NumberParser
     function bool ParseOptional(LengthString index)
     {
         NumberResult result = new NumberResult;
-        return ParseOptionalSave(index, result);
+        return myself.ParseOptionalSave(index, result);
     }
 
     function bool ParseManySave(LengthString index, NumberListResult list_result, int minimum, int maximum)
@@ -2634,7 +2635,7 @@ class NumberParser
         while (check_next && count < max_check)
         {
             NumberResult result = new NumberResult;
-            ParseSingleSave(index, result);
+            myself.ParseSingleSave(index, result);
             check_next = result.GetResult();
 
             if (result.GetResult())
@@ -2665,16 +2666,16 @@ class NumberParser
     function bool ParseMany(LengthString index, int minimum, int maximum)
     {
         NumberListResult result = new NumberListResult;
-        return ParseManySave(index, result, minimum, maximum);
+        return myself.ParseManySave(index, result, minimum, maximum);
     }
 }
 
 class NumberResult
 {
-    function void SetValue(Number new_value) { value = new_value; }
-    function Number GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Number new_value) { myself.value = new_value; }
+    function Number GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Number value;
     bool result;
@@ -2682,10 +2683,10 @@ class NumberResult
 
 class NumberListResult
 {
-    function void SetValue(Number[] new_value) { value = new_value; }
-    function Number[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Number[] new_value) { myself.value = new_value; }
+    function Number[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Number[] value;
     bool result;
@@ -2695,13 +2696,13 @@ class Number
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
+    function string UnParse() { return myself.length_string.GetString(); }
 
     LengthString length_string;
 }
@@ -2709,7 +2710,7 @@ class Number
 class DigitParser
 {
     ParserNetwork parser_network;
-    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }
+    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }
     function bool ParseSingleSave(LengthString index, DigitResult result)
     {
         int index_start = index.GetStart();
@@ -2720,28 +2721,28 @@ class DigitParser
         consumed_string.SetLength(0);
         Digit instance = new Digit;
 
-        GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
-        RuleParser rule_parser_instance = parser_network.GetRuleParser();
-        ExpressionParser expression_parser_instance = parser_network.GetExpressionParser();
-        TokenParser token_parser_instance = parser_network.GetTokenParser();
-        SimpleTokenParser simple_token_parser_instance = parser_network.GetSimpleTokenParser();
-        ModifierParser modifier_parser_instance = parser_network.GetModifierParser();
-        CardinalityParser cardinality_parser_instance = parser_network.GetCardinalityParser();
-        NameParser name_parser_instance = parser_network.GetNameParser();
-        NameCharacterParser name_character_parser_instance = parser_network.GetNameCharacterParser();
-        NumberParser number_parser_instance = parser_network.GetNumberParser();
-        DigitParser digit_parser_instance = parser_network.GetDigitParser();
-        PunctuationParser punctuation_parser_instance = parser_network.GetPunctuationParser();
-        CommentCharacterParser comment_character_parser_instance = parser_network.GetCommentCharacterParser();
-        CommentParser comment_parser_instance = parser_network.GetCommentParser();
-        LiteralParser literal_parser_instance = parser_network.GetLiteralParser();
-        LiteralCharacterParser literal_character_parser_instance = parser_network.GetLiteralCharacterParser();
-        HexDigitParser hex_digit_parser_instance = parser_network.GetHexDigitParser();
-        WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
-        EolParser eol_parser_instance = parser_network.GetEolParser();
-        StringParser string_parser_instance = parser_network.GetStringParser();
-        CharacterParser character_parser_instance = parser_network.GetCharacterParser();
-        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
+        GrammarParser grammar_parser_instance = myself.parser_network.GetGrammarParser();
+        RuleParser rule_parser_instance = myself.parser_network.GetRuleParser();
+        ExpressionParser expression_parser_instance = myself.parser_network.GetExpressionParser();
+        TokenParser token_parser_instance = myself.parser_network.GetTokenParser();
+        SimpleTokenParser simple_token_parser_instance = myself.parser_network.GetSimpleTokenParser();
+        ModifierParser modifier_parser_instance = myself.parser_network.GetModifierParser();
+        CardinalityParser cardinality_parser_instance = myself.parser_network.GetCardinalityParser();
+        NameParser name_parser_instance = myself.parser_network.GetNameParser();
+        NameCharacterParser name_character_parser_instance = myself.parser_network.GetNameCharacterParser();
+        NumberParser number_parser_instance = myself.parser_network.GetNumberParser();
+        DigitParser digit_parser_instance = myself.parser_network.GetDigitParser();
+        PunctuationParser punctuation_parser_instance = myself.parser_network.GetPunctuationParser();
+        CommentCharacterParser comment_character_parser_instance = myself.parser_network.GetCommentCharacterParser();
+        CommentParser comment_parser_instance = myself.parser_network.GetCommentParser();
+        LiteralParser literal_parser_instance = myself.parser_network.GetLiteralParser();
+        LiteralCharacterParser literal_character_parser_instance = myself.parser_network.GetLiteralCharacterParser();
+        HexDigitParser hex_digit_parser_instance = myself.parser_network.GetHexDigitParser();
+        WhitespaceParser whitespace_parser_instance = myself.parser_network.GetWhitespaceParser();
+        EolParser eol_parser_instance = myself.parser_network.GetEolParser();
+        StringParser string_parser_instance = myself.parser_network.GetStringParser();
+        CharacterParser character_parser_instance = myself.parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = myself.parser_network.GetCharacterRangeParser();
 
         if (true && character_range_parser_instance.ParseSingle(index, 0x30, 0x39)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -2761,12 +2762,12 @@ class DigitParser
     function bool ParseSingle(LengthString index)
     {
         DigitResult result = new DigitResult;
-        return ParseSingleSave(index, result);
+        return myself.ParseSingleSave(index, result);
     }
 
     function bool ParseOptionalSave(LengthString index, DigitResult result)
     {
-        ParseSingleSave(index, result);
+        myself.ParseSingleSave(index, result);
         result.SetResult(true);
         return true;
     }
@@ -2774,7 +2775,7 @@ class DigitParser
     function bool ParseOptional(LengthString index)
     {
         DigitResult result = new DigitResult;
-        return ParseOptionalSave(index, result);
+        return myself.ParseOptionalSave(index, result);
     }
 
     function bool ParseManySave(LengthString index, DigitListResult list_result, int minimum, int maximum)
@@ -2794,7 +2795,7 @@ class DigitParser
         while (check_next && count < max_check)
         {
             DigitResult result = new DigitResult;
-            ParseSingleSave(index, result);
+            myself.ParseSingleSave(index, result);
             check_next = result.GetResult();
 
             if (result.GetResult())
@@ -2825,16 +2826,16 @@ class DigitParser
     function bool ParseMany(LengthString index, int minimum, int maximum)
     {
         DigitListResult result = new DigitListResult;
-        return ParseManySave(index, result, minimum, maximum);
+        return myself.ParseManySave(index, result, minimum, maximum);
     }
 }
 
 class DigitResult
 {
-    function void SetValue(Digit new_value) { value = new_value; }
-    function Digit GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Digit new_value) { myself.value = new_value; }
+    function Digit GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Digit value;
     bool result;
@@ -2842,10 +2843,10 @@ class DigitResult
 
 class DigitListResult
 {
-    function void SetValue(Digit[] new_value) { value = new_value; }
-    function Digit[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Digit[] new_value) { myself.value = new_value; }
+    function Digit[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Digit[] value;
     bool result;
@@ -2855,13 +2856,13 @@ class Digit
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
+    function string UnParse() { return myself.length_string.GetString(); }
 
     LengthString length_string;
 }
@@ -2869,7 +2870,7 @@ class Digit
 class PunctuationParser
 {
     ParserNetwork parser_network;
-    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }
+    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }
     function bool ParseSingleSave(LengthString index, PunctuationResult result)
     {
         int index_start = index.GetStart();
@@ -2880,28 +2881,28 @@ class PunctuationParser
         consumed_string.SetLength(0);
         Punctuation instance = new Punctuation;
 
-        GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
-        RuleParser rule_parser_instance = parser_network.GetRuleParser();
-        ExpressionParser expression_parser_instance = parser_network.GetExpressionParser();
-        TokenParser token_parser_instance = parser_network.GetTokenParser();
-        SimpleTokenParser simple_token_parser_instance = parser_network.GetSimpleTokenParser();
-        ModifierParser modifier_parser_instance = parser_network.GetModifierParser();
-        CardinalityParser cardinality_parser_instance = parser_network.GetCardinalityParser();
-        NameParser name_parser_instance = parser_network.GetNameParser();
-        NameCharacterParser name_character_parser_instance = parser_network.GetNameCharacterParser();
-        NumberParser number_parser_instance = parser_network.GetNumberParser();
-        DigitParser digit_parser_instance = parser_network.GetDigitParser();
-        PunctuationParser punctuation_parser_instance = parser_network.GetPunctuationParser();
-        CommentCharacterParser comment_character_parser_instance = parser_network.GetCommentCharacterParser();
-        CommentParser comment_parser_instance = parser_network.GetCommentParser();
-        LiteralParser literal_parser_instance = parser_network.GetLiteralParser();
-        LiteralCharacterParser literal_character_parser_instance = parser_network.GetLiteralCharacterParser();
-        HexDigitParser hex_digit_parser_instance = parser_network.GetHexDigitParser();
-        WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
-        EolParser eol_parser_instance = parser_network.GetEolParser();
-        StringParser string_parser_instance = parser_network.GetStringParser();
-        CharacterParser character_parser_instance = parser_network.GetCharacterParser();
-        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
+        GrammarParser grammar_parser_instance = myself.parser_network.GetGrammarParser();
+        RuleParser rule_parser_instance = myself.parser_network.GetRuleParser();
+        ExpressionParser expression_parser_instance = myself.parser_network.GetExpressionParser();
+        TokenParser token_parser_instance = myself.parser_network.GetTokenParser();
+        SimpleTokenParser simple_token_parser_instance = myself.parser_network.GetSimpleTokenParser();
+        ModifierParser modifier_parser_instance = myself.parser_network.GetModifierParser();
+        CardinalityParser cardinality_parser_instance = myself.parser_network.GetCardinalityParser();
+        NameParser name_parser_instance = myself.parser_network.GetNameParser();
+        NameCharacterParser name_character_parser_instance = myself.parser_network.GetNameCharacterParser();
+        NumberParser number_parser_instance = myself.parser_network.GetNumberParser();
+        DigitParser digit_parser_instance = myself.parser_network.GetDigitParser();
+        PunctuationParser punctuation_parser_instance = myself.parser_network.GetPunctuationParser();
+        CommentCharacterParser comment_character_parser_instance = myself.parser_network.GetCommentCharacterParser();
+        CommentParser comment_parser_instance = myself.parser_network.GetCommentParser();
+        LiteralParser literal_parser_instance = myself.parser_network.GetLiteralParser();
+        LiteralCharacterParser literal_character_parser_instance = myself.parser_network.GetLiteralCharacterParser();
+        HexDigitParser hex_digit_parser_instance = myself.parser_network.GetHexDigitParser();
+        WhitespaceParser whitespace_parser_instance = myself.parser_network.GetWhitespaceParser();
+        EolParser eol_parser_instance = myself.parser_network.GetEolParser();
+        StringParser string_parser_instance = myself.parser_network.GetStringParser();
+        CharacterParser character_parser_instance = myself.parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = myself.parser_network.GetCharacterRangeParser();
 
         if (true && string_parser_instance.ParseSingle(index, ",")) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -2954,12 +2955,12 @@ class PunctuationParser
     function bool ParseSingle(LengthString index)
     {
         PunctuationResult result = new PunctuationResult;
-        return ParseSingleSave(index, result);
+        return myself.ParseSingleSave(index, result);
     }
 
     function bool ParseOptionalSave(LengthString index, PunctuationResult result)
     {
-        ParseSingleSave(index, result);
+        myself.ParseSingleSave(index, result);
         result.SetResult(true);
         return true;
     }
@@ -2967,7 +2968,7 @@ class PunctuationParser
     function bool ParseOptional(LengthString index)
     {
         PunctuationResult result = new PunctuationResult;
-        return ParseOptionalSave(index, result);
+        return myself.ParseOptionalSave(index, result);
     }
 
     function bool ParseManySave(LengthString index, PunctuationListResult list_result, int minimum, int maximum)
@@ -2987,7 +2988,7 @@ class PunctuationParser
         while (check_next && count < max_check)
         {
             PunctuationResult result = new PunctuationResult;
-            ParseSingleSave(index, result);
+            myself.ParseSingleSave(index, result);
             check_next = result.GetResult();
 
             if (result.GetResult())
@@ -3018,16 +3019,16 @@ class PunctuationParser
     function bool ParseMany(LengthString index, int minimum, int maximum)
     {
         PunctuationListResult result = new PunctuationListResult;
-        return ParseManySave(index, result, minimum, maximum);
+        return myself.ParseManySave(index, result, minimum, maximum);
     }
 }
 
 class PunctuationResult
 {
-    function void SetValue(Punctuation new_value) { value = new_value; }
-    function Punctuation GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Punctuation new_value) { myself.value = new_value; }
+    function Punctuation GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Punctuation value;
     bool result;
@@ -3035,10 +3036,10 @@ class PunctuationResult
 
 class PunctuationListResult
 {
-    function void SetValue(Punctuation[] new_value) { value = new_value; }
-    function Punctuation[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Punctuation[] new_value) { myself.value = new_value; }
+    function Punctuation[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Punctuation[] value;
     bool result;
@@ -3048,13 +3049,13 @@ class Punctuation
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
+    function string UnParse() { return myself.length_string.GetString(); }
 
     LengthString length_string;
 }
@@ -3062,7 +3063,7 @@ class Punctuation
 class CommentCharacterParser
 {
     ParserNetwork parser_network;
-    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }
+    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }
     function bool ParseSingleSave(LengthString index, CommentCharacterResult result)
     {
         int index_start = index.GetStart();
@@ -3073,28 +3074,28 @@ class CommentCharacterParser
         consumed_string.SetLength(0);
         CommentCharacter instance = new CommentCharacter;
 
-        GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
-        RuleParser rule_parser_instance = parser_network.GetRuleParser();
-        ExpressionParser expression_parser_instance = parser_network.GetExpressionParser();
-        TokenParser token_parser_instance = parser_network.GetTokenParser();
-        SimpleTokenParser simple_token_parser_instance = parser_network.GetSimpleTokenParser();
-        ModifierParser modifier_parser_instance = parser_network.GetModifierParser();
-        CardinalityParser cardinality_parser_instance = parser_network.GetCardinalityParser();
-        NameParser name_parser_instance = parser_network.GetNameParser();
-        NameCharacterParser name_character_parser_instance = parser_network.GetNameCharacterParser();
-        NumberParser number_parser_instance = parser_network.GetNumberParser();
-        DigitParser digit_parser_instance = parser_network.GetDigitParser();
-        PunctuationParser punctuation_parser_instance = parser_network.GetPunctuationParser();
-        CommentCharacterParser comment_character_parser_instance = parser_network.GetCommentCharacterParser();
-        CommentParser comment_parser_instance = parser_network.GetCommentParser();
-        LiteralParser literal_parser_instance = parser_network.GetLiteralParser();
-        LiteralCharacterParser literal_character_parser_instance = parser_network.GetLiteralCharacterParser();
-        HexDigitParser hex_digit_parser_instance = parser_network.GetHexDigitParser();
-        WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
-        EolParser eol_parser_instance = parser_network.GetEolParser();
-        StringParser string_parser_instance = parser_network.GetStringParser();
-        CharacterParser character_parser_instance = parser_network.GetCharacterParser();
-        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
+        GrammarParser grammar_parser_instance = myself.parser_network.GetGrammarParser();
+        RuleParser rule_parser_instance = myself.parser_network.GetRuleParser();
+        ExpressionParser expression_parser_instance = myself.parser_network.GetExpressionParser();
+        TokenParser token_parser_instance = myself.parser_network.GetTokenParser();
+        SimpleTokenParser simple_token_parser_instance = myself.parser_network.GetSimpleTokenParser();
+        ModifierParser modifier_parser_instance = myself.parser_network.GetModifierParser();
+        CardinalityParser cardinality_parser_instance = myself.parser_network.GetCardinalityParser();
+        NameParser name_parser_instance = myself.parser_network.GetNameParser();
+        NameCharacterParser name_character_parser_instance = myself.parser_network.GetNameCharacterParser();
+        NumberParser number_parser_instance = myself.parser_network.GetNumberParser();
+        DigitParser digit_parser_instance = myself.parser_network.GetDigitParser();
+        PunctuationParser punctuation_parser_instance = myself.parser_network.GetPunctuationParser();
+        CommentCharacterParser comment_character_parser_instance = myself.parser_network.GetCommentCharacterParser();
+        CommentParser comment_parser_instance = myself.parser_network.GetCommentParser();
+        LiteralParser literal_parser_instance = myself.parser_network.GetLiteralParser();
+        LiteralCharacterParser literal_character_parser_instance = myself.parser_network.GetLiteralCharacterParser();
+        HexDigitParser hex_digit_parser_instance = myself.parser_network.GetHexDigitParser();
+        WhitespaceParser whitespace_parser_instance = myself.parser_network.GetWhitespaceParser();
+        EolParser eol_parser_instance = myself.parser_network.GetEolParser();
+        StringParser string_parser_instance = myself.parser_network.GetStringParser();
+        CharacterParser character_parser_instance = myself.parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = myself.parser_network.GetCharacterRangeParser();
 
         if (true && name_character_parser_instance.ParseSingle(index)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -3147,12 +3148,12 @@ class CommentCharacterParser
     function bool ParseSingle(LengthString index)
     {
         CommentCharacterResult result = new CommentCharacterResult;
-        return ParseSingleSave(index, result);
+        return myself.ParseSingleSave(index, result);
     }
 
     function bool ParseOptionalSave(LengthString index, CommentCharacterResult result)
     {
-        ParseSingleSave(index, result);
+        myself.ParseSingleSave(index, result);
         result.SetResult(true);
         return true;
     }
@@ -3160,7 +3161,7 @@ class CommentCharacterParser
     function bool ParseOptional(LengthString index)
     {
         CommentCharacterResult result = new CommentCharacterResult;
-        return ParseOptionalSave(index, result);
+        return myself.ParseOptionalSave(index, result);
     }
 
     function bool ParseManySave(LengthString index, CommentCharacterListResult list_result, int minimum, int maximum)
@@ -3180,7 +3181,7 @@ class CommentCharacterParser
         while (check_next && count < max_check)
         {
             CommentCharacterResult result = new CommentCharacterResult;
-            ParseSingleSave(index, result);
+            myself.ParseSingleSave(index, result);
             check_next = result.GetResult();
 
             if (result.GetResult())
@@ -3211,16 +3212,16 @@ class CommentCharacterParser
     function bool ParseMany(LengthString index, int minimum, int maximum)
     {
         CommentCharacterListResult result = new CommentCharacterListResult;
-        return ParseManySave(index, result, minimum, maximum);
+        return myself.ParseManySave(index, result, minimum, maximum);
     }
 }
 
 class CommentCharacterResult
 {
-    function void SetValue(CommentCharacter new_value) { value = new_value; }
-    function CommentCharacter GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(CommentCharacter new_value) { myself.value = new_value; }
+    function CommentCharacter GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     CommentCharacter value;
     bool result;
@@ -3228,10 +3229,10 @@ class CommentCharacterResult
 
 class CommentCharacterListResult
 {
-    function void SetValue(CommentCharacter[] new_value) { value = new_value; }
-    function CommentCharacter[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(CommentCharacter[] new_value) { myself.value = new_value; }
+    function CommentCharacter[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     CommentCharacter[] value;
     bool result;
@@ -3241,13 +3242,13 @@ class CommentCharacter
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
+    function string UnParse() { return myself.length_string.GetString(); }
 
     LengthString length_string;
 }
@@ -3255,7 +3256,7 @@ class CommentCharacter
 class CommentParser
 {
     ParserNetwork parser_network;
-    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }
+    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }
     function bool ParseSingleSave(LengthString index, CommentResult result)
     {
         int index_start = index.GetStart();
@@ -3266,28 +3267,28 @@ class CommentParser
         consumed_string.SetLength(0);
         Comment instance = new Comment;
 
-        GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
-        RuleParser rule_parser_instance = parser_network.GetRuleParser();
-        ExpressionParser expression_parser_instance = parser_network.GetExpressionParser();
-        TokenParser token_parser_instance = parser_network.GetTokenParser();
-        SimpleTokenParser simple_token_parser_instance = parser_network.GetSimpleTokenParser();
-        ModifierParser modifier_parser_instance = parser_network.GetModifierParser();
-        CardinalityParser cardinality_parser_instance = parser_network.GetCardinalityParser();
-        NameParser name_parser_instance = parser_network.GetNameParser();
-        NameCharacterParser name_character_parser_instance = parser_network.GetNameCharacterParser();
-        NumberParser number_parser_instance = parser_network.GetNumberParser();
-        DigitParser digit_parser_instance = parser_network.GetDigitParser();
-        PunctuationParser punctuation_parser_instance = parser_network.GetPunctuationParser();
-        CommentCharacterParser comment_character_parser_instance = parser_network.GetCommentCharacterParser();
-        CommentParser comment_parser_instance = parser_network.GetCommentParser();
-        LiteralParser literal_parser_instance = parser_network.GetLiteralParser();
-        LiteralCharacterParser literal_character_parser_instance = parser_network.GetLiteralCharacterParser();
-        HexDigitParser hex_digit_parser_instance = parser_network.GetHexDigitParser();
-        WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
-        EolParser eol_parser_instance = parser_network.GetEolParser();
-        StringParser string_parser_instance = parser_network.GetStringParser();
-        CharacterParser character_parser_instance = parser_network.GetCharacterParser();
-        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
+        GrammarParser grammar_parser_instance = myself.parser_network.GetGrammarParser();
+        RuleParser rule_parser_instance = myself.parser_network.GetRuleParser();
+        ExpressionParser expression_parser_instance = myself.parser_network.GetExpressionParser();
+        TokenParser token_parser_instance = myself.parser_network.GetTokenParser();
+        SimpleTokenParser simple_token_parser_instance = myself.parser_network.GetSimpleTokenParser();
+        ModifierParser modifier_parser_instance = myself.parser_network.GetModifierParser();
+        CardinalityParser cardinality_parser_instance = myself.parser_network.GetCardinalityParser();
+        NameParser name_parser_instance = myself.parser_network.GetNameParser();
+        NameCharacterParser name_character_parser_instance = myself.parser_network.GetNameCharacterParser();
+        NumberParser number_parser_instance = myself.parser_network.GetNumberParser();
+        DigitParser digit_parser_instance = myself.parser_network.GetDigitParser();
+        PunctuationParser punctuation_parser_instance = myself.parser_network.GetPunctuationParser();
+        CommentCharacterParser comment_character_parser_instance = myself.parser_network.GetCommentCharacterParser();
+        CommentParser comment_parser_instance = myself.parser_network.GetCommentParser();
+        LiteralParser literal_parser_instance = myself.parser_network.GetLiteralParser();
+        LiteralCharacterParser literal_character_parser_instance = myself.parser_network.GetLiteralCharacterParser();
+        HexDigitParser hex_digit_parser_instance = myself.parser_network.GetHexDigitParser();
+        WhitespaceParser whitespace_parser_instance = myself.parser_network.GetWhitespaceParser();
+        EolParser eol_parser_instance = myself.parser_network.GetEolParser();
+        StringParser string_parser_instance = myself.parser_network.GetStringParser();
+        CharacterParser character_parser_instance = myself.parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = myself.parser_network.GetCharacterRangeParser();
 
         if (true && whitespace_parser_instance.ParseMany(index, 0, -1) && string_parser_instance.ParseSingle(index, "#") && comment_character_parser_instance.ParseMany(index, 0, -1) && eol_parser_instance.ParseSingle(index)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -3307,12 +3308,12 @@ class CommentParser
     function bool ParseSingle(LengthString index)
     {
         CommentResult result = new CommentResult;
-        return ParseSingleSave(index, result);
+        return myself.ParseSingleSave(index, result);
     }
 
     function bool ParseOptionalSave(LengthString index, CommentResult result)
     {
-        ParseSingleSave(index, result);
+        myself.ParseSingleSave(index, result);
         result.SetResult(true);
         return true;
     }
@@ -3320,7 +3321,7 @@ class CommentParser
     function bool ParseOptional(LengthString index)
     {
         CommentResult result = new CommentResult;
-        return ParseOptionalSave(index, result);
+        return myself.ParseOptionalSave(index, result);
     }
 
     function bool ParseManySave(LengthString index, CommentListResult list_result, int minimum, int maximum)
@@ -3340,7 +3341,7 @@ class CommentParser
         while (check_next && count < max_check)
         {
             CommentResult result = new CommentResult;
-            ParseSingleSave(index, result);
+            myself.ParseSingleSave(index, result);
             check_next = result.GetResult();
 
             if (result.GetResult())
@@ -3371,16 +3372,16 @@ class CommentParser
     function bool ParseMany(LengthString index, int minimum, int maximum)
     {
         CommentListResult result = new CommentListResult;
-        return ParseManySave(index, result, minimum, maximum);
+        return myself.ParseManySave(index, result, minimum, maximum);
     }
 }
 
 class CommentResult
 {
-    function void SetValue(Comment new_value) { value = new_value; }
-    function Comment GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Comment new_value) { myself.value = new_value; }
+    function Comment GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Comment value;
     bool result;
@@ -3388,10 +3389,10 @@ class CommentResult
 
 class CommentListResult
 {
-    function void SetValue(Comment[] new_value) { value = new_value; }
-    function Comment[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Comment[] new_value) { myself.value = new_value; }
+    function Comment[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Comment[] value;
     bool result;
@@ -3401,13 +3402,13 @@ class Comment
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
+    function string UnParse() { return myself.length_string.GetString(); }
 
     LengthString length_string;
 }
@@ -3415,7 +3416,7 @@ class Comment
 class LiteralParser
 {
     ParserNetwork parser_network;
-    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }
+    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }
     function bool ParseSingleSave(LengthString index, LiteralResult result)
     {
         int index_start = index.GetStart();
@@ -3426,28 +3427,28 @@ class LiteralParser
         consumed_string.SetLength(0);
         Literal instance = new Literal;
 
-        GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
-        RuleParser rule_parser_instance = parser_network.GetRuleParser();
-        ExpressionParser expression_parser_instance = parser_network.GetExpressionParser();
-        TokenParser token_parser_instance = parser_network.GetTokenParser();
-        SimpleTokenParser simple_token_parser_instance = parser_network.GetSimpleTokenParser();
-        ModifierParser modifier_parser_instance = parser_network.GetModifierParser();
-        CardinalityParser cardinality_parser_instance = parser_network.GetCardinalityParser();
-        NameParser name_parser_instance = parser_network.GetNameParser();
-        NameCharacterParser name_character_parser_instance = parser_network.GetNameCharacterParser();
-        NumberParser number_parser_instance = parser_network.GetNumberParser();
-        DigitParser digit_parser_instance = parser_network.GetDigitParser();
-        PunctuationParser punctuation_parser_instance = parser_network.GetPunctuationParser();
-        CommentCharacterParser comment_character_parser_instance = parser_network.GetCommentCharacterParser();
-        CommentParser comment_parser_instance = parser_network.GetCommentParser();
-        LiteralParser literal_parser_instance = parser_network.GetLiteralParser();
-        LiteralCharacterParser literal_character_parser_instance = parser_network.GetLiteralCharacterParser();
-        HexDigitParser hex_digit_parser_instance = parser_network.GetHexDigitParser();
-        WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
-        EolParser eol_parser_instance = parser_network.GetEolParser();
-        StringParser string_parser_instance = parser_network.GetStringParser();
-        CharacterParser character_parser_instance = parser_network.GetCharacterParser();
-        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
+        GrammarParser grammar_parser_instance = myself.parser_network.GetGrammarParser();
+        RuleParser rule_parser_instance = myself.parser_network.GetRuleParser();
+        ExpressionParser expression_parser_instance = myself.parser_network.GetExpressionParser();
+        TokenParser token_parser_instance = myself.parser_network.GetTokenParser();
+        SimpleTokenParser simple_token_parser_instance = myself.parser_network.GetSimpleTokenParser();
+        ModifierParser modifier_parser_instance = myself.parser_network.GetModifierParser();
+        CardinalityParser cardinality_parser_instance = myself.parser_network.GetCardinalityParser();
+        NameParser name_parser_instance = myself.parser_network.GetNameParser();
+        NameCharacterParser name_character_parser_instance = myself.parser_network.GetNameCharacterParser();
+        NumberParser number_parser_instance = myself.parser_network.GetNumberParser();
+        DigitParser digit_parser_instance = myself.parser_network.GetDigitParser();
+        PunctuationParser punctuation_parser_instance = myself.parser_network.GetPunctuationParser();
+        CommentCharacterParser comment_character_parser_instance = myself.parser_network.GetCommentCharacterParser();
+        CommentParser comment_parser_instance = myself.parser_network.GetCommentParser();
+        LiteralParser literal_parser_instance = myself.parser_network.GetLiteralParser();
+        LiteralCharacterParser literal_character_parser_instance = myself.parser_network.GetLiteralCharacterParser();
+        HexDigitParser hex_digit_parser_instance = myself.parser_network.GetHexDigitParser();
+        WhitespaceParser whitespace_parser_instance = myself.parser_network.GetWhitespaceParser();
+        EolParser eol_parser_instance = myself.parser_network.GetEolParser();
+        StringParser string_parser_instance = myself.parser_network.GetStringParser();
+        CharacterParser character_parser_instance = myself.parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = myself.parser_network.GetCharacterRangeParser();
 
         if (true && literal_character_parser_instance.ParseMany(index, 0, -1)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -3467,12 +3468,12 @@ class LiteralParser
     function bool ParseSingle(LengthString index)
     {
         LiteralResult result = new LiteralResult;
-        return ParseSingleSave(index, result);
+        return myself.ParseSingleSave(index, result);
     }
 
     function bool ParseOptionalSave(LengthString index, LiteralResult result)
     {
-        ParseSingleSave(index, result);
+        myself.ParseSingleSave(index, result);
         result.SetResult(true);
         return true;
     }
@@ -3480,7 +3481,7 @@ class LiteralParser
     function bool ParseOptional(LengthString index)
     {
         LiteralResult result = new LiteralResult;
-        return ParseOptionalSave(index, result);
+        return myself.ParseOptionalSave(index, result);
     }
 
     function bool ParseManySave(LengthString index, LiteralListResult list_result, int minimum, int maximum)
@@ -3500,7 +3501,7 @@ class LiteralParser
         while (check_next && count < max_check)
         {
             LiteralResult result = new LiteralResult;
-            ParseSingleSave(index, result);
+            myself.ParseSingleSave(index, result);
             check_next = result.GetResult();
 
             if (result.GetResult())
@@ -3531,16 +3532,16 @@ class LiteralParser
     function bool ParseMany(LengthString index, int minimum, int maximum)
     {
         LiteralListResult result = new LiteralListResult;
-        return ParseManySave(index, result, minimum, maximum);
+        return myself.ParseManySave(index, result, minimum, maximum);
     }
 }
 
 class LiteralResult
 {
-    function void SetValue(Literal new_value) { value = new_value; }
-    function Literal GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Literal new_value) { myself.value = new_value; }
+    function Literal GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Literal value;
     bool result;
@@ -3548,10 +3549,10 @@ class LiteralResult
 
 class LiteralListResult
 {
-    function void SetValue(Literal[] new_value) { value = new_value; }
-    function Literal[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Literal[] new_value) { myself.value = new_value; }
+    function Literal[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Literal[] value;
     bool result;
@@ -3561,13 +3562,13 @@ class Literal
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
+    function string UnParse() { return myself.length_string.GetString(); }
 
     LengthString length_string;
 }
@@ -3575,7 +3576,7 @@ class Literal
 class LiteralCharacterParser
 {
     ParserNetwork parser_network;
-    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }
+    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }
     function bool ParseSingleSave(LengthString index, LiteralCharacterResult result)
     {
         int index_start = index.GetStart();
@@ -3586,28 +3587,28 @@ class LiteralCharacterParser
         consumed_string.SetLength(0);
         LiteralCharacter instance = new LiteralCharacter;
 
-        GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
-        RuleParser rule_parser_instance = parser_network.GetRuleParser();
-        ExpressionParser expression_parser_instance = parser_network.GetExpressionParser();
-        TokenParser token_parser_instance = parser_network.GetTokenParser();
-        SimpleTokenParser simple_token_parser_instance = parser_network.GetSimpleTokenParser();
-        ModifierParser modifier_parser_instance = parser_network.GetModifierParser();
-        CardinalityParser cardinality_parser_instance = parser_network.GetCardinalityParser();
-        NameParser name_parser_instance = parser_network.GetNameParser();
-        NameCharacterParser name_character_parser_instance = parser_network.GetNameCharacterParser();
-        NumberParser number_parser_instance = parser_network.GetNumberParser();
-        DigitParser digit_parser_instance = parser_network.GetDigitParser();
-        PunctuationParser punctuation_parser_instance = parser_network.GetPunctuationParser();
-        CommentCharacterParser comment_character_parser_instance = parser_network.GetCommentCharacterParser();
-        CommentParser comment_parser_instance = parser_network.GetCommentParser();
-        LiteralParser literal_parser_instance = parser_network.GetLiteralParser();
-        LiteralCharacterParser literal_character_parser_instance = parser_network.GetLiteralCharacterParser();
-        HexDigitParser hex_digit_parser_instance = parser_network.GetHexDigitParser();
-        WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
-        EolParser eol_parser_instance = parser_network.GetEolParser();
-        StringParser string_parser_instance = parser_network.GetStringParser();
-        CharacterParser character_parser_instance = parser_network.GetCharacterParser();
-        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
+        GrammarParser grammar_parser_instance = myself.parser_network.GetGrammarParser();
+        RuleParser rule_parser_instance = myself.parser_network.GetRuleParser();
+        ExpressionParser expression_parser_instance = myself.parser_network.GetExpressionParser();
+        TokenParser token_parser_instance = myself.parser_network.GetTokenParser();
+        SimpleTokenParser simple_token_parser_instance = myself.parser_network.GetSimpleTokenParser();
+        ModifierParser modifier_parser_instance = myself.parser_network.GetModifierParser();
+        CardinalityParser cardinality_parser_instance = myself.parser_network.GetCardinalityParser();
+        NameParser name_parser_instance = myself.parser_network.GetNameParser();
+        NameCharacterParser name_character_parser_instance = myself.parser_network.GetNameCharacterParser();
+        NumberParser number_parser_instance = myself.parser_network.GetNumberParser();
+        DigitParser digit_parser_instance = myself.parser_network.GetDigitParser();
+        PunctuationParser punctuation_parser_instance = myself.parser_network.GetPunctuationParser();
+        CommentCharacterParser comment_character_parser_instance = myself.parser_network.GetCommentCharacterParser();
+        CommentParser comment_parser_instance = myself.parser_network.GetCommentParser();
+        LiteralParser literal_parser_instance = myself.parser_network.GetLiteralParser();
+        LiteralCharacterParser literal_character_parser_instance = myself.parser_network.GetLiteralCharacterParser();
+        HexDigitParser hex_digit_parser_instance = myself.parser_network.GetHexDigitParser();
+        WhitespaceParser whitespace_parser_instance = myself.parser_network.GetWhitespaceParser();
+        EolParser eol_parser_instance = myself.parser_network.GetEolParser();
+        StringParser string_parser_instance = myself.parser_network.GetStringParser();
+        CharacterParser character_parser_instance = myself.parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = myself.parser_network.GetCharacterRangeParser();
 
         if (true && character_range_parser_instance.ParseSingle(index, 0x00, 0x21)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -3671,12 +3672,12 @@ class LiteralCharacterParser
     function bool ParseSingle(LengthString index)
     {
         LiteralCharacterResult result = new LiteralCharacterResult;
-        return ParseSingleSave(index, result);
+        return myself.ParseSingleSave(index, result);
     }
 
     function bool ParseOptionalSave(LengthString index, LiteralCharacterResult result)
     {
-        ParseSingleSave(index, result);
+        myself.ParseSingleSave(index, result);
         result.SetResult(true);
         return true;
     }
@@ -3684,7 +3685,7 @@ class LiteralCharacterParser
     function bool ParseOptional(LengthString index)
     {
         LiteralCharacterResult result = new LiteralCharacterResult;
-        return ParseOptionalSave(index, result);
+        return myself.ParseOptionalSave(index, result);
     }
 
     function bool ParseManySave(LengthString index, LiteralCharacterListResult list_result, int minimum, int maximum)
@@ -3704,7 +3705,7 @@ class LiteralCharacterParser
         while (check_next && count < max_check)
         {
             LiteralCharacterResult result = new LiteralCharacterResult;
-            ParseSingleSave(index, result);
+            myself.ParseSingleSave(index, result);
             check_next = result.GetResult();
 
             if (result.GetResult())
@@ -3735,16 +3736,16 @@ class LiteralCharacterParser
     function bool ParseMany(LengthString index, int minimum, int maximum)
     {
         LiteralCharacterListResult result = new LiteralCharacterListResult;
-        return ParseManySave(index, result, minimum, maximum);
+        return myself.ParseManySave(index, result, minimum, maximum);
     }
 }
 
 class LiteralCharacterResult
 {
-    function void SetValue(LiteralCharacter new_value) { value = new_value; }
-    function LiteralCharacter GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(LiteralCharacter new_value) { myself.value = new_value; }
+    function LiteralCharacter GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     LiteralCharacter value;
     bool result;
@@ -3752,10 +3753,10 @@ class LiteralCharacterResult
 
 class LiteralCharacterListResult
 {
-    function void SetValue(LiteralCharacter[] new_value) { value = new_value; }
-    function LiteralCharacter[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(LiteralCharacter[] new_value) { myself.value = new_value; }
+    function LiteralCharacter[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     LiteralCharacter[] value;
     bool result;
@@ -3765,13 +3766,13 @@ class LiteralCharacter
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
+    function string UnParse() { return myself.length_string.GetString(); }
 
     LengthString length_string;
 }
@@ -3779,7 +3780,7 @@ class LiteralCharacter
 class HexDigitParser
 {
     ParserNetwork parser_network;
-    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }
+    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }
     function bool ParseSingleSave(LengthString index, HexDigitResult result)
     {
         int index_start = index.GetStart();
@@ -3790,28 +3791,28 @@ class HexDigitParser
         consumed_string.SetLength(0);
         HexDigit instance = new HexDigit;
 
-        GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
-        RuleParser rule_parser_instance = parser_network.GetRuleParser();
-        ExpressionParser expression_parser_instance = parser_network.GetExpressionParser();
-        TokenParser token_parser_instance = parser_network.GetTokenParser();
-        SimpleTokenParser simple_token_parser_instance = parser_network.GetSimpleTokenParser();
-        ModifierParser modifier_parser_instance = parser_network.GetModifierParser();
-        CardinalityParser cardinality_parser_instance = parser_network.GetCardinalityParser();
-        NameParser name_parser_instance = parser_network.GetNameParser();
-        NameCharacterParser name_character_parser_instance = parser_network.GetNameCharacterParser();
-        NumberParser number_parser_instance = parser_network.GetNumberParser();
-        DigitParser digit_parser_instance = parser_network.GetDigitParser();
-        PunctuationParser punctuation_parser_instance = parser_network.GetPunctuationParser();
-        CommentCharacterParser comment_character_parser_instance = parser_network.GetCommentCharacterParser();
-        CommentParser comment_parser_instance = parser_network.GetCommentParser();
-        LiteralParser literal_parser_instance = parser_network.GetLiteralParser();
-        LiteralCharacterParser literal_character_parser_instance = parser_network.GetLiteralCharacterParser();
-        HexDigitParser hex_digit_parser_instance = parser_network.GetHexDigitParser();
-        WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
-        EolParser eol_parser_instance = parser_network.GetEolParser();
-        StringParser string_parser_instance = parser_network.GetStringParser();
-        CharacterParser character_parser_instance = parser_network.GetCharacterParser();
-        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
+        GrammarParser grammar_parser_instance = myself.parser_network.GetGrammarParser();
+        RuleParser rule_parser_instance = myself.parser_network.GetRuleParser();
+        ExpressionParser expression_parser_instance = myself.parser_network.GetExpressionParser();
+        TokenParser token_parser_instance = myself.parser_network.GetTokenParser();
+        SimpleTokenParser simple_token_parser_instance = myself.parser_network.GetSimpleTokenParser();
+        ModifierParser modifier_parser_instance = myself.parser_network.GetModifierParser();
+        CardinalityParser cardinality_parser_instance = myself.parser_network.GetCardinalityParser();
+        NameParser name_parser_instance = myself.parser_network.GetNameParser();
+        NameCharacterParser name_character_parser_instance = myself.parser_network.GetNameCharacterParser();
+        NumberParser number_parser_instance = myself.parser_network.GetNumberParser();
+        DigitParser digit_parser_instance = myself.parser_network.GetDigitParser();
+        PunctuationParser punctuation_parser_instance = myself.parser_network.GetPunctuationParser();
+        CommentCharacterParser comment_character_parser_instance = myself.parser_network.GetCommentCharacterParser();
+        CommentParser comment_parser_instance = myself.parser_network.GetCommentParser();
+        LiteralParser literal_parser_instance = myself.parser_network.GetLiteralParser();
+        LiteralCharacterParser literal_character_parser_instance = myself.parser_network.GetLiteralCharacterParser();
+        HexDigitParser hex_digit_parser_instance = myself.parser_network.GetHexDigitParser();
+        WhitespaceParser whitespace_parser_instance = myself.parser_network.GetWhitespaceParser();
+        EolParser eol_parser_instance = myself.parser_network.GetEolParser();
+        StringParser string_parser_instance = myself.parser_network.GetStringParser();
+        CharacterParser character_parser_instance = myself.parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = myself.parser_network.GetCharacterRangeParser();
 
         if (true && character_range_parser_instance.ParseSingle(index, 0x30, 0x39)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -3842,12 +3843,12 @@ class HexDigitParser
     function bool ParseSingle(LengthString index)
     {
         HexDigitResult result = new HexDigitResult;
-        return ParseSingleSave(index, result);
+        return myself.ParseSingleSave(index, result);
     }
 
     function bool ParseOptionalSave(LengthString index, HexDigitResult result)
     {
-        ParseSingleSave(index, result);
+        myself.ParseSingleSave(index, result);
         result.SetResult(true);
         return true;
     }
@@ -3855,7 +3856,7 @@ class HexDigitParser
     function bool ParseOptional(LengthString index)
     {
         HexDigitResult result = new HexDigitResult;
-        return ParseOptionalSave(index, result);
+        return myself.ParseOptionalSave(index, result);
     }
 
     function bool ParseManySave(LengthString index, HexDigitListResult list_result, int minimum, int maximum)
@@ -3875,7 +3876,7 @@ class HexDigitParser
         while (check_next && count < max_check)
         {
             HexDigitResult result = new HexDigitResult;
-            ParseSingleSave(index, result);
+            myself.ParseSingleSave(index, result);
             check_next = result.GetResult();
 
             if (result.GetResult())
@@ -3906,16 +3907,16 @@ class HexDigitParser
     function bool ParseMany(LengthString index, int minimum, int maximum)
     {
         HexDigitListResult result = new HexDigitListResult;
-        return ParseManySave(index, result, minimum, maximum);
+        return myself.ParseManySave(index, result, minimum, maximum);
     }
 }
 
 class HexDigitResult
 {
-    function void SetValue(HexDigit new_value) { value = new_value; }
-    function HexDigit GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(HexDigit new_value) { myself.value = new_value; }
+    function HexDigit GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     HexDigit value;
     bool result;
@@ -3923,10 +3924,10 @@ class HexDigitResult
 
 class HexDigitListResult
 {
-    function void SetValue(HexDigit[] new_value) { value = new_value; }
-    function HexDigit[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(HexDigit[] new_value) { myself.value = new_value; }
+    function HexDigit[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     HexDigit[] value;
     bool result;
@@ -3936,13 +3937,13 @@ class HexDigit
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
+    function string UnParse() { return myself.length_string.GetString(); }
 
     LengthString length_string;
 }
@@ -3950,7 +3951,7 @@ class HexDigit
 class WhitespaceParser
 {
     ParserNetwork parser_network;
-    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }
+    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }
     function bool ParseSingleSave(LengthString index, WhitespaceResult result)
     {
         int index_start = index.GetStart();
@@ -3961,28 +3962,28 @@ class WhitespaceParser
         consumed_string.SetLength(0);
         Whitespace instance = new Whitespace;
 
-        GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
-        RuleParser rule_parser_instance = parser_network.GetRuleParser();
-        ExpressionParser expression_parser_instance = parser_network.GetExpressionParser();
-        TokenParser token_parser_instance = parser_network.GetTokenParser();
-        SimpleTokenParser simple_token_parser_instance = parser_network.GetSimpleTokenParser();
-        ModifierParser modifier_parser_instance = parser_network.GetModifierParser();
-        CardinalityParser cardinality_parser_instance = parser_network.GetCardinalityParser();
-        NameParser name_parser_instance = parser_network.GetNameParser();
-        NameCharacterParser name_character_parser_instance = parser_network.GetNameCharacterParser();
-        NumberParser number_parser_instance = parser_network.GetNumberParser();
-        DigitParser digit_parser_instance = parser_network.GetDigitParser();
-        PunctuationParser punctuation_parser_instance = parser_network.GetPunctuationParser();
-        CommentCharacterParser comment_character_parser_instance = parser_network.GetCommentCharacterParser();
-        CommentParser comment_parser_instance = parser_network.GetCommentParser();
-        LiteralParser literal_parser_instance = parser_network.GetLiteralParser();
-        LiteralCharacterParser literal_character_parser_instance = parser_network.GetLiteralCharacterParser();
-        HexDigitParser hex_digit_parser_instance = parser_network.GetHexDigitParser();
-        WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
-        EolParser eol_parser_instance = parser_network.GetEolParser();
-        StringParser string_parser_instance = parser_network.GetStringParser();
-        CharacterParser character_parser_instance = parser_network.GetCharacterParser();
-        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
+        GrammarParser grammar_parser_instance = myself.parser_network.GetGrammarParser();
+        RuleParser rule_parser_instance = myself.parser_network.GetRuleParser();
+        ExpressionParser expression_parser_instance = myself.parser_network.GetExpressionParser();
+        TokenParser token_parser_instance = myself.parser_network.GetTokenParser();
+        SimpleTokenParser simple_token_parser_instance = myself.parser_network.GetSimpleTokenParser();
+        ModifierParser modifier_parser_instance = myself.parser_network.GetModifierParser();
+        CardinalityParser cardinality_parser_instance = myself.parser_network.GetCardinalityParser();
+        NameParser name_parser_instance = myself.parser_network.GetNameParser();
+        NameCharacterParser name_character_parser_instance = myself.parser_network.GetNameCharacterParser();
+        NumberParser number_parser_instance = myself.parser_network.GetNumberParser();
+        DigitParser digit_parser_instance = myself.parser_network.GetDigitParser();
+        PunctuationParser punctuation_parser_instance = myself.parser_network.GetPunctuationParser();
+        CommentCharacterParser comment_character_parser_instance = myself.parser_network.GetCommentCharacterParser();
+        CommentParser comment_parser_instance = myself.parser_network.GetCommentParser();
+        LiteralParser literal_parser_instance = myself.parser_network.GetLiteralParser();
+        LiteralCharacterParser literal_character_parser_instance = myself.parser_network.GetLiteralCharacterParser();
+        HexDigitParser hex_digit_parser_instance = myself.parser_network.GetHexDigitParser();
+        WhitespaceParser whitespace_parser_instance = myself.parser_network.GetWhitespaceParser();
+        EolParser eol_parser_instance = myself.parser_network.GetEolParser();
+        StringParser string_parser_instance = myself.parser_network.GetStringParser();
+        CharacterParser character_parser_instance = myself.parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = myself.parser_network.GetCharacterRangeParser();
 
         if (true && character_range_parser_instance.ParseSingle(index, 0x00, 0x09)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -4024,12 +4025,12 @@ class WhitespaceParser
     function bool ParseSingle(LengthString index)
     {
         WhitespaceResult result = new WhitespaceResult;
-        return ParseSingleSave(index, result);
+        return myself.ParseSingleSave(index, result);
     }
 
     function bool ParseOptionalSave(LengthString index, WhitespaceResult result)
     {
-        ParseSingleSave(index, result);
+        myself.ParseSingleSave(index, result);
         result.SetResult(true);
         return true;
     }
@@ -4037,7 +4038,7 @@ class WhitespaceParser
     function bool ParseOptional(LengthString index)
     {
         WhitespaceResult result = new WhitespaceResult;
-        return ParseOptionalSave(index, result);
+        return myself.ParseOptionalSave(index, result);
     }
 
     function bool ParseManySave(LengthString index, WhitespaceListResult list_result, int minimum, int maximum)
@@ -4057,7 +4058,7 @@ class WhitespaceParser
         while (check_next && count < max_check)
         {
             WhitespaceResult result = new WhitespaceResult;
-            ParseSingleSave(index, result);
+            myself.ParseSingleSave(index, result);
             check_next = result.GetResult();
 
             if (result.GetResult())
@@ -4088,16 +4089,16 @@ class WhitespaceParser
     function bool ParseMany(LengthString index, int minimum, int maximum)
     {
         WhitespaceListResult result = new WhitespaceListResult;
-        return ParseManySave(index, result, minimum, maximum);
+        return myself.ParseManySave(index, result, minimum, maximum);
     }
 }
 
 class WhitespaceResult
 {
-    function void SetValue(Whitespace new_value) { value = new_value; }
-    function Whitespace GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Whitespace new_value) { myself.value = new_value; }
+    function Whitespace GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Whitespace value;
     bool result;
@@ -4105,10 +4106,10 @@ class WhitespaceResult
 
 class WhitespaceListResult
 {
-    function void SetValue(Whitespace[] new_value) { value = new_value; }
-    function Whitespace[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Whitespace[] new_value) { myself.value = new_value; }
+    function Whitespace[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Whitespace[] value;
     bool result;
@@ -4118,13 +4119,13 @@ class Whitespace
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
+    function string UnParse() { return myself.length_string.GetString(); }
 
     LengthString length_string;
 }
@@ -4132,7 +4133,7 @@ class Whitespace
 class EolParser
 {
     ParserNetwork parser_network;
-    function void SetParserNetwork(ParserNetwork input) { parser_network = input; }
+    function void SetParserNetwork(ParserNetwork input) { myself.parser_network = input; }
     function bool ParseSingleSave(LengthString index, EolResult result)
     {
         int index_start = index.GetStart();
@@ -4143,28 +4144,28 @@ class EolParser
         consumed_string.SetLength(0);
         Eol instance = new Eol;
 
-        GrammarParser grammar_parser_instance = parser_network.GetGrammarParser();
-        RuleParser rule_parser_instance = parser_network.GetRuleParser();
-        ExpressionParser expression_parser_instance = parser_network.GetExpressionParser();
-        TokenParser token_parser_instance = parser_network.GetTokenParser();
-        SimpleTokenParser simple_token_parser_instance = parser_network.GetSimpleTokenParser();
-        ModifierParser modifier_parser_instance = parser_network.GetModifierParser();
-        CardinalityParser cardinality_parser_instance = parser_network.GetCardinalityParser();
-        NameParser name_parser_instance = parser_network.GetNameParser();
-        NameCharacterParser name_character_parser_instance = parser_network.GetNameCharacterParser();
-        NumberParser number_parser_instance = parser_network.GetNumberParser();
-        DigitParser digit_parser_instance = parser_network.GetDigitParser();
-        PunctuationParser punctuation_parser_instance = parser_network.GetPunctuationParser();
-        CommentCharacterParser comment_character_parser_instance = parser_network.GetCommentCharacterParser();
-        CommentParser comment_parser_instance = parser_network.GetCommentParser();
-        LiteralParser literal_parser_instance = parser_network.GetLiteralParser();
-        LiteralCharacterParser literal_character_parser_instance = parser_network.GetLiteralCharacterParser();
-        HexDigitParser hex_digit_parser_instance = parser_network.GetHexDigitParser();
-        WhitespaceParser whitespace_parser_instance = parser_network.GetWhitespaceParser();
-        EolParser eol_parser_instance = parser_network.GetEolParser();
-        StringParser string_parser_instance = parser_network.GetStringParser();
-        CharacterParser character_parser_instance = parser_network.GetCharacterParser();
-        CharacterRangeParser character_range_parser_instance = parser_network.GetCharacterRangeParser();
+        GrammarParser grammar_parser_instance = myself.parser_network.GetGrammarParser();
+        RuleParser rule_parser_instance = myself.parser_network.GetRuleParser();
+        ExpressionParser expression_parser_instance = myself.parser_network.GetExpressionParser();
+        TokenParser token_parser_instance = myself.parser_network.GetTokenParser();
+        SimpleTokenParser simple_token_parser_instance = myself.parser_network.GetSimpleTokenParser();
+        ModifierParser modifier_parser_instance = myself.parser_network.GetModifierParser();
+        CardinalityParser cardinality_parser_instance = myself.parser_network.GetCardinalityParser();
+        NameParser name_parser_instance = myself.parser_network.GetNameParser();
+        NameCharacterParser name_character_parser_instance = myself.parser_network.GetNameCharacterParser();
+        NumberParser number_parser_instance = myself.parser_network.GetNumberParser();
+        DigitParser digit_parser_instance = myself.parser_network.GetDigitParser();
+        PunctuationParser punctuation_parser_instance = myself.parser_network.GetPunctuationParser();
+        CommentCharacterParser comment_character_parser_instance = myself.parser_network.GetCommentCharacterParser();
+        CommentParser comment_parser_instance = myself.parser_network.GetCommentParser();
+        LiteralParser literal_parser_instance = myself.parser_network.GetLiteralParser();
+        LiteralCharacterParser literal_character_parser_instance = myself.parser_network.GetLiteralCharacterParser();
+        HexDigitParser hex_digit_parser_instance = myself.parser_network.GetHexDigitParser();
+        WhitespaceParser whitespace_parser_instance = myself.parser_network.GetWhitespaceParser();
+        EolParser eol_parser_instance = myself.parser_network.GetEolParser();
+        StringParser string_parser_instance = myself.parser_network.GetStringParser();
+        CharacterParser character_parser_instance = myself.parser_network.GetCharacterParser();
+        CharacterRangeParser character_range_parser_instance = myself.parser_network.GetCharacterRangeParser();
 
         if (true && character_parser_instance.ParseSingle(index, 0x0A) && character_parser_instance.ParseSingle(index, 0x0D)) {
             consumed_string.SetLength(index.GetStart() - index_start);
@@ -4228,12 +4229,12 @@ class EolParser
     function bool ParseSingle(LengthString index)
     {
         EolResult result = new EolResult;
-        return ParseSingleSave(index, result);
+        return myself.ParseSingleSave(index, result);
     }
 
     function bool ParseOptionalSave(LengthString index, EolResult result)
     {
-        ParseSingleSave(index, result);
+        myself.ParseSingleSave(index, result);
         result.SetResult(true);
         return true;
     }
@@ -4241,7 +4242,7 @@ class EolParser
     function bool ParseOptional(LengthString index)
     {
         EolResult result = new EolResult;
-        return ParseOptionalSave(index, result);
+        return myself.ParseOptionalSave(index, result);
     }
 
     function bool ParseManySave(LengthString index, EolListResult list_result, int minimum, int maximum)
@@ -4261,7 +4262,7 @@ class EolParser
         while (check_next && count < max_check)
         {
             EolResult result = new EolResult;
-            ParseSingleSave(index, result);
+            myself.ParseSingleSave(index, result);
             check_next = result.GetResult();
 
             if (result.GetResult())
@@ -4292,16 +4293,16 @@ class EolParser
     function bool ParseMany(LengthString index, int minimum, int maximum)
     {
         EolListResult result = new EolListResult;
-        return ParseManySave(index, result, minimum, maximum);
+        return myself.ParseManySave(index, result, minimum, maximum);
     }
 }
 
 class EolResult
 {
-    function void SetValue(Eol new_value) { value = new_value; }
-    function Eol GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Eol new_value) { myself.value = new_value; }
+    function Eol GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Eol value;
     bool result;
@@ -4309,10 +4310,10 @@ class EolResult
 
 class EolListResult
 {
-    function void SetValue(Eol[] new_value) { value = new_value; }
-    function Eol[] GetValue() { return value; }
-    function void SetResult(bool new_result) { result = new_result; }
-    function bool GetResult() { return result; }
+    function void SetValue(Eol[] new_value) { myself.value = new_value; }
+    function Eol[] GetValue() { return myself.value; }
+    function void SetResult(bool new_result) { myself.result = new_result; }
+    function bool GetResult() { return myself.result; }
 
     Eol[] value;
     bool result;
@@ -4322,13 +4323,13 @@ class Eol
 {
     function void SetLengthString(LengthString new_value)
     {
-        length_string = new LengthString;
-        length_string.SetData(new_value.GetData());
-        length_string.SetStart(new_value.GetStart());
-        length_string.SetLength(new_value.GetLength());
+        myself.length_string = new LengthString;
+        myself.length_string.SetData(new_value.GetData());
+        myself.length_string.SetStart(new_value.GetStart());
+        myself.length_string.SetLength(new_value.GetLength());
     }
 
-    function string UnParse() { return length_string.GetString(); }
+    function string UnParse() { return myself.length_string.GetString(); }
 
     LengthString length_string;
 }
