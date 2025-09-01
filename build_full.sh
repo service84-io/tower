@@ -18,7 +18,12 @@ echo
 
 for CTCodeFile in *.ctcode; do
   echo Processing ${CTCodeFile}...
+  echo Generating CPP...
   ctcode ${CTCodeFile} s84::ctcode::CPPTranspiler
+  echo Done generating CPP!
+  echo Generating Python...
+  ctcode ${CTCodeFile} s84::ctcode::Python3Transpiler
+  echo Done generating Python!
   echo Done processing ${CTCodeFile}!
   echo
 done
