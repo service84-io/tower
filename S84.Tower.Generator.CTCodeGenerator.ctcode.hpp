@@ -99,25 +99,19 @@ inline int IntAt(const std::string& input, int index) { return (input.at(index) 
 inline std::string Concat(const std::string& left, const std::string& right) { return left + right; };
 #endif
 
-namespace s84
-{
-namespace tower
-{
-namespace generator
-{
-namespace ctcodegenerator
-{
-namespace ctcode
-{
+namespace s84 {
+namespace tower {
+namespace generator {
+namespace ctcodegenerator {
+namespace ctcode {
+
 class MemberType;
 class CTCodeGenerator;
 
-
-class MemberType
-{
+class MemberType {
 public:
-    inline MemberType() {};
-    inline ~MemberType() {};
+    MemberType();
+    inline ~MemberType() {}
 
     void SetBaseType(std::string input);
     std::string GetBaseType();
@@ -129,12 +123,10 @@ private:
     bool is_list;
 };
 
-class CTCodeGenerator
-: public s84::tower::generator::ctcode::Generator
-{
+class CTCodeGenerator : public s84::tower::generator::ctcode::Generator {
 public:
-    inline CTCodeGenerator() {};
-    inline ~CTCodeGenerator() {};
+    CTCodeGenerator();
+    inline ~CTCodeGenerator() {}
 
     int GenerateParser(OmniPointer<s84::tower::system::ctcode::System> system, OmniPointer<s84::tower::dbnf::ctcode::Grammar> grammar, std::string base_name);
     void WriteClasses(OmniPointer<s84::tower::dbnf::ctcode::Grammar> grammar, std::string base_name);
@@ -159,6 +151,7 @@ private:
     OmniPointer<s84::tower::system::ctcode::OutputStream> logger;
     OmniPointer<s84::tower::system::ctcode::OutputStream> ctcode_file;
 };
+
 };
 };
 };

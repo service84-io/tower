@@ -98,35 +98,24 @@ inline int IntAt(const std::string& input, int index) { return (input.at(index) 
 inline std::string Concat(const std::string& left, const std::string& right) { return left + right; };
 #endif
 
-namespace s84
-{
-namespace tower
-{
-namespace generator
-{
-namespace ctcode
-{
+namespace s84 {
+namespace tower {
+namespace generator {
+namespace ctcode {
+
 class OutputStream;
 class Generator;
 
-
-class OutputStream
-{
+class OutputStream {
 public:
-    inline OutputStream() {};
-    inline ~OutputStream() {};
-
     virtual void WriteLine(std::string line) = 0;
 };
 
-class Generator
-{
+class Generator {
 public:
-    inline Generator() {};
-    inline ~Generator() {};
-
     virtual int GenerateParser(OmniPointer<s84::tower::system::ctcode::System> system, OmniPointer<s84::tower::dbnf::ctcode::Grammar> grammar, std::string base_name) = 0;
 };
+
 };
 };
 };

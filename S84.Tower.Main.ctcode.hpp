@@ -102,28 +102,24 @@ inline int IntAt(const std::string& input, int index) { return (input.at(index) 
 inline std::string Concat(const std::string& left, const std::string& right) { return left + right; };
 #endif
 
-namespace s84
-{
-namespace tower
-{
-namespace main
-{
-namespace ctcode
-{
+namespace s84 {
+namespace tower {
+namespace main {
+namespace ctcode {
+
 class Main;
 
-
-class Main
-{
+class Main {
 public:
-    inline Main() {};
-    inline ~Main() {};
+    Main();
+    inline ~Main() {}
 
     OmniPointer<s84::tower::generator::ctcode::Generator> GetCPPGenerator();
     OmniPointer<s84::tower::generator::ctcode::Generator> GetCTCodeGenerator();
     OmniPointer<s84::tower::generator::ctcode::Generator> GetLogToConsole();
     int RunMain(OmniPointer<s84::tower::system::ctcode::System> system, std::string dbnf_file_name, std::string generator);
 };
+
 };
 };
 };
